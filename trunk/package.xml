@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.0.0"
+    version="2.0"
+    xmlns="http://pear.php.net/dtd/package-2.0"
+    xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd
+    "
+>
+    <name>Net_RouterOS</name>
+    <channel>pearhub.org</channel>
+    <summary>RouterOS API client implementation.</summary>
+    <description>
+    This package allows you to read and write information from a
+    RouterOS host using MikroTik's RouterOS API.
+    </description>
+    <lead>
+        <name>Vasil Rangelov</name>
+        <user>boen_robot</user>
+        <email>boen.robot@gmail.com</email>
+        <active>yes</active>
+    </lead>
+    <date>2011-08-29</date>
+    <version>
+        <release>1.0.0</release>
+        <api>1.0.0</api>
+    </version>
+    <stability>
+        <release>stable</release>
+        <api>stable</api>
+    </stability>
+    <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
+    <notes>First release!</notes>
+    <contents>
+        <dir name="/">
+            <dir name="src" baseinstalldir="/">
+                <file name="Net/RouterOS/ArgumentException.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/Autoload.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/Client.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/Communicator.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/DataFlowException.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/Exception.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/Message.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/NotSupportedException.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/Query.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+
+                </file>
+                <file name="Net/RouterOS/Request.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/Response.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/SocketException.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+            </dir>
+            <dir name="tests">
+                <file name="ClientFeaturesTest.php" role="test" />
+                <file name="ConnectionTest.php" role="test" />
+                <file name="RequestHandlingTest.php" role="test" />
+                <file name="StateAlteringFeaturesTest.php" role="test" />
+                <file name="PseudoServer.php" role="test" />
+                <file name="configuration.xml" role="test" />
+            </dir>
+            <dir name="examples">
+                <file name="callback-and-loop.php" role="doc" />
+                <file name="loop-and-extract.php" role="doc" />
+                <file name="send-and-complete.php" role="doc" />
+                <file name="send-and-forget.php" role="doc" />
+                <file name="sync-request-arguments.php" role="doc" />
+                <file name="sync-request-simple.php" role="doc" />
+            </dir>
+            <dir name="docs">
+                <file name="tutorials/Net_RouterOS/Net_RouterOS.pkg" role="doc" />
+                <file name="tutorials/Net_RouterOS/Client.cls" role="doc" />
+            </dir>
+        </dir>
+    </contents>
+    <dependencies>
+        <required>
+            <php>
+                <min>5.3.0</min>
+            </php>
+            <pearinstaller>
+                <min>1.4.0</min>
+            </pearinstaller>
+        </required>
+    </dependencies>
+    <phprelease>
+        <filelist>
+            <install
+                name="src/Net/RouterOS/ArgumentException.php"
+                as="Net/RouterOS/ArgumentException.php"
+            />
+            <install
+                name="src/Net/RouterOS/Autoload.php"
+                as="Net/RouterOS/Autoload.php"
+            />
+            <install
+                name="src/Net/RouterOS/Client.php"
+                as="Net/RouterOS/Client.php"
+            />
+            <install
+                 name="src/Net/RouterOS/Communicator.php"
+                 as="Net/RouterOS/Communicator.php"
+            />
+            <install
+                name="src/Net/RouterOS/DataFlowException.php"
+                as="Net/RouterOS/DataFlowException.php"
+            />
+            <install
+                name="src/Net/RouterOS/Exception.php"
+                as="Net/RouterOS/Exception.php"
+            />
+            <install
+                name="src/Net/RouterOS/Message.php"
+                as="Net/RouterOS/Message.php"
+            />
+            <install
+                name="src/Net/RouterOS/NotSupportedException.php"
+                as="Net/RouterOS/NotSupportedException.php"
+            />
+            <install
+                name="src/Net/RouterOS/Query.php"
+                as="Net/RouterOS/Query.php"
+            />
+            <install
+                name="src/Net/RouterOS/Request.php"
+                as="Net/RouterOS/Request.php"
+            />
+            <install
+                name="src/Net/RouterOS/Response.php"
+                as="Net/RouterOS/Response.php"
+            />
+            <install
+                name="src/Net/RouterOS/SocketException.php"
+                as="Net/RouterOS/SocketException.php"
+            />
+            
+            <install
+                name="tests/ClientFeaturesTest.php"
+                as="ClientFeaturesTest.php"
+            />
+            <install
+                name="tests/ConnectionTest.php" 
+                as="ConnectionTest.php"
+            />
+            <install
+                name="tests/RequestHandlingTest.php"
+                as="RequestHandlingTest.php"
+            />
+            <install
+                name="tests/StateAlteringFeaturesTest.php"
+                as="StateAlteringFeaturesTest.php"
+            />
+            <install
+                name="tests/PseudoServer.php"
+                as="PseudoServer.php"
+            />
+            <install
+                name="tests/configuration.xml"
+                as="configuration.xml"
+            />
+            
+            <install
+                name="docs/tutorials/Net_RouterOS/Net_RouterOS.pkg"
+                as="tutorials/Net_RouterOS/Net_RouterOS.pkg"
+            />
+            <install
+                name="docs/tutorials/Net_RouterOS/Client.cls"
+                as="tutorials/Net_RouterOS/Client.cls"
+            />
+        </filelist>
+    </phprelease>
+</package>
