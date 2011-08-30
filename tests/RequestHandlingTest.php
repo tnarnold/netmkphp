@@ -1,5 +1,4 @@
 <?php
-
 namespace Net\RouterOS;
 
 class RequestHandlingTest extends \PHPUnit_Framework_TestCase
@@ -188,6 +187,20 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
                 );
             }
         }
+    }
+
+    public function testArgumentRemoval()
+    {
+        $request = new Request('/ip/arp/add');
+        $this->assertEmpty($request->getAllArguments());
+
+        $request->setArgument('address', HOSTNAME_INVALID);
+        $this->assertNotEmpty($request->getAllArguments());
+        $this->assertEquals(HOSTNAME_INVALID, $request->getArgument('address'));
+
+        $request->removeAllArguments();
+        $this->assertEmpty($request->getAllArguments());
+        $this->assertEquals(null, $request->getArgument('address'));
     }
 
     public function testLengthEncoding()
@@ -405,10 +418,10 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             $stream = fopen('php://temp', 'r+b');
             $streamSize = 0;
             while ($streamSize < $length) {
-                $streamSize += fwrite($stream,
-                                      str_pad('t',
-                                              min($length - $streamSize, 0xFFFFF),
-                                                  't'));
+                $streamSize += fwrite(
+                    $stream,
+                    str_pad('t', min($length - $streamSize, 0xFFFFF), 't')
+                );
             }
             rewind($stream);
 
@@ -441,42 +454,54 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-//    public function testPrematureDisconnect()
-//    {
-//        try {
-//            $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
-//        } catch (\Exception $e) {
-//            $this->markTestSkipped('The testing server is not running.');
-//        }
-//
-//        $com->sendWord('p00000000f');
-//        try {
-//            $com->sendWord('ttttttttttttttt');
-//            $this->fail('Sending had to fail.');
-//        } catch (SocketException $e) {
-//            $this->assertEquals(7, $e->getCode(), 'Improper exception code.');
-//        }
-//    }
-//
-//    public function testPrematureDisconnectWithStream()
-//    {
-//        try {
-//            $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
-//        } catch (\Exception $e) {
-//            $this->markTestSkipped('The testing server is not running.');
-//        }
-//
-//        $com->sendWord('p00000000f');
-//        try {
-//            $stream = fopen('php://temp', 'r+b');
-//            fwrite($stream, 'ttttttttttttttt');
-//            rewind($stream);
-//            $com->sendWordFromStream('', $stream);
-//            $this->fail('Sending had to fail.');
-//        } catch (SocketException $e) {
-//            $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
-//        }
-//    }
+    public function testPrematureDisconnect()
+    {
+        $this->markTestIncomplete(
+            'For some reason, termination is not detected in this scenario.'
+        );
+        try {
+            $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
+        } catch (\Exception $e) {
+            $this->markTestSkipped('The testing server is not running.');
+        }
+
+        $com->sendWord('p0000fffff');
+        try {
+            $com->sendWord(str_pad('t', 0xFFFFF, 't'));
+            $this->fail('Sending had to fail.');
+        } catch (SocketException $e) {
+            $this->assertEquals(7, $e->getCode(), 'Improper exception code.');
+        }
+    }
+
+    public function testPrematureDisconnectWithStream()
+    {
+        $this->markTestIncomplete(
+            'For some reason, termination is not detected in this scenario.'
+        );
+        try {
+            $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
+        } catch (\Exception $e) {
+            $this->markTestSkipped('The testing server is not running.');
+        }
+
+        $com->sendWord('p000ffffff');
+        try {
+            $stream = fopen('php://temp', 'r+b');
+            for ($written = 0, $length = 0xFFFFFF; 0 < $length;
+                    $length -= $written
+            ) {
+                $written = fwrite(
+                    $stream, str_pad('t', min(0xFFFFF, $length), 't')
+                );
+            }
+            rewind($stream);
+            $com->sendWordFromStream('', $stream);
+            $this->fail('Sending had to fail.');
+        } catch (SocketException $e) {
+            $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
+        }
+    }
 
     public function testInvalidSocketOnClose()
     {

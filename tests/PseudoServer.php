@@ -25,7 +25,7 @@ function hex2bin($hex, $raw = false)
     }
 }
 
-$configName = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'configuration.xml';
+$configName = __DIR__ . DIRECTORY_SEPARATOR . 'configuration.xml';
 $configLocation = realpath($configName);
 if ($configLocation === false) {
     die(
@@ -44,8 +44,9 @@ try {
     die("Failed parsing configuration.");
 }
 
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR .
-    '../src/Net/RouterOS/Communicator.php';
+require_once realpath(__DIR__ . DIRECTORY_SEPARATOR .
+        '../src/Net/RouterOS/Communicator.php')
+    ? : 'Net/RouterOS/Communicator.php';
 
 $socket = @stream_socket_server("tcp://127.0.0.1:{$port}", $errno, $errstr);
 if (!is_resource($socket)) {
@@ -56,7 +57,7 @@ echo "Server started...\n";
 //    * 1024 //k
 //    * 1024 //m
 //);
-define('SERVER_CONNECTION_TIMEOUT', 2
+define('PSEUDO_SERVER_CONNECTION_TIMEOUT', 2
     * 60//m
     * 60//h
 );
@@ -68,7 +69,7 @@ while ($conn = @stream_socket_accept($socket, 120, $peername)) {
         echo "Creating temporary storage...\n";
         $requestBuffer = fopen('php://temp', 'r+b');
         stream_set_read_buffer($conn, 11);
-        stream_set_timeout($conn, SERVER_CONNECTION_TIMEOUT);
+        stream_set_timeout($conn, PSEUDO_SERVER_CONNECTION_TIMEOUT);
         echo "Receving...\n";
         $specialCommand = false;
         $num = 0;
@@ -248,10 +249,11 @@ while ($conn = @stream_socket_accept($socket, 120, $peername)) {
                         + $incomingRequestLength;
                     $bytesReceived = ftell($nextRequestBuffer);
                     var_dump($bytesReceived);
-                    while ($bytesReceived < $incomingBytes - 2) {
+                    $incomingBytes /= 4; //Receive only 1/4 of the request.
+                    while ($bytesReceived < $incomingBytes) {
                         $bytesReceivedNow = fwrite($nextRequestBuffer,
                                                    fread($conn,
-                                                         min($incomingBytes - 2,
+                                                         min($incomingBytes,
                                                              0xFFFFF)));
                         if (0 !== $bytesReceivedNow) {
                             $bytesReceived += $bytesReceivedNow;

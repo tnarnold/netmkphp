@@ -7,7 +7,7 @@
  * 
  * PHP version 5
  * 
- * @link http://routeros.sourceforge.net/
+ * @link http://netrouteros.sourceforge.net/
  * @category Net
  * @package Net_RouterOS
  * @version ~~version~~
@@ -15,7 +15,6 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @copyright 2011 Vasil Rangelov
  */
-
 /**
  * The namespace declaration.
  */
@@ -42,8 +41,8 @@ class SocketException extends Exception
      * Creates a new socket exception.
      * @param string $message The Exception message to throw.
      * @param int $code The Exception code.
-     * @param Exception $previous The previous exception used for the
-     * exception chaining.
+     * @param Exception $previous The previous exception used for the exception
+     * chaining.
      * @param int $error_no If provided, holds the system level error number
      * that occurred in the system-level connect() call.
      * @param string $error_str The error message as a string.
@@ -86,8 +85,7 @@ class SocketException extends Exception
     {
         $result = parent::__toString();
         if (0 !== $this->getSocketErrorNumber()) {
-            $result .= "\nSocket error number:"
-                . $this->getSocketErrorNumber();
+            $result .= "\nSocket error number:" . $this->getSocketErrorNumber();
         }
         if ('' !== $this->getSocketErrorMessage()) {
             $result .= "\nSocket error message:"

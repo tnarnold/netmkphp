@@ -7,7 +7,7 @@
  * 
  * PHP version 5
  * 
- * @link http://routeros.sourceforge.net/
+ * @link http://netrouteros.sourceforge.net/
  * @category Net
  * @package Net_RouterOS
  * @version ~~version~~
@@ -15,7 +15,6 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @copyright 2011 Vasil Rangelov
  */
-
 /**
  * The namespace declaration.
  */
@@ -30,8 +29,8 @@ class Query
 
     /**
      * @var array An array of the words forming the query. Each value is an
-     * array with the first member being the predicate (action and name),
-     * and the second member being the value for the predicate.
+     * array with the first member being the predicate (action and name), and
+     * the second member being the value for the predicate.
      */
     protected $words = array();
 
@@ -47,7 +46,7 @@ class Query
      */
     private function __construct()
     {
-
+        
     }
 
     /**
@@ -66,9 +65,7 @@ class Query
             case Query::ACTION_GREATHER_THAN:
                 return $action;
             default:
-                throw new ArgumentException(
-                    'Unknown action specified', 208
-                );
+                throw new ArgumentException('Unknown action specified', 208);
         }
     }
 
@@ -86,9 +83,7 @@ class Query
         $this->words[] = array(
             self::sanitizeAction($action)
             . Message::sanitizeArgumentName($name),
-            (null === $value ? null :
-                Message::sanitizeArgumentValue($value)
-            )
+            (null === $value ? null : Message::sanitizeArgumentValue($value))
         );
     }
 
@@ -129,9 +124,7 @@ class Query
      * operation to perform.
      * @return Query The query object.
      */
-    public function orWhere($name, $value = null,
-                            $action = self::ACTION_EXIST
-    )
+    public function orWhere($name, $value = null, $action = self::ACTION_EXIST)
     {
         $this->addWhere($name, $value, $action);
         $this->words[] = array('#|', null);
@@ -147,9 +140,7 @@ class Query
      * operation to perform.
      * @return Query The query object.
      */
-    public function andWhere($name, $value = null,
-                             $action = self::ACTION_EXIST
-    )
+    public function andWhere($name, $value = null, $action = self::ACTION_EXIST)
     {
         $this->addWhere($name, $value, $action);
         $this->words[] = array('#&', null);

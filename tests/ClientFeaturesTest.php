@@ -1,5 +1,4 @@
 <?php
-
 namespace Net\RouterOS;
 
 class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
@@ -193,14 +192,14 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         );
         $this->object->loop(2);
         $responses = $this->object->extractNewResponses();
-        
+
         $this->assertEquals(2, $this->object->getPendingRequestsCount(),
                             'Improper active request count after cancel test.'
         );
-        
+
         $hasPing1 = false;
         $hasPing2 = false;
-        foreach($responses as $response) {
+        foreach ($responses as $response) {
             if (!$hasPing1 && $response->getTag() === 'ping1') {
                 $hasPing1 = true;
             }
@@ -474,23 +473,23 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
 
         $request->setQuery(Query::where('target-addresses',
                                         HOSTNAME_INVALID . '/32'));
-        
+
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $list);
-        
+
         $this->object->setStreamResponses(true);
         $streamList = $this->object->sendSync($request);
         $this->assertInternalType('array', $streamList);
-        
-        foreach($list as $index=>$response) {
+
+        foreach ($list as $index => $response) {
             $streamListArgs = $streamList[$index]->getAllArguments();
-            foreach($response->getAllArguments() as $argName => $value) {
+            foreach ($response->getAllArguments() as $argName => $value) {
                 $this->assertArrayHasKey($argName, $streamListArgs,
-                    'Missing argument.'
+                                         'Missing argument.'
                 );
                 $this->assertEquals($value,
-                    stream_get_contents($streamListArgs[$argName]),
-                    'Argument values are not equivalent.'
+                                    stream_get_contents($streamListArgs[$argName]),
+                                                        'Argument values are not equivalent.'
                 );
                 unset($streamListArgs[$argName]);
             }

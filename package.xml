@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.0.0"
+<package packagerversion="1.0.1"
     version="2.0"
     xmlns="http://pear.php.net/dtd/package-2.0"
     xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
@@ -12,27 +12,33 @@
     <name>Net_RouterOS</name>
     <channel>pearhub.org</channel>
     <summary>RouterOS API client implementation.</summary>
-    <description>
-    This package allows you to read and write information from a
-    RouterOS host using MikroTik's RouterOS API.
-    </description>
+    <description>This package allows you to read and write information from a RouterOS host using MikroTik's RouterOS API.</description>
     <lead>
         <name>Vasil Rangelov</name>
         <user>boen_robot</user>
         <email>boen.robot@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2011-08-29</date>
+    <date>2011-08-30</date>
     <version>
-        <release>1.0.0</release>
-        <api>1.0.0</api>
+        <release>1.0.1</release>
+        <api>1.0.1</api>
     </version>
     <stability>
         <release>stable</release>
         <api>stable</api>
     </stability>
     <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
-    <notes>First release!</notes>
+    <notes>Minor additions and fixes.</notes>
+    <changelog>
+* Source code formatting.
+* Documentation fixes.
+* Added the tutorial on Query.
+* Simplified login slightly.
+* Altered the PseudoServer slightly.
+* Added the removeAllArguments() method for Message and Request (+ a test).
+* Added the previously commented connection tests as incomplete tests.
+    </changelog>
     <contents>
         <dir name="/">
             <dir name="src" baseinstalldir="/">
@@ -115,8 +121,10 @@
                 <file name="sync-request-simple.php" role="doc" />
             </dir>
             <dir name="docs">
-                <file name="tutorials/Net_RouterOS/Net_RouterOS.pkg" role="doc" />
+                <file name="generate.php" role="doc" />
                 <file name="tutorials/Net_RouterOS/Client.cls" role="doc" />
+                <file name="tutorials/Net_RouterOS/Net_RouterOS.pkg" role="doc" />
+                <file name="tutorials/Net_RouterOS/Query.cls" role="doc" />
             </dir>
         </dir>
     </contents>
@@ -207,12 +215,20 @@
             />
             
             <install
-                name="docs/tutorials/Net_RouterOS/Net_RouterOS.pkg"
-                as="tutorials/Net_RouterOS/Net_RouterOS.pkg"
+                name="docs/generate.php"
+                as="generate.php"
             />
             <install
                 name="docs/tutorials/Net_RouterOS/Client.cls"
                 as="tutorials/Net_RouterOS/Client.cls"
+            />
+            <install
+                name="docs/tutorials/Net_RouterOS/Net_RouterOS.pkg"
+                as="tutorials/Net_RouterOS/Net_RouterOS.pkg"
+            />
+            <install
+                name="docs/tutorials/Net_RouterOS/Query.cls"
+                as="tutorials/Net_RouterOS/Query.cls"
             />
         </filelist>
     </phprelease>

@@ -7,7 +7,7 @@
  * 
  * PHP version 5
  * 
- * @link http://routeros.sourceforge.net/
+ * @link http://netrouteros.sourceforge.net/
  * @category Net
  * @package Net_RouterOS
  * @version ~~version~~
@@ -15,7 +15,6 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @copyright 2011 Vasil Rangelov
  */
-
 /**
  * The namespace declaration.
  */
@@ -126,8 +125,8 @@ abstract class Message
     /**
      * Gets the value of an argument.
      * @param string $name The name of the argument.
-     * @return string|resource The value of the specified argument. Returns
-     * NULL if such an argument is not set.
+     * @return string|resource The value of the specified argument. Returns NULL
+     * if such an argument is not set.
      * @see setArgument()
      */
     public function getArgument($name)
@@ -141,14 +140,23 @@ abstract class Message
 
     /**
      * Gets all arguments in an array.
-     * @return array An array with the keys as argument names, and the
-     * array values as argument values.
+     * @return array An array with the keys as argument names, and the array
+     * values as argument values.
      * @see getArgument()
      * @see setArgument()
      */
     public function getAllArguments()
     {
         return $this->arguments;
+    }
+
+    /**
+     * Removes all arguments from the message.
+     * @since 1.0.1
+     */
+    protected function removeAllArguments()
+    {
+        $this->arguments = array();
     }
 
 }

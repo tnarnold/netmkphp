@@ -7,7 +7,7 @@
  * 
  * PHP version 5
  * 
- * @link http://routeros.sourceforge.net/
+ * @link http://netrouteros.sourceforge.net/
  * @category Net
  * @package Net_RouterOS
  * @version ~~version~~
@@ -15,7 +15,6 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @copyright 2011 Vasil Rangelov
  */
-
 /**
  * The namespace declaration.
  */
@@ -53,9 +52,9 @@ class Request extends Message
     /**
      * Sets the command to send to RouterOS.
      * 
-     * Sets the command to send to RouterOS. The command can use the API or
-     * CLI syntax of RouterOS, but either way, it must be absolute (begin
-     * with a "/") and without arguments.
+     * Sets the command to send to RouterOS. The command can use the API or CLI
+     * syntax of RouterOS, but either way, it must be absolute (begin  with a
+     * "/") and without arguments.
      * @param string $command The command to send.
      * @return string The previously set command.
      * @see getCommand()
@@ -109,8 +108,8 @@ class Request extends Message
 
     /**
      * Sets the query to send with the command.
-     * @param Query $query The query to be set. Setting NULL will
-     * remove the currently associated query.
+     * @param Query $query The query to be set. Setting NULL will remove the
+     * currently associated query.
      * @return Query The previously set query.
      * @see getQuery()
      */
@@ -132,18 +131,6 @@ class Request extends Message
     }
 
     /**
-     * Sets an argument for the request.
-     * @param string $name Name of the argument.
-     * @param string $value Value of the argument. Setting the value to NULL
-     * removes an argument of this name.
-     * @return string The old value of the specified argument.
-     * @see getArgument()
-     */
-    public function setArgument($name, $value = null) {
-        return parent::setArgument($name, $value);
-    }
-
-    /**
      * Sets the tag to associate the request with.
      * 
      * Sets the tag to associate the request with. Setting NULL erases the
@@ -152,8 +139,31 @@ class Request extends Message
      * @return string The previously set tag.
      * @see getTag()
      */
-    public function setTag($tag) {
+    public function setTag($tag)
+    {
         return parent::setTag($tag);
+    }
+
+    /**
+     * Sets an argument for the request.
+     * @param string $name Name of the argument.
+     * @param string $value Value of the argument. Setting the value to NULL
+     * removes an argument of this name.
+     * @return string The old value of the specified argument.
+     * @see getArgument()
+     */
+    public function setArgument($name, $value = null)
+    {
+        return parent::setArgument($name, $value);
+    }
+
+    /**
+     * Removes all arguments from the request.
+     * @since 1.0.1
+     */
+    public function removeAllArguments()
+    {
+        parent::removeAllArguments();
     }
 
     /**
@@ -167,8 +177,7 @@ class Request extends Message
     {
         if (!$com->isSocketValid()) {
             throw new SocketException(
-                'Socket is invalid. Sending aborted.',
-                205, null, $com
+                'Socket is invalid. Sending aborted.', 205, null, $com
             );
         }
         $bytes = 0;
