@@ -7,7 +7,7 @@
  * 
  * PHP version 5
  * 
- * @link http://routeros.sourceforge.net/
+ * @link http://netrouteros.sourceforge.net/
  * @category Net
  * @package Net_RouterOS
  * @version ~~version~~
@@ -15,7 +15,6 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @copyright 2011 Vasil Rangelov
  */
-
 /**
  * The namespace declaration.
  */
@@ -44,8 +43,8 @@ class Response extends Message
 
     /**
      * Extracts a new response from a communicator.
-     * @param Communicator $com The communicator from which to extract the
-     * new response.
+     * @param Communicator $com The communicator from which to extract the new
+     * response.
      * @param bool $asStream Whether to populate the argument values with
      * streams instead of strings.
      * @see getType()
@@ -61,10 +60,10 @@ class Response extends Message
         $this->setType($com->getNextWord());
         if ($asStream) {
             for (
-            $word = $com->getNextWordAsStream(),
-            fseek($word, 0, SEEK_END); ftell($word) !== 0;
-                    $word = $com->getNextWordAsStream(),
-                fseek($word, 0, SEEK_END)
+            $word = $com->getNextWordAsStream(), fseek($word, 0, SEEK_END);
+                    ftell($word) !== 0;
+                    $word = $com->getNextWordAsStream(), fseek($word, 0,
+                                                               SEEK_END)
             ) {
                 rewind($word);
                 $ind = fread($word, 1);
@@ -83,7 +82,7 @@ class Response extends Message
                     $this->setArgument($prefix, $value);
                     continue;
                 }
-                if('.' === $ind && 'tag' === $prefix) {
+                if ('.' === $ind && 'tag' === $prefix) {
                     $this->setTag(stream_get_contents($word, -1, -1));
                     continue;
                 }
@@ -92,7 +91,8 @@ class Response extends Message
             }
         } else {
             for ($word = $com->getNextWord(); '' !== $word;
-                    $word = $com->getNextWord()) {
+                    $word = $com->getNextWord()
+            ) {
                 if (preg_match('/^=([^=]+)=(.*)$/sm', $word, $matches)) {
                     $this->setArgument($matches[1], $matches[2]);
                 } elseif (preg_match('/^\.tag=(.*)$/sm', $word, $matches)) {

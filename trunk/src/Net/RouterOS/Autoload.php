@@ -7,7 +7,7 @@
  * 
  * PHP version 5
  * 
- * @link http://routeros.sourceforge.net/
+ * @link http://netrouteros.sourceforge.net/
  * @category Net
  * @package Net_RouterOS
  * @version ~~version~~
@@ -15,7 +15,6 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @copyright 2011 Vasil Rangelov
  */
-
 /**
  * The namespace declaration.
  */
@@ -33,8 +32,7 @@ function Autoload($class)
     if (strpos($class, $namespace) === 0) {
         $path = __DIR__ . DIRECTORY_SEPARATOR .
             strtr(
-                substr($class, strlen($namespace)), '\\',
-                DIRECTORY_SEPARATOR
+                substr($class, strlen($namespace)), '\\', DIRECTORY_SEPARATOR
             ) . '.php';
         $file = realpath($path);
         if (is_string($file) && strpos($file, __DIR__) === 0) {

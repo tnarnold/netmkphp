@@ -7,7 +7,7 @@
  * 
  * PHP version 5
  * 
- * @link http://routeros.sourceforge.net/
+ * @link http://netrouteros.sourceforge.net/
  * @category Net
  * @package Net_RouterOS
  * @version ~~version~~
@@ -15,7 +15,6 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @copyright 2011 Vasil Rangelov
  */
-
 /**
  * The namespace declaration.
  */
@@ -39,8 +38,8 @@ class NotSupportedException extends Exception
      * Creates a new NotSupportedException.
      * @param string $message The Exception message to throw.
      * @param int $code The Exception code.
-     * @param Exception $previous The previous exception used for the
-     * exception chaining.
+     * @param Exception $previous The previous exception used for the exception
+     * chaining.
      * @param mixed $value The unsupported value.
      */
     public function __construct($message, $code = 0, $previous = null,
@@ -55,7 +54,8 @@ class NotSupportedException extends Exception
      * Gets the unsupported value.
      * @return mixed The unsupported value.
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->_value;
     }
 
@@ -66,10 +66,10 @@ class NotSupportedException extends Exception
      * Returns a string representation of the exception.
      * @return string The exception as a string.
      */
-    public function __toString() {
+    public function __toString()
+    {
         return parent::__toString() . "\nValue:{$this->_value}";
     }
 
     // @codeCoverageIgnoreEnd
-
 }

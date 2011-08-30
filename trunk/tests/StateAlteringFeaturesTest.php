@@ -1,5 +1,4 @@
 <?php
-
 namespace Net\RouterOS;
 
 class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
@@ -37,7 +36,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
                 __NAMESPACE__ . '\Client', $routerOS1,
                 'Object initialization failed.'
             );
-            
+
             $routerOS2 = new Client(HOSTNAME, USERNAME, PASSWORD, PORT, true);
             $this->assertInstanceOf(
                 __NAMESPACE__ . '\Client', $routerOS2,
@@ -131,7 +130,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($systemResource));
         $freeMemory = 1024
             * (int) $systemResource[0]->getArgument('free-memory');
-        
+
         $addCommand = '/queue/simple/add';
         $requiredMemory = 0x4000
             + strlen($addCommand) + 1

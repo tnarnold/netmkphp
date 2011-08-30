@@ -7,7 +7,7 @@
  * 
  * PHP version 5
  * 
- * @link http://routeros.sourceforge.net/
+ * @link http://netrouteros.sourceforge.net/
  * @category Net
  * @package Net_RouterOS
  * @version ~~version~~
@@ -15,7 +15,6 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @copyright 2011 Vasil Rangelov
  */
-
 /**
  * The namespace declaration.
  */
@@ -24,11 +23,10 @@ namespace Net\RouterOS;
 /**
  * A RouterOS communicator.
  * 
- * Implementation of the RouterOS API protocol. Unlike the other classes in
- * this package, this class doesn't provide any conviniences beyond the low
- * level implementation details (automatic word length encoding/decoding and
- * data integrity), and because of that, its direct usage is strongly
- * discouraged.
+ * Implementation of the RouterOS API protocol. Unlike the other classes in this
+ * package, this class doesn't provide any conviniences beyond the low level
+ * implementation details (automatic word length encoding/decoding and data
+ * integrity), and because of that, its direct usage is strongly discouraged.
  * @package Net_RouterOS
  * @see Client
  */
@@ -59,10 +57,10 @@ class Communicator
     /**
      * Creates a new connection with the specified options.
      * @param string $host Hostname (IP or domain) of the RouterOS server.
-     * @param int $port The port on which the RouterOS server provides the
-     * API service.
-     * @param bool $persist Whether or not the connection should be a
-     * persistent one.
+     * @param int $port The port on which the RouterOS server provides the API
+     * service.
+     * @param bool $persist Whether or not the connection should be a persistent
+     * one.
      * @param float $timeout The timeout for the connection.
      * @param string $key a string that uniquely identifies the connection.
      * @param resource $context A context for the socket.
@@ -107,9 +105,9 @@ class Communicator
     /**
      * Checks whether the socket is fresh.
      * 
-     * Checks whether the current socket is fresh. A socket is considered
-     * fresh if there hasn't been any activity on it. Particularly useful
-     * for detecting reused persistent connections.
+     * Checks whether the current socket is fresh. A socket is considered fresh
+     * if there hasn't been any activity on it. Particularly useful for
+     * detecting reused persistent connections.
      * @return bool TRUE if the socket is fresh, FALSE otherwise.
      */
     public function isSocketFresh()
@@ -163,10 +161,10 @@ class Communicator
     /**
      * Sends a word based on a stream.
      * 
-     * Sends a word based on a stream and automatically encodes its length
-     * when doing so. The stream is read from its current position to its
-     * end, and then returned to its current position. Because of those
-     * operations, the supplied stream must be seekable.
+     * Sends a word based on a stream and automatically encodes its length when
+     * doing so. The stream is read from its current position to its end, and
+     * then returned to its current position. Because of those operations, the
+     * supplied stream must be seekable.
      * @param string $prefix A string to prepend before the stream contents.
      * @param resource $stream The stream to send.
      * @return int The number of bytes sent.
@@ -194,9 +192,9 @@ class Communicator
      * Verifies that the length is supported.
      * 
      * Verifies if the specified length is supported by the API. Throws a
-     * {@link NotSupportedException} if that's not the case. Currently,
-     * RouterOS supports words up to 0xFFFFFFF in length, so that's the only
-     * check performed.
+     * {@link NotSupportedException} if that's not the case. Currently, RouterOS
+     * supports words up to 0xFFFFFFF in length, so that's the only check
+     * performed.
      * @param int $length The length to verify.
      */
     protected static function verifyLengthSupport($length)
@@ -225,8 +223,7 @@ class Communicator
             return pack('n', $length |= 0x8000);
         } elseif ($length < 0x200000) {
             $length |= 0xC00000;
-            return pack('n', $length >> 8)
-                . chr($length & 0xFF);
+            return pack('n', $length >> 8) . chr($length & 0xFF);
         } elseif ($length < 0x10000000) {
             return pack('N', $length |= 0xE0000000);
         } elseif ($length <= 0xFFFFFFFF) {
@@ -245,9 +242,8 @@ class Communicator
      * Sends a string over the socket.
      * 
      * Sends a string over the socket. Length encoding is not performed. The
-     * main purpose of using this function over a plain fwrite() call is
-     * that this one ensures all bytes are sent unless the socket becomes
-     * invalid.
+     * main purpose of using this function over a plain fwrite() call is that
+     * this one ensures all bytes are sent unless the socket becomes invalid.
      * @param string $string The string/stream to send.
      * @return int The number of bytes sent.
      */
@@ -257,14 +253,16 @@ class Communicator
         $bytesToSend = (double) sprintf('%u', strlen($string));
         while ($bytes < $bytesToSend) {
             if ($this->isSocketValid()
-                && 0 !== ($bytesNow =
-                fwrite($this->socket, substr($string, $bytes, 0xFFFFF))
+                && 0 !== ($bytesNow = fwrite($this->socket,
+                                             substr($string, $bytes, 0xFFFFF)
+                )
                 )
             ) {
                 $bytes += $bytesNow;
             } else {
                 throw new SocketException('Failed while sending string.', 7,
-                    $this->error_no, $this->error_str);
+                    $this->error_no, $this->error_str
+                );
             }
         }
         return $bytes;
@@ -273,11 +271,11 @@ class Communicator
     /**
      * Sends a string or stream over the socket.
      * 
-     * Sends a string or stream over the socket. Length encoding and locking
-     * is not performed. Stream is sent from its current position to its end
-     * and the pointer is returned to its initial position. The main purpose
-     * of using this function over a plain fwrite() call is that this one
-     * ensures all bytes are sent unless the socket becomes invalid.
+     * Sends a stream over the socket. Length encoding and locking is not
+     * performed. Stream is sent from its current position to its end and the
+     * pointer is returned to its initial position. The main purpose of using
+     * this function over a plain fwrite() call is that this one ensures all
+     * bytes are sent unless the socket becomes invalid.
      * @param resource $stream The stream to send.
      * @return int The number of bytes sent.
      */
@@ -293,7 +291,8 @@ class Communicator
                 $bytes += $bytesNow;
             } else {
                 throw new SocketException('Failed while sending stream.', 8,
-                    $this->error_no, $this->error_str);
+                    $this->error_no, $this->error_str
+                );
             }
         }
         fseek($stream, -$bytes, SEEK_CUR);
@@ -303,8 +302,8 @@ class Communicator
     /**
      * Get the next word in queue as a string.
      * 
-     * Get the next word in queue as a string, after automatically decoding
-     * its length.
+     * Get the next word in queue as a string, after automatically decoding its
+     * length.
      * @return string The word.
      * @see close()
      */
@@ -316,8 +315,8 @@ class Communicator
     /**
      * Get the next word in queue as a stream.
      * 
-     * Get the next word in queue as a stream, after automatically decoding
-     * its length.
+     * Get the next word in queue as a stream, after automatically decoding its
+     * length.
      * @return resource The word, as a stream.
      * @see close()
      */
@@ -329,8 +328,8 @@ class Communicator
     /**
      * Decodes the lenght of the incoming message.
      * 
-     * Decodes the lenght of the incoming message, as specified by the
-     * RouterOS API.
+     * Decodes the lenght of the incoming message, as specified by the RouterOS
+     * API.
      * @return int The decoded length
      */
     protected function decodeLength()
@@ -361,11 +360,13 @@ class Communicator
     /**
      * Reads from the socket to receive.
      * 
-     * Reads from the socket to receive content. Doesn't perform decoding.
-     * The main purpose of using this function over a plain fread() call is
-     * to ensure that all of the required length will be read unless the
-     * socket becomes invalid.
+     * Reads from the socket to receive content. Doesn't perform decoding. The
+     * main purpose of using this function over a plain fread() call is to
+     * ensure that all of the required length will be read unless the socket
+     * becomes invalid.
      * @param int $length The number of bytes to read.
+     * @param string $what Descriptive string about what is being received (used
+     * in exception messages).
      * @return string The received content.
      */
     protected function receive($length, $what = 'data')
@@ -373,8 +374,7 @@ class Communicator
         $result = '';
         while ($length > 0) {
             if ($this->isSocketValid() &&
-                '' !== ($fragment = fread($this->socket,
-                                          min($length, 0xFFFFF))
+                '' !== ($fragment = fread($this->socket, min($length, 0xFFFFF))
                 )
             ) {
                 $length -= strlen($fragment);
@@ -391,11 +391,13 @@ class Communicator
     /**
      * Reads from the socket to receive.
      * 
-     * Reads from the socket to receive content. Doesn't perform decoding.
-     * The main purpose of using this function over a plain fread() call is
-     * to ensure that all of the required length will be read unless the
-     * socket becomes invalid.
+     * Reads from the socket to receive content. Doesn't perform decoding. The
+     * main purpose of using this function over a plain fread() call is to
+     * ensure that all of the required length will be read unless the socket
+     * becomes invalid.
      * @param int $length The number of bytes to read.
+     * @param string $what Descriptive string about what is being received (used
+     * in exception messages).
      * @return string The received content.
      */
     protected function receiveAsStream($length, $what = 'stream data')
@@ -403,8 +405,7 @@ class Communicator
         $result = fopen('php://temp', 'r+b');
         while ($length > 0) {
             if ($this->isSocketValid() &&
-                '' !== ($fragment = fread($this->socket,
-                                          min($length, 0xFFFFF))
+                '' !== ($fragment = fread($this->socket, min($length, 0xFFFFF))
                 )
             ) {
                 $length -= strlen($fragment);

@@ -7,7 +7,7 @@
  * 
  * PHP version 5
  * 
- * @link http://routeros.sourceforge.net/
+ * @link http://netrouteros.sourceforge.net/
  * @category Net
  * @package Net_RouterOS
  * @version ~~version~~
@@ -15,7 +15,6 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @copyright 2011 Vasil Rangelov
  */
-
 /**
  * The namespace declaration.
  */
@@ -25,7 +24,7 @@ namespace Net\RouterOS;
  * A RouterOS client.
  * 
  * Provides functionality for easily communicating with a RouterOS host.
-* @package Net_RouterOS
+ * @package Net_RouterOS
  */
 class Client
 {
@@ -89,9 +88,9 @@ class Client
      * @see sendSync()
      * @see sendAsync()
      */
-    public function __construct($host, $username, $password = '',
-                                $port = 8728, $persist = false,
-                                $timeout = null, $context = null
+    public function __construct($host, $username, $password = '', $port = 8728,
+                                $persist = false, $timeout = null,
+                                $context = null
     )
     {
         $this->com = new Communicator(
@@ -115,26 +114,26 @@ class Client
      * @param string $password The RouterOS password.
      * @return bool TRUE on success, FALSE on failure.
      */
-    public static function login(Communicator $com, $username,
-                                 $password = ''
-    )
+    public static function login(Communicator $com, $username, $password = '')
     {
         try {
             $request = new Request('/login');
             $request->send($com);
             $response = new Response($com);
             $request->setArgument('name', $username);
-            $encryptedPassword = '00' . md5(chr(0) . $password .
-                    pack('H*', $response->getArgument('ret')));
-            $request->setArgument('response', $encryptedPassword);
+            $request->setArgument(
+                'response',
+                '00' . md5(chr(0) . $password
+                    . pack('H*', $response->getArgument('ret'))
+                )
+            );
             $request->send($com);
             $response = new Response($com);
             return $response->getType() === Response::TYPE_FINAL
                 && null === $response->getArgument('ret');
         } catch (Exception $e) {
             throw ($e instanceof DataFlowException
-            || !$com->isSocketValid()
-            ) ? new SocketException(
+            || !$com->isSocketValid()) ? new SocketException(
                     'This is not a compatible RouterOS service', 101, $e
                 ) : $e;
         }
@@ -144,12 +143,11 @@ class Client
      * Sends a request and waits for responses.
      * @param Request $request The request to send.
      * @param callback $callback Optional. A function that is to be executed
-     * when new responses for this request are available. The callback takes
-     * two parameters. The {@link Response} object as the first, and the
-     * {@link Client} object as the second one. If the function returns
-     * TRUE, the request is canceled. Note that the callback may be executed
-     * one last time after that with a response that notifies about the
-     * canceling.
+     * when new responses for this request are available. The callback takes two
+     * parameters. The {@link Response} object as the first, and the
+     * {@link Client} object as the second one. If the function returns TRUE,
+     * the request is canceled. Note that the callback may be executed one last
+     * time after that with a response that notifies about the canceling.
      * @see completeRequest()
      * @see loop()
      * @see cancelRequest()
@@ -165,8 +163,7 @@ class Client
         }
         if ($this->isRequestActive($tag)) {
             throw new DataFlowException(
-                'There must not be multiple active requests sharing a tag.',
-                103
+                'There must not be multiple active requests sharing a tag.', 103
             );
         }
         $this->send($request);
@@ -183,11 +180,11 @@ class Client
     /**
      * Checks if a request is active.
      * 
-     * Checks if a request is active. A request is considered active if it's
-     * a pending request and/or has responses that are not yet extracted.
+     * Checks if a request is active. A request is considered active if it's a
+     * pending request and/or has responses that are not yet extracted.
      * @param string $tag The tag of the request to look for.
-     * @param int $filter One of the FILTER_* consntants. Limits the search
-     * to the specified places.
+     * @param int $filter One of the FILTER_* consntants. Limits the search to
+     * the specified places.
      * @return bool TRUE if the request is active, FALSE otherwise.
      * @see getPendingRequestsCount()
      * @see completeRequest()
@@ -207,8 +204,8 @@ class Client
     /**
      * Sends a request and gets the full response.
      * @param Request $request The request to send.
-     * @return Response|array The received response or an array of all
-     * received responses.
+     * @return Response|array The received response or an array of all received
+     * responses.
      * @see sendAsync()
      * @see close()
      */
@@ -225,17 +222,16 @@ class Client
      * Starts an event loop for the RouterOS callbacks and finishes when a
      * specified request is completed.
      * @param string $tag The tag of the request to complete. Setting NULL
-     * completes all requests..
+     * completes all requests.
      * @return array An array with any responses that haven't been passed to
      * a callback function or previously extracted with
-     * {@link extractNewResponses()}. Returns an empty array when $tag is
-     * set to NULL.
+     * {@link extractNewResponses()}. Returns an empty array when $tag is set to
+     * NULL.
      */
     public function completeRequest($tag = null)
     {
         $isTagNull = null === $tag;
-        $result =
-            $isTagNull ? array() : $this->extractNewResponses($tag);
+        $result = $isTagNull ? array() : $this->extractNewResponses($tag);
         while ((!$isTagNull && $this->isRequestActive($tag))
         || ($isTagNull && 0 !== $this->getPendingRequestsCount())
         ) {
@@ -262,10 +258,10 @@ class Client
      * 
      * Gets all new responses for a request that haven't been passed to a
      * callback and clears the buffer from them.
-     * @param string $tag The tag of the request to extract new responses
-     * for. Specifying NULL with extract new responses for all requests.
-     * @return array An array of {@link Response} objects for the
-     * specified request.
+     * @param string $tag The tag of the request to extract new responses for.
+     * Specifying NULL with extract new responses for all requests.
+     * @return array An array of {@link Response} objects for the specified
+     * request.
      * @see loop()
      */
     public function extractNewResponses($tag = null)
@@ -273,8 +269,8 @@ class Client
         if (null === $tag) {
             $result = array();
             foreach ($this->responseBuffer as $tag => $responses) {
-                $result = array_merge($result,
-                                      $this->extractNewResponses($tag)
+                $result = array_merge(
+                    $result, $this->extractNewResponses($tag)
                 );
             }
             return $result;
@@ -302,11 +298,10 @@ class Client
     /**
      * Starts an event loop for the RouterOS callbacks.
      * 
-     * Starts an event loop for the RouterOS callbacks and finishes when
-     * there are no more pending requests or when a specified timeout has
-     * passed (whichever comes first).
-     * @param float $timeout Timeout for the loop. If 0, there is no time
-     * limit.
+     * Starts an event loop for the RouterOS callbacks and finishes when there
+     * are no more pending requests or when a specified timeout has passed
+     * (whichever comes first).
+     * @param float $timeout Timeout for the loop. If 0, there is no time limit.
      * @return bool TRUE when there are any more pending requests, FALSE
      * otherwise.
      * @see extractNewResponses()
@@ -339,13 +334,13 @@ class Client
     /**
      * Cancels a request.
      * 
-     * Cancels an active request. Using this function in favor of a plain
-     * call to the "/cancel" command is highly reccomended, as it also
-     * updates the counter of pending requests properly. Note that canceling
-     * a request also removes any responses for it that were not previously
-     * extracted with {@link extractNewResponses()}.
-     * @param string $tag Tag of the request to cancel. Setting NULL will
-     * cancel all requests.
+     * Cancels an active request. Using this function in favor of a plain call
+     * to the "/cancel" command is highly reccomended, as it also updates the
+     * counter of pending requests properly. Note that canceling a request also
+     * removes any responses for it that were not previously extracted with
+     * {@link extractNewResponses()}.
+     * @param string $tag Tag of the request to cancel. Setting NULL will cancel
+     * all requests.
      * @see sendAsync()
      * @see close()
      */
@@ -381,9 +376,9 @@ class Client
     /**
      * Closes the opened connection, even if it is a persistent one.
      * 
-     * Closes the opened connection, even if it is a persistent one. Note
-     * that {@link extractNewResponses()} can still be used to extract
-     * responses collected prior to the closing.
+     * Closes the opened connection, even if it is a persistent one. Note that
+     * {@link extractNewResponses()} can still be used to extract responses
+     * collected prior to the closing.
      * @return bool TRUE on success, FALSE on failure.
      */
     public function close()
@@ -416,10 +411,10 @@ class Client
     /**
      * Sets response streaming setting.
      * 
-     * Sets whether future responses are streamed. If responses are
-     * streamed, the argument values are returned as streams instead of
-     * strings. This is particularly useful if you expect a response that
-     * may contain one or more very large words.
+     * Sets whether future responses are streamed. If responses are streamed,
+     * the argument values are returned as streams instead of strings. This is
+     * particularly useful if you expect a response that may contain one or more
+     * very large words.
      * @param bool $streamResponses Whether to stream future responses.
      * @return bool The previous value of the setting.
      * @see getStreamResponses()
@@ -446,9 +441,8 @@ class Client
     /**
      * Dispatches the next response in queue.
      * 
-     * Dispatches the next response in queue, i.e. it executes the
-     * associated callback if there is one, or places the response in the
-     * response buffer.
+     * Dispatches the next response in queue, i.e. it executes the associated
+     * callback if there is one, or places the response in the response buffer.
      * @return Response The dispatched response.
      */
     protected function dispathNextResponse()
