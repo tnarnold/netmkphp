@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -24,7 +24,12 @@ namespace Net\RouterOS;
  * A RouterOS client.
  * 
  * Provides functionality for easily communicating with a RouterOS host.
- * @package Net_RouterOS
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
  */
 class Client
 {
@@ -76,21 +81,23 @@ class Client
      * 
      * Opens a new instance of a RouterOS API client with the specified
      * settings.
-     * @param string $host Hostname (IP or domain) of the RouterOS host.
-     * @param string $username The RouterOS username.
-     * @param string $password The RouterOS password.
-     * @param int $port The port on which the RouterOS host provides the API
-     * service.
-     * @param bool $persist Whether or not the connection should be a
+     * 
+     * @param string   $host     Hostname (IP or domain) of the RouterOS server.
+     * @param string   $username The RouterOS username.
+     * @param string   $password The RouterOS password.
+     * 
+     * @param int      $port     The port on which the RouterOS server provides
+     * the API service.
+     * @param bool     $persist  Whether or not the connection should be a
      * persistent one.
-     * @param float $timeout The timeout for the connection.
-     * @param resource $context A context for the socket.
+     * @param float    $timeout  The timeout for the connection.
+     * @param resource $context  A context for the socket.
+     * 
      * @see sendSync()
      * @see sendAsync()
      */
     public function __construct($host, $username, $password = '', $port = 8728,
-                                $persist = false, $timeout = null,
-                                $context = null
+        $persist = false, $timeout = null, $context = null
     )
     {
         $this->com = new Communicator(
@@ -109,9 +116,11 @@ class Client
 
     /**
      * Login to a RouterOS connection.
-     * @param Communicator $com The communicator to attempt to login to.
-     * @param string $username The RouterOS username.
-     * @param string $password The RouterOS password.
+     * 
+     * @param Communicator $com      The communicator to attempt to login to.
+     * @param string       $username The RouterOS username.
+     * @param string       $password The RouterOS password.
+     * 
      * @return bool TRUE on success, FALSE on failure.
      */
     public static function login(Communicator $com, $username, $password = '')
@@ -141,13 +150,16 @@ class Client
 
     /**
      * Sends a request and waits for responses.
-     * @param Request $request The request to send.
+     * 
+     * @param Request  $request  The request to send.
      * @param callback $callback Optional. A function that is to be executed
      * when new responses for this request are available. The callback takes two
      * parameters. The {@link Response} object as the first, and the
      * {@link Client} object as the second one. If the function returns TRUE,
      * the request is canceled. Note that the callback may be executed one last
      * time after that with a response that notifies about the canceling.
+     * 
+     * @return null
      * @see completeRequest()
      * @see loop()
      * @see cancelRequest()
@@ -182,9 +194,11 @@ class Client
      * 
      * Checks if a request is active. A request is considered active if it's a
      * pending request and/or has responses that are not yet extracted.
-     * @param string $tag The tag of the request to look for.
-     * @param int $filter One of the FILTER_* consntants. Limits the search to
-     * the specified places.
+     * 
+     * @param string $tag    The tag of the request to look for.
+     * @param int    $filter One of the FILTER_* consntants. Limits the search
+     * to the specified places.
+     * 
      * @return bool TRUE if the request is active, FALSE otherwise.
      * @see getPendingRequestsCount()
      * @see completeRequest()
@@ -203,7 +217,9 @@ class Client
 
     /**
      * Sends a request and gets the full response.
+     * 
      * @param Request $request The request to send.
+     * 
      * @return Response|array The received response or an array of all received
      * responses.
      * @see sendAsync()
@@ -221,8 +237,10 @@ class Client
      * 
      * Starts an event loop for the RouterOS callbacks and finishes when a
      * specified request is completed.
+     * 
      * @param string $tag The tag of the request to complete. Setting NULL
      * completes all requests.
+     * 
      * @return array An array with any responses that haven't been passed to
      * a callback function or previously extracted with
      * {@link extractNewResponses()}. Returns an empty array when $tag is set to
@@ -258,8 +276,10 @@ class Client
      * 
      * Gets all new responses for a request that haven't been passed to a
      * callback and clears the buffer from them.
+     * 
      * @param string $tag The tag of the request to extract new responses for.
      * Specifying NULL with extract new responses for all requests.
+     * 
      * @return array An array of {@link Response} objects for the specified
      * request.
      * @see loop()
@@ -301,7 +321,9 @@ class Client
      * Starts an event loop for the RouterOS callbacks and finishes when there
      * are no more pending requests or when a specified timeout has passed
      * (whichever comes first).
+     * 
      * @param float $timeout Timeout for the loop. If 0, there is no time limit.
+     * 
      * @return bool TRUE when there are any more pending requests, FALSE
      * otherwise.
      * @see extractNewResponses()
@@ -323,6 +345,7 @@ class Client
 
     /**
      * Gets the number of pending requests.
+     * 
      * @return int The number of pending requests.
      * @see isRequestActive()
      */
@@ -339,8 +362,11 @@ class Client
      * counter of pending requests properly. Note that canceling a request also
      * removes any responses for it that were not previously extracted with
      * {@link extractNewResponses()}.
+     * 
      * @param string $tag Tag of the request to cancel. Setting NULL will cancel
      * all requests.
+     * 
+     * @return null
      * @see sendAsync()
      * @see close()
      */
@@ -379,6 +405,7 @@ class Client
      * Closes the opened connection, even if it is a persistent one. Note that
      * {@link extractNewResponses()} can still be used to extract responses
      * collected prior to the closing.
+     * 
      * @return bool TRUE on success, FALSE on failure.
      */
     public function close()
@@ -398,7 +425,10 @@ class Client
 
     /**
      * Sends a request to RouterOS.
+     * 
      * @param Request $request The request to send.
+     * 
+     * @return null
      * @see sendSync()
      * @see sendAsync()
      */
@@ -415,7 +445,9 @@ class Client
      * the argument values are returned as streams instead of strings. This is
      * particularly useful if you expect a response that may contain one or more
      * very large words.
+     * 
      * @param bool $streamResponses Whether to stream future responses.
+     * 
      * @return bool The previous value of the setting.
      * @see getStreamResponses()
      */
@@ -430,6 +462,7 @@ class Client
      * Gets response streaming setting.
      * 
      * Gets whether future responses are streamed.
+     * 
      * @return bool The value of the setting.
      * @see setStreamResponses()
      */
@@ -443,6 +476,7 @@ class Client
      * 
      * Dispatches the next response in queue, i.e. it executes the associated
      * callback if there is one, or places the response in the response buffer.
+     * 
      * @return Response The dispatched response.
      */
     protected function dispathNextResponse()

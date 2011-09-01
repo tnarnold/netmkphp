@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -22,7 +22,12 @@ namespace Net\RouterOS;
 
 /**
  * Represents a query for RouterOS requests.
- * @package Net_RouterOS
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
  */
 class Query
 {
@@ -51,7 +56,9 @@ class Query
 
     /**
      * Sanitizes the action of a condition.
+     * 
      * @param string $action The action to sanitize.
+     * 
      * @return string The sanitized action.
      */
     protected static function sanitizeAction($action)
@@ -71,11 +78,13 @@ class Query
 
     /**
      * Adds a condition.
-     * @param string $name The name of the property to test
-     * @param string $value The value to test against. Not required for
+     * 
+     * @param string $name   The name of the property to test
+     * @param string $value  The value to test against. Not required for
      * existence tests.
      * @param string $action One of the ACTION_* constants. Describes the
      * operation to perform.
+     * 
      * @return Query The query object.
      */
     protected function addWhere($name, $value, $action)
@@ -89,15 +98,17 @@ class Query
 
     /**
      * Creates a new query with an initial condition.
-     * @param string $name The name of the property to test
-     * @param string $value The value to test against. Not required for
+     * 
+     * @param string $name   The name of the property to test
+     * @param string $value  The value to test against. Not required for
      * existence tests.
      * @param string $action One of the ACTION_* constants. Describes the
      * operation to perform.
+     * 
      * @return Query The query object.
      */
-    public static function where($name, $value = null,
-                                 $action = self::ACTION_EXIST
+    public static function where(
+    $name, $value = null, $action = self::ACTION_EXIST
     )
     {
         $query = new self;
@@ -107,6 +118,7 @@ class Query
 
     /**
      * Negates the query.
+     * 
      * @return Query The query object.
      */
     public function not()
@@ -117,11 +129,13 @@ class Query
 
     /**
      * Adds a condition as an alternative to the query.
-     * @param string $name The name of the property to test
-     * @param string $value The value to test against. Not required for
+     * 
+     * @param string $name   The name of the property to test
+     * @param string $value  The value to test against. Not required for
      * existence tests.
      * @param string $action One of the ACTION_* constants. Describes the
      * operation to perform.
+     * 
      * @return Query The query object.
      */
     public function orWhere($name, $value = null, $action = self::ACTION_EXIST)
@@ -133,11 +147,13 @@ class Query
 
     /**
      * Adds a condition in addition to the query.
-     * @param string $name The name of the property to test
-     * @param string $value The value to test against. Not required for
+     * 
+     * @param string $name   The name of the property to test
+     * @param string $value  The value to test against. Not required for
      * existence tests.
      * @param string $action One of the ACTION_* constants. Describes the
      * operation to perform.
+     * 
      * @return Query The query object.
      */
     public function andWhere($name, $value = null, $action = self::ACTION_EXIST)
@@ -149,7 +165,9 @@ class Query
 
     /**
      * Sends the query over a communicator.
+     * 
      * @param Communicator $com The communicator to send the query over.
+     * 
      * @return int The number of bytes sent.
      */
     public function send(Communicator $com)

@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -25,8 +25,13 @@ namespace Net\RouterOS;
  * 
  * This is a convinience wrapper for socket functionality. Used to ensure data
  * integrity.
- * @package Net_RouterOS
- * @see Client
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
+ * @see      Client
  */
 class SocketClientTransmitter extends Transmitter
 {
@@ -43,17 +48,19 @@ class SocketClientTransmitter extends Transmitter
 
     /**
      * Creates a new connection with the specified options.
-     * @param string $host Hostname (IP or domain) of the RouterOS server.
-     * @param int $port The port on which the RouterOS server provides the API
-     * service.
-     * @param bool $persist Whether or not the connection should be a persistent
-     * one.
-     * @param float $timeout The timeout for the connection.
-     * @param string $key a string that uniquely identifies the connection.
+     * 
+     * @param string   $host    Hostname (IP or domain) of the RouterOS server.
+     * @param int      $port    The port on which the RouterOS server provides
+     * the API service.
+     * @param bool     $persist Whether or not the connection should be a
+     * persistent one.
+     * @param float    $timeout The timeout for the connection.
+     * @param string   $key     A string that uniquely identifies the
+     * connection.
      * @param resource $context A context for the socket.
      */
     public function __construct($host, $port = 8728, $persist = false,
-                                $timeout = null, $key = '', $context = null
+        $timeout = null, $key = '', $context = null
     )
     {
         $flags = STREAM_CLIENT_CONNECT;
@@ -89,6 +96,7 @@ class SocketClientTransmitter extends Transmitter
 
     /**
      * Checks whether there is data to be read from the socket.
+     * 
      * @return bool TRUE if there is data to be read, FALSE otherwise.
      */
     public function isDataAwaiting()
@@ -104,8 +112,10 @@ class SocketClientTransmitter extends Transmitter
      * Creates a new exception.
      * 
      * Creates a new exception. Used by the rest of the functions in this class.
+     * 
      * @param string $message The exception message.
-     * @param int $code The exception code.
+     * @param int    $code    The exception code.
+     * 
      * @return Exception The exception to then be thrown.
      */
     protected function createException($message, $code = 0)

@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -22,7 +22,12 @@ namespace Net\RouterOS;
 
 /**
  * Generic exception class of this package.
- * @package Net_RouterOS
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
  */
 class Exception extends \Exception
 {

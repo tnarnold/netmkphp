@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -22,7 +22,12 @@ namespace Net\RouterOS;
 
 /**
  * Represents a RouterOS message.
- * @package Net_RouterOS
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
  */
 abstract class Message
 {
@@ -40,7 +45,9 @@ abstract class Message
 
     /**
      * Sanitizes a name of an argument (message or query one).
+     * 
      * @param mixed $name The name to sanitize.
+     * 
      * @return string The sanitized name.
      */
     public static function sanitizeArgumentName($name)
@@ -58,7 +65,9 @@ abstract class Message
 
     /**
      * Sanitizes a value of an argument (message or query one).
+     * 
      * @param mixed $value The value to sanitize.
+     * 
      * @return string The sanitized value.
      */
     public static function sanitizeArgumentValue($value)
@@ -81,7 +90,9 @@ abstract class Message
      * 
      * Sets the tag to associate the message with. Setting NULL erases the
      * currently set tag.
+     * 
      * @param string $tag The tag to set.
+     * 
      * @return string The previously set tag.
      * @see getTag()
      */
@@ -94,6 +105,7 @@ abstract class Message
 
     /**
      * Gets the tag that the message is associated with.
+     * 
      * @return string The current tag or NULL if there isn't a tag.
      * @see setTag()
      */
@@ -104,9 +116,11 @@ abstract class Message
 
     /**
      * Sets an argument for the message.
-     * @param string $name Name of the argument.
+     * 
+     * @param string $name  Name of the argument.
      * @param string $value Value of the argument. Setting the value to NULL
      * removes an argument of this name.
+     * 
      * @return string The old value of the specified argument.
      * @see getArgument()
      */
@@ -116,15 +130,17 @@ abstract class Message
         if (null === $value) {
             unset($this->arguments[self::sanitizeArgumentName($name)]);
         } else {
-            $this->arguments[self::sanitizeArgumentName($name)] =
-                self::sanitizeArgumentValue($value);
+            $this->arguments[self::sanitizeArgumentName($name)]
+                = self::sanitizeArgumentValue($value);
         }
         return $oldArg;
     }
 
     /**
      * Gets the value of an argument.
+     * 
      * @param string $name The name of the argument.
+     * 
      * @return string|resource The value of the specified argument. Returns NULL
      * if such an argument is not set.
      * @see setArgument()
@@ -140,6 +156,7 @@ abstract class Message
 
     /**
      * Gets all arguments in an array.
+     * 
      * @return array An array with the keys as argument names, and the array
      * values as argument values.
      * @see getArgument()
@@ -152,7 +169,8 @@ abstract class Message
 
     /**
      * Removes all arguments from the message.
-     * @since 1.0.1
+     * 
+     * @return null
      */
     protected function removeAllArguments()
     {
