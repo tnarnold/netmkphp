@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.0.1"
+<package packagerversion="1.0.2"
     version="2.0"
     xmlns="http://pear.php.net/dtd/package-2.0"
     xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
@@ -19,10 +19,10 @@
         <email>boen.robot@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2011-09-01</date>
+    <date>2011-09-02</date>
     <version>
-        <release>1.0.1</release>
-        <api>1.0.1</api>
+        <release>1.0.2</release>
+        <api>1.0.2</api>
     </version>
     <stability>
         <release>stable</release>
@@ -30,22 +30,8 @@
     </stability>
     <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
     <notes>
-Channel change, more divisions and better fail handling. Package now has 100% code coverage.
-Uninstall the previous release with "pear uninstall pearhub/Net_RouterOS".
     </notes>
     <changelog>
-* Changed channel to pear.php.net.
-* Separated data integrity functions from Communicator into a new Transmitter class.
-* Separated socket creation and error handling into a new class SocketClientTransmitter.
-* Added the previously commented premature connection termination tests.
-* Added the removeAllArguments() method for Message and Request (+ a test for it).
-* Simplified login slightly.
-* Altered the PseudoServer slightly.
-* Created additional tests for length decoding which are no longer dependent on the PseudoServer.
-* Control byte test is no longer dependent on the PseudoServer.
-* Added the tutorial on Query.
-* Documentation fixes.
-* Source code reformatting.
     </changelog>
     <contents>
         <dir name="/">
@@ -53,73 +39,73 @@ Uninstall the previous release with "pear uninstall pearhub/Net_RouterOS".
                 <file name="Net/RouterOS/ArgumentException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Autoload.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Client.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Communicator.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/DataFlowException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$ to="version"/>
                 </file>
                 <file name="Net/RouterOS/Exception.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Message.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/SocketClientTransmitter.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/NotSupportedException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Query.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
 
                 </file>
                 <file name="Net/RouterOS/Request.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Response.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/SocketException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Transmitter.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
             </dir>
             <dir name="tests">
