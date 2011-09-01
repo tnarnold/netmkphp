@@ -246,7 +246,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
 
             $this->fail('Lengths above 0xFFFFFFF should not be supported.');
         } catch (NotSupportedException $e) {
-            $this->assertEquals(4, $e->getCode(), 'Improper exception thrown.');
+            $this->assertEquals(10, $e->getCode(), 'Improper exception thrown.');
         }
 
         //Clearing out for other tests.

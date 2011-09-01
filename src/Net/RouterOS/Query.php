@@ -154,10 +154,9 @@ class Query
      */
     public function send(Communicator $com)
     {
-        if (!$com->isSocketValid()) {
+        if (!$com->getTransmitter()->isAcceptingData()) {
             throw new SocketException(
-                'Socket is invalid. Sending aborted.',
-                209, null, $com
+                'Transmitter is invalid. Sending aborted.', 209
             );
         }
         $bytes = 0;

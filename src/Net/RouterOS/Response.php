@@ -52,9 +52,9 @@ class Response extends Message
      */
     public function __construct(Communicator $com, $asStream = false)
     {
-        if (!$com->isSocketValid()) {
+        if (!$com->getTransmitter()->isDataAwaiting()) {
             throw new SocketException(
-                'Socket is invalid. Receiving aborted.', 206
+                'No data awaiting. Receiving aborted.', 206
             );
         }
         $this->setType($com->getNextWord());
@@ -123,8 +123,8 @@ class Response extends Message
                 $this->_type = $type;
                 return $oldType;
             default:
-                throw new DataFlowException(
-                    "'{$type}' is not a recognized response type.", 207
+                throw new NotSupportedException(
+                    'Unrecognized response type.', 207, null, $type
                 );
         }
     }

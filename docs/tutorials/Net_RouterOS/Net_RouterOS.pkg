@@ -90,7 +90,7 @@ $client = new \Net\RouterOS\Client('example.com', 'admin');
 Declaring the \Net\RouterOS as your default namespace
                 <programlisting role="php">
 &lt;?php
-namespace \Net\RouterOS;
+namespace Net\RouterOS;
 include_once 'Net/RouterOS/Autoload.php';
 $client = new Client('example.com', 'admin');
 // Use the client here
@@ -101,7 +101,7 @@ $client = new Client('example.com', 'admin');
 Declaring the \Net\RouterOS as an aliased namespace
                 <programlisting role="php">
 &lt;?php
-use \Net\RouterOS as Ros;
+use Net\RouterOS as Ros;
 include_once 'Net/RouterOS/Autoload.php';
 $client = new Ros\Client('example.com', 'admin');
 // Use the client here
@@ -112,7 +112,7 @@ $client = new Ros\Client('example.com', 'admin');
 Declaring an alias of each class you intend to use directly.
                 <programlisting role="php">
 &lt;?php
-use \Net\RouterOS\Client as Ros;
+use Net\RouterOS\Client as Ros;
 include_once 'Net/RouterOS/Autoload.php';
 $client = new Ros('example.com', 'admin');
 // Use the client here

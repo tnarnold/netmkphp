@@ -97,7 +97,7 @@ class Client
                 $host, $port, $persist, $timeout, $username, $context
         );
         //Login the user if necessary
-        if ($this->com->isSocketFresh()) {
+        if ($this->com->getTransmitter()->isFresh()) {
             if (!self::login($this->com, $username, $password)) {
                 $this->com->close();
                 throw new DataFlowException(
@@ -132,8 +132,8 @@ class Client
             return $response->getType() === Response::TYPE_FINAL
                 && null === $response->getArgument('ret');
         } catch (Exception $e) {
-            throw ($e instanceof DataFlowException
-            || !$com->isSocketValid()) ? new SocketException(
+            throw ($e instanceof NotSupportedException
+            || !$com->getTransmitter()->isDataAwaiting()) ? new SocketException(
                     'This is not a compatible RouterOS service', 101, $e
                 ) : $e;
         }

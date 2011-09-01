@@ -175,9 +175,9 @@ class Request extends Message
      */
     public function send(Communicator $com)
     {
-        if (!$com->isSocketValid()) {
+        if (!$com->getTransmitter()->isAcceptingData()) {
             throw new SocketException(
-                'Socket is invalid. Sending aborted.', 205, null, $com
+                'Transmitter is invalid. Sending aborted.', 205
             );
         }
         $bytes = 0;

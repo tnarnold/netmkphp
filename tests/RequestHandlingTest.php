@@ -257,7 +257,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         try {
             Communicator::encodeLength($smallLength);
         } catch (NotSupportedException $e) {
-            $this->assertEquals(5, $e->getCode(),
+            $this->assertEquals(11, $e->getCode(),
                                 "Length '{$smallLength}' must not be encodable."
             );
             $this->assertEquals($smallLength, $e->getValue(),
@@ -268,7 +268,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         try {
             Communicator::encodeLength($largeLength);
         } catch (NotSupportedException $e) {
-            $this->assertEquals(6, $e->getCode(),
+            $this->assertEquals(12, $e->getCode(),
                                 "Length '{$largeLength}' must not be encodable."
             );
             $this->assertEquals($largeLength, $e->getValue(),
@@ -277,7 +277,165 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testControlByteException()
+    {
+//        try {
+//            $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
+//        } catch (\Exception $e) {
+//            $this->markTestSkipped('The testing server is not running.');
+//        }
+        $stream = fopen('php://temp', 'r+b');
+
+
+        $controlBytes = array(
+            0xF8,
+            0xF9,
+            0xFA,
+            0xFB,
+            0xFC,
+            0xFD,
+            0xFE,
+            0xFF
+        );
+        
+        foreach ($controlBytes as $controlByte) {
+            fwrite($stream, chr($controlByte));
+        }
+        rewind($stream);
+        $trans = new Transmitter($stream);
+        
+        foreach ($controlBytes as $controlByte) {
+            try {
+                Communicator::decodeLength($trans);
+            }catch(NotSupportedException $e) {
+                $this->assertEquals(
+                    13, $e->getCode(), 'Improper exception code.'
+                );
+                $this->assertEquals($controlByte, $e->getValue(),
+                                    'Improper exception value.'
+                );
+            }
+        }
+
+//        foreach ($controlBytes as $controlByte) {
+//            $com->sendWord(
+//                'c'
+//                . str_pad(
+//                    base_convert($controlByte, 10, 16), 9, '0', STR_PAD_RIGHT
+//                )
+//            );
+//            try {
+//                $response = $com->getNextWordAsStream();
+//            } catch (NotSupportedException $e) {
+//                $this->assertEquals(
+//                    9, $e->getCode(), 'Improper exception code.'
+//                );
+//                $this->assertEquals($controlByte, $e->getValue(),
+//                                    'Improper exception value.'
+//                );
+//            }
+//        }
+//
+//        $com->sendWord('q000000000');
+//        $com->close();
+        
+        
+    }
+
     public function testLengthDecoding()
+    {
+        $lengths = array(
+            chr(0) => 0,
+            chr(0x1) => 0x1,
+            chr(0x7E) => 0x7E,
+            chr(0x7F) => 0x7F,
+            chr(0x80) . chr(0x80) => 0x80,
+            chr(0x80) . chr(0x81) => 0x81,
+            chr(0xBF) . chr(0xFE) => 0x3FFE,
+            chr(0xBF) . chr(0xFF) => 0x3FFF,
+            chr(0xC0) . chr(0x40) . chr(0x00) => 0x4000,
+            chr(0xC0) . chr(0x40) . chr(0x01) => 0x4001,
+            chr(0xDF) . chr(0xFF) . chr(0xFE) => 0x1FFFFE,
+            chr(0xDF) . chr(0xFF) . chr(0xFF) => 0x1FFFFF,
+            chr(0xE0) . chr(0x20) . chr(0x00) . chr(0x00) => 0x200000,
+            chr(0xE0) . chr(0x20) . chr(0x00) . chr(0x01) => 0x200001,
+            chr(0xEF) . chr(0xFF) . chr(0xFF) . chr(0xFE) => 0xFFFFFFE,
+            chr(0xEF) . chr(0xFF) . chr(0xFF) . chr(0xFF) => 0xFFFFFFF,
+            chr(0xF0) . chr(0x10) . chr(0x00) . chr(0x00) . chr(0x00) =>
+            0x10000000,
+            chr(0xF0) . chr(0x10) . chr(0x00) . chr(0x00) . chr(0x01) =>
+            0x10000001,
+            chr(0xF0) . chr(0xFF) . chr(0xFF) . chr(0xFF) . chr(0xFE) =>
+            0xFFFFFFFE,
+            chr(0xF0) . chr(0xFF) . chr(0xFF) . chr(0xFF) . chr(0xFF) =>
+            0xFFFFFFFF,
+            chr(0xF1) . chr(0x00) . chr(0x00) . chr(0x00) . chr(0x00) =>
+            0x100000000,
+            chr(0xF1) . chr(0x00) . chr(0x00) . chr(0x00) . chr(0x01) =>
+            0x100000001,
+            chr(0xF7) . chr(0xFF) . chr(0xFF) . chr(0xFF) . chr(0xFE)
+            => 0x7FFFFFFFE,
+            chr(0xF7) . chr(0xFF) . chr(0xFF) . chr(0xFF) . chr(0xFF)
+            => 0x7FFFFFFFF
+        );
+        $stream = fopen('php://temp', 'r+b');
+        foreach ($lengths as $length) {
+            fwrite($stream, Communicator::encodeLength($length));
+        }
+        rewind($stream);
+        $trans = new Transmitter($stream);
+
+        foreach ($lengths as $length => $expected) {
+            $this->assertEquals($expected, Communicator::decodeLength($trans),
+                "{$length} is not properly decoded."
+            );
+        }
+    }
+    
+    public function testDefaultTransmitterException() {
+        try {
+            $trans = new Transmitter('invalid arg');
+            $this->fail('Transmitter initialization had to fail.'); 
+        }catch(Exception $e) {
+            $this->assertEquals(1, $e->getCode(), 'Improper exception code.');
+        }
+    }
+
+    public function testQuitMessage()
+    {
+        $com = new Communicator(HOSTNAME, PORT);
+        Client::login($com, USERNAME, PASSWORD);
+
+        $quitRequest = new Request('/quit');
+        $quitRequest->send($com);
+        $quitResponse = new Response($com);
+        $this->assertEquals(1, count($quitResponse->getUnrecognizedWords()),
+                                     'No message.'
+        );
+        $this->assertEquals(0, count($quitResponse->getAllArguments()),
+                                     'There should be no arguments.'
+        );
+        $com->close();
+    }
+
+    public function testQuitMessageStream()
+    {
+        $com = new Communicator(HOSTNAME, PORT);
+        Client::login($com, USERNAME, PASSWORD);
+
+        $quitRequest = new Request('/quit');
+        $quitRequest->send($com);
+        $quitResponse = new Response($com, true);
+        $this->assertEquals(1, count($quitResponse->getUnrecognizedWords()),
+                                     'No message.'
+        );
+        $this->assertEquals(0, count($quitResponse->getAllArguments()),
+                                     'There should be no arguments.'
+        );
+        $com->close();
+    }
+
+    public function testReceivingLargeWords()
     {
         try {
             $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
@@ -326,49 +484,6 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(
                 $length, $responseSize, 'Content mismatch!'
             );
-        }
-
-        $com->sendWord('q000000000');
-        $com->close();
-    }
-
-    public function testControlByteException()
-    {
-        try {
-            $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
-        } catch (\Exception $e) {
-            $this->markTestSkipped('The testing server is not running.');
-        }
-
-
-        $controlBytes = array(
-            0xF8,
-            0xF9,
-            0xFA,
-            0xFB,
-            0xFC,
-            0xFD,
-            0xFE,
-            0xFF
-        );
-
-        foreach ($controlBytes as $controlByte) {
-            $com->sendWord(
-                'c'
-                . str_pad(
-                    base_convert($controlByte, 10, 16), 9, '0', STR_PAD_RIGHT
-                )
-            );
-            try {
-                $response = $com->getNextWordAsStream();
-            } catch (NotSupportedException $e) {
-                $this->assertEquals(
-                    9, $e->getCode(), 'Improper exception code.'
-                );
-                $this->assertEquals($controlByte, $e->getValue(),
-                                    'Improper exception value.'
-                );
-            }
         }
 
         $com->sendWord('q000000000');
@@ -437,28 +552,11 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         $com->close();
     }
 
-    public function testIncompleteResponse()
-    {
-        try {
-            $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
-        } catch (\Exception $e) {
-            $this->markTestSkipped('The testing server is not running.');
-        }
-
-        $com->sendWord('i00000000f');
-        try {
-            $response = $com->getNextWordAsStream();
-            $this->fail('Receiving had to fail.');
-        } catch (SocketException $e) {
-            $this->assertEquals(11, $e->getCode(), 'Improper exception code.');
-        }
-    }
-
     public function testPrematureDisconnect()
     {
-        $this->markTestIncomplete(
-            'For some reason, termination is not detected in this scenario.'
-        );
+//        $this->markTestIncomplete(
+//            'For some reason, termination is not detected in this scenario.'
+//        );
         try {
             $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
         } catch (\Exception $e) {
@@ -470,126 +568,56 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             $com->sendWord(str_pad('t', 0xFFFFF, 't'));
             $this->fail('Sending had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(7, $e->getCode(), 'Improper exception code.');
+            $this->assertEquals(2, $e->getCode(), 'Improper exception code.');
         }
     }
 
     public function testPrematureDisconnectWithStream()
     {
-        $this->markTestIncomplete(
-            'For some reason, termination is not detected in this scenario.'
-        );
+//        $this->markTestIncomplete(
+//            'For some reason, termination is not detected in this scenario.'
+//        );
         try {
             $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
         } catch (\Exception $e) {
             $this->markTestSkipped('The testing server is not running.');
         }
 
-        $com->sendWord('p000ffffff');
+        $com->sendWord('p0000fffff');
         try {
             $stream = fopen('php://temp', 'r+b');
-            for ($written = 0, $length = 0xFFFFFF; 0 < $length;
-                    $length -= $written
-            ) {
-                $written = fwrite(
-                    $stream, str_pad('t', min(0xFFFFF, $length), 't')
-                );
-            }
+            fwrite($stream, str_pad('t', 0xFFFFF, 't'));
+//            for ($written = 0, $length = 0xFFFFFF; 0 < $length;
+//                    $length -= $written
+//            ) {
+//                $written = fwrite(
+//                    $stream, str_pad('t', min(0xFFFFF, $length), 't')
+//                );
+//            }
             rewind($stream);
             $com->sendWordFromStream('', $stream);
             $this->fail('Sending had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
+            $this->assertEquals(3, $e->getCode(), 'Improper exception code.');
         }
     }
 
-    public function testInvalidSocketOnClose()
+    public function testIncompleteResponse()
     {
         try {
-            $com = new Communicator(HOSTNAME, PORT);
-            Client::login($com, USERNAME, PASSWORD);
-
-            $com->close();
-            new Response($com);
+            $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
+        } catch (\Exception $e) {
+            $this->markTestSkipped('The testing server is not running.');
+        }
+        $oldTimeout = ini_set('default_socket_timeout', 2);
+        $com->sendWord('i00000000f');
+        try {
+            $response = $com->getNextWordAsStream();
+            ini_set('default_socket_timeout', $oldTimeout);
             $this->fail('Receiving had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(206, $e->getCode(), 'Improper exception code.');
-        }
-    }
-
-    public function testInvalidSocketOnReceive()
-    {
-        try {
-            $com = new Communicator(HOSTNAME, PORT);
-            Client::login($com, USERNAME, PASSWORD);
-
-            new Response($com);
-            $this->fail('Receiving had to fail.');
-        } catch (SocketException $e) {
-            $this->assertEquals(10, $e->getCode(), 'Improper exception code.');
-        }
-    }
-
-    public function testInvalidSocketOnStreamReceive()
-    {
-        try {
-            $com = new Communicator(HOSTNAME, PORT);
-            Client::login($com, USERNAME, PASSWORD);
-
-            new Response($com, true);
-            $this->fail('Receiving had to fail.');
-        } catch (SocketException $e) {
-            $this->assertEquals(10, $e->getCode(), 'Improper exception code.');
-        }
-    }
-
-    public function testQuitMessage()
-    {
-        $com = new Communicator(HOSTNAME, PORT);
-        Client::login($com, USERNAME, PASSWORD);
-
-        $quitRequest = new Request('/quit');
-        $quitRequest->send($com);
-        $quitResponse = new Response($com);
-        $this->assertEquals(1, count($quitResponse->getUnrecognizedWords()),
-                                     'No message.'
-        );
-        $this->assertEquals(0, count($quitResponse->getAllArguments()),
-                                     'There should be no arguments.'
-        );
-        $com->close();
-    }
-
-    public function testQuitMessageStream()
-    {
-        $com = new Communicator(HOSTNAME, PORT);
-        Client::login($com, USERNAME, PASSWORD);
-
-        $quitRequest = new Request('/quit');
-        $quitRequest->send($com);
-        $quitResponse = new Response($com, true);
-        $this->assertEquals(1, count($quitResponse->getUnrecognizedWords()),
-                                     'No message.'
-        );
-        $this->assertEquals(0, count($quitResponse->getAllArguments()),
-                                     'There should be no arguments.'
-        );
-        $com->close();
-    }
-
-    public function testInvalidQuerySending()
-    {
-        $com = new Communicator(HOSTNAME, PORT);
-        Client::login($com, USERNAME, PASSWORD);
-
-        $com->sendWord('/ip/arp/print');
-        $com->close();
-        try {
-            Query::where('address', HOSTNAME_INVALID)->send($com);
-            $com->sendWord('');
-            $this->fail('The query had to fail.');
-        } catch (SocketException $e) {
-            $this->assertEquals(209, $e->getCode(), 'Improper exception code.');
+            ini_set('default_socket_timeout', $oldTimeout);
+            $this->assertEquals(5, $e->getCode(), 'Improper exception code.');
         }
     }
 
