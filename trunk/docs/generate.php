@@ -46,6 +46,7 @@ $args = ' --examplesdir "' . $examplesDir
     . __FILE__
     . '" --target "' . $target
     . '" --title "Net_RouterOS Documentaion"'
+    . ' --defaultcategoryname "Net" --defaultpackagename "Net_RouterOS"'
     . ' --undocumentedelements --sourcecode "off"'
     . ' --output "HTML:frames:default,HTML:frames:l0l33t,HTML:frames:phpdoc.de,HTML:frames:phphtmllib,HTML:frames:DOM/default,HTML:frames:DOM/l0l33t,HTML:frames:DOM/phpdoc.de,HTML:frames:phpedit,HTML:Smarty:default,HTML:Smarty:HandS,HTML:Smarty:PHP,PDF:default:default,XML:DocBook/peardoc2:default,CHM:default:default"';
 

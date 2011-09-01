@@ -63,7 +63,7 @@ abstract class Message
      */
     public static function sanitizeArgumentValue($value)
     {
-        if (Communicator::isStream($value)) {
+        if (Transmitter::isStream($value)) {
             $meta = stream_get_meta_data($value);
             if ($meta['seekable']) {
                 return $value;

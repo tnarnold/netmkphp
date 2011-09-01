@@ -9,6 +9,12 @@
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
 >
+    <!--
+    convertErrorsToExceptions="false"
+    convertNoticesToExceptions="false"
+    convertWarningsToExceptions="false"
+>
+    -->
     <php>
         <!--
         The actual RouterOS machine and the port of the API service.
@@ -70,8 +76,7 @@
         The port for the preudo server.
         The preudo server is a small utility in the tests folder that needs to
         be started from the command line right before running the tests. It
-        tests esoteric features that can't be tested with current RouterOS
-        versions (but are present in the RouterOS API specification).
+        simulates harsh network conditions.
         
         The selected port must not be any of the ports above, and must not be in
         use by other applications or blocked by a local firewall application.

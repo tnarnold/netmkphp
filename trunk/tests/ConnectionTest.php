@@ -174,7 +174,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
                 . '" should be available.'
             );
         } catch (SocketException $e) {
-            $this->assertEquals(2, $e->getCode());
+            $this->assertEquals(7, $e->getCode());
             $this->assertEquals(10060, $e->getSocketErrorNumber());
         }
     }
@@ -203,7 +203,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
                 . '" should be available.'
             );
         } catch (SocketException $e) {
-            $this->assertEquals(2, $e->getCode());
+            $this->assertEquals(7, $e->getCode());
             $this->assertEquals(10061, $e->getSocketErrorNumber());
         }
     }
@@ -217,7 +217,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
 
             $this->fail('No proper connection should be available.');
         } catch (SocketException $e) {
-            $this->assertEquals(2, $e->getCode());
+            $this->assertEquals(7, $e->getCode());
         }
     }
 
@@ -230,7 +230,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
 
             $this->fail('No proper connection should be available.');
         } catch (SocketException $e) {
-            $this->assertEquals(1, $e->getCode());
+            $this->assertEquals(6, $e->getCode());
         }
     }
 
@@ -243,7 +243,63 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
 
             $this->fail('No proper connection should be available.');
         } catch (SocketException $e) {
-            $this->assertEquals(1, $e->getCode());
+            $this->assertEquals(6, $e->getCode());
+        }
+    }
+
+    public function testInvalidSocketOnClose()
+    {
+        try {
+            $com = new Communicator(HOSTNAME, PORT);
+            Client::login($com, USERNAME, PASSWORD);
+
+            $com->close();
+            new Response($com);
+            $this->fail('Receiving had to fail.');
+        } catch (SocketException $e) {
+            $this->assertEquals(206, $e->getCode(), 'Improper exception code.');
+        }
+    }
+
+    public function testInvalidSocketOnReceive()
+    {
+        try {
+            $com = new Communicator(HOSTNAME, PORT);
+            Client::login($com, USERNAME, PASSWORD);
+
+            new Response($com);
+            $this->fail('Receiving had to fail.');
+        } catch (SocketException $e) {
+            $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
+        }
+    }
+
+    public function testInvalidSocketOnStreamReceive()
+    {
+        try {
+            $com = new Communicator(HOSTNAME, PORT);
+            Client::login($com, USERNAME, PASSWORD);
+
+            new Response($com, true);
+            $this->fail('Receiving had to fail.');
+        } catch (SocketException $e) {
+            $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
+        }
+    }
+
+    public function testInvalidQuerySending()
+    {
+        $com = new Communicator(HOSTNAME, PORT);
+        Client::login($com, USERNAME, PASSWORD);
+
+        $com->sendWord('/ip/arp/print');
+        $com->close();
+        try {
+            Query::where('address', HOSTNAME_INVALID)->send($com);
+            $com->sendWord('');
+            $this->fail('The query had to fail.');
+        } catch (SocketException $e) {
+            $this->assertEquals(209, $e->getCode(), 'Improper exception code.');
         }
     }
 

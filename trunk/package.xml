@@ -10,7 +10,7 @@
     "
 >
     <name>Net_RouterOS</name>
-    <channel>pearhub.org</channel>
+    <channel>pear.php.net</channel>
     <summary>RouterOS API client implementation.</summary>
     <description>This package allows you to read and write information from a RouterOS host using MikroTik's RouterOS API.</description>
     <lead>
@@ -19,7 +19,7 @@
         <email>boen.robot@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2011-08-30</date>
+    <date>2011-09-01</date>
     <version>
         <release>1.0.1</release>
         <api>1.0.1</api>
@@ -29,15 +29,23 @@
         <api>stable</api>
     </stability>
     <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
-    <notes>Minor additions and fixes.</notes>
+    <notes>
+Channel change, more divisions and better fail handling. Package now has 100% code coverage.
+Uninstall the previous release with "pear uninstall pearhub/Net_RouterOS".
+    </notes>
     <changelog>
-* Source code formatting.
-* Documentation fixes.
-* Added the tutorial on Query.
+* Changed channel to pear.php.net.
+* Separated data integrity functions from Communicator into a new Transmitter class.
+* Separated socket creation and error handling into a new class NetworkTransmitter.
+* Added the previously commented premature connection termination tests.
+* Added the removeAllArguments() method for Message and Request (+ a test for it).
 * Simplified login slightly.
 * Altered the PseudoServer slightly.
-* Added the removeAllArguments() method for Message and Request (+ a test).
-* Added the previously commented connection tests as incomplete tests.
+* Created additional tests for length decoding which are no longer dependent on the PseudoServer.
+* Control byte test is no longer dependent on the PseudoServer.
+* Added the tutorial on Query.
+* Documentation fixes.
+* Source code reformatting.
     </changelog>
     <contents>
         <dir name="/">
@@ -77,6 +85,11 @@
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="~~version~~" to="version"/>
                 </file>
+                <file name="Net/RouterOS/SocketClientTransmitter.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
                 <file name="Net/RouterOS/NotSupportedException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
@@ -99,6 +112,11 @@
                     <tasks:replace type="package-info" from="~~version~~" to="version"/>
                 </file>
                 <file name="Net/RouterOS/SocketException.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="~~version~~" to="version"/>
+                </file>
+                <file name="Net/RouterOS/Transmitter.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="~~version~~" to="version"/>
@@ -169,6 +187,10 @@
                 as="Net/RouterOS/Message.php"
             />
             <install
+                name="src/Net/RouterOS/SocketClientTransmitter.php"
+                as="Net/RouterOS/SocketClientTransmitter.php"
+            />
+            <install
                 name="src/Net/RouterOS/NotSupportedException.php"
                 as="Net/RouterOS/NotSupportedException.php"
             />
@@ -187,6 +209,10 @@
             <install
                 name="src/Net/RouterOS/SocketException.php"
                 as="Net/RouterOS/SocketException.php"
+            />
+            <install
+                name="src/Net/RouterOS/Transmitter.php"
+                as="Net/RouterOS/Transmitter.php"
             />
             
             <install

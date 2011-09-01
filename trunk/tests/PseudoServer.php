@@ -61,7 +61,7 @@ define('PSEUDO_SERVER_CONNECTION_TIMEOUT', 2
     * 60//m
     * 60//h
 );
-while ($conn = @stream_socket_accept($socket, 120, $peername)) {
+while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
     //stream_set_blocking($conn, 1);
     $hostPortCombo = explode(':', $peername);
     if ($hostPortCombo[0] === '127.0.0.1') {
@@ -260,6 +260,7 @@ while ($conn = @stream_socket_accept($socket, 120, $peername)) {
                             echo "{$bytesReceived} bytes received in total for this request.\n";
                         }
                     }
+                    //sleep(5);
                     break;
                 }
                 echo "Done dealing with request {$rq}.\n";
