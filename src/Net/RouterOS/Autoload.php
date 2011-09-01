@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -24,9 +24,12 @@ namespace Net\RouterOS;
  * Loads a specified class.
  * 
  * Loads a specified class from the namespace.
+ * 
  * @param string $class The classname (with namespace) to load.
+ * 
+ * @return null
  */
-function Autoload($class)
+function autoload($class)
 {
     $namespace = __NAMESPACE__ . '\\';
     if (strpos($class, $namespace) === 0) {
@@ -41,4 +44,4 @@ function Autoload($class)
     }
 }
 
-spl_autoload_register(__NAMESPACE__ . '\Autoload', true);
+spl_autoload_register(__NAMESPACE__ . '\autoload', true);

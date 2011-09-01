@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -22,7 +22,12 @@ namespace Net\RouterOS;
 
 /**
  * Represents a RouterOS response.
- * @package Net_RouterOS
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
  */
 class Response extends Message
 {
@@ -43,10 +48,12 @@ class Response extends Message
 
     /**
      * Extracts a new response from a communicator.
-     * @param Communicator $com The communicator from which to extract the new
-     * response.
-     * @param bool $asStream Whether to populate the argument values with
-     * streams instead of strings.
+     * 
+     * @param Communicator $com      The communicator from which to extract the
+     * new response.
+     * @param bool         $asStream Whether to populate the argument values
+     * with streams instead of strings.
+     * 
      * @see getType()
      * @see getArgument()
      */
@@ -63,7 +70,7 @@ class Response extends Message
             $word = $com->getNextWordAsStream(), fseek($word, 0, SEEK_END);
                     ftell($word) !== 0;
                     $word = $com->getNextWordAsStream(), fseek($word, 0,
-                                                               SEEK_END)
+                    SEEK_END)
             ) {
                 rewind($word);
                 $ind = fread($word, 1);
@@ -108,7 +115,9 @@ class Response extends Message
      * Sets the response type.
      * 
      * Sets the response type. Valid values are the TYPE_* constants.
+     * 
      * @param string $type The new response type.
+     * 
      * @return string The previously set response type.
      * @see getType()
      */
@@ -131,6 +140,7 @@ class Response extends Message
 
     /**
      * Gets the response type.
+     * 
      * @return string The response type.
      * @see setType()
      */
@@ -141,6 +151,7 @@ class Response extends Message
 
     /**
      * Gets a list of unrecognized words.
+     * 
      * @return array The list of unrecognized words.
      */
     public function getUnrecognizedWords()

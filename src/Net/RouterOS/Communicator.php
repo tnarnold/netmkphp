@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -27,8 +27,13 @@ namespace Net\RouterOS;
  * package, this class doesn't provide any conviniences beyond the low level
  * implementation details (automatic word length encoding/decoding and data
  * integrity), and because of that, its direct usage is strongly discouraged.
- * @package Net_RouterOS
- * @see Client
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
+ * @see      Client
  */
 class Communicator
 {
@@ -40,18 +45,21 @@ class Communicator
 
     /**
      * Creates a new connection with the specified options.
-     * @param string $host Hostname (IP or domain) of the RouterOS server.
-     * @param int $port The port on which the RouterOS server provides the API
-     * service.
-     * @param bool $persist Whether or not the connection should be a persistent
-     * one.
-     * @param float $timeout The timeout for the connection.
-     * @param string $key a string that uniquely identifies the connection.
+     * 
+     * @param string   $host    Hostname (IP or domain) of the RouterOS server.
+     * @param int      $port    The port on which the RouterOS server provides
+     * the API service.
+     * @param bool     $persist Whether or not the connection should be a
+     * persistent one.
+     * @param float    $timeout The timeout for the connection.
+     * @param string   $key     A string that uniquely identifies the
+     * connection.
      * @param resource $context A context for the socket.
+     * 
      * @see sendWord()
      */
     public function __construct($host, $port = 8728, $persist = false,
-                                $timeout = null, $key = '', $context = null
+        $timeout = null, $key = '', $context = null
     )
     {
         $this->trans = new SocketClientTransmitter(
@@ -61,6 +69,7 @@ class Communicator
 
     /**
      * Gets the transmitter for this connection.
+     * 
      * @return SocketClientTransmitter The transmitter for this connection.
      */
     public function getTransmitter()
@@ -72,7 +81,9 @@ class Communicator
      * Sends a word.
      * 
      * Sends a word and automatically encodes its length when doing so.
+     * 
      * @param string $word The word to send.
+     * 
      * @return int The number of bytes sent.
      * @see sendWordFromStream()
      * @see getNextWord()
@@ -91,8 +102,10 @@ class Communicator
      * doing so. The stream is read from its current position to its end, and
      * then returned to its current position. Because of those operations, the
      * supplied stream must be seekable.
-     * @param string $prefix A string to prepend before the stream contents.
+     * 
+     * @param string   $prefix A string to prepend before the stream contents.
      * @param resource $stream The stream to send.
+     * 
      * @return int The number of bytes sent.
      * @see sendWord()
      */
@@ -121,7 +134,10 @@ class Communicator
      * {@link NotSupportedException} if that's not the case. Currently, RouterOS
      * supports words up to 0xFFFFFFF in length, so that's the only check
      * performed.
+     * 
      * @param int $length The length to verify.
+     * 
+     * @return null
      */
     protected static function verifyLengthSupport($length)
     {
@@ -135,7 +151,9 @@ class Communicator
 
     /**
      * Encodes the length as requred by the RouterOS API.
+     * 
      * @param int $length The length to encode
+     * 
      * @return string The encoded length
      */
     public static function encodeLength($length)
@@ -170,6 +188,7 @@ class Communicator
      * 
      * Get the next word in queue as a string, after automatically decoding its
      * length.
+     * 
      * @return string The word.
      * @see close()
      */
@@ -183,13 +202,14 @@ class Communicator
      * 
      * Get the next word in queue as a stream, after automatically decoding its
      * length.
+     * 
      * @return resource The word, as a stream.
      * @see close()
      */
     public function getNextWordAsStream()
     {
-        return $this->trans->receiveStream(self::decodeLength($this->trans),
-                                                              'stream word'
+        return $this->trans->receiveStream(
+                self::decodeLength($this->trans), 'stream word'
         );
     }
 
@@ -198,8 +218,10 @@ class Communicator
      * 
      * Decodes the lenght of the incoming message, as specified by the RouterOS
      * API.
+     * 
      * @param Transmitter $trans The transmitter from which to decode the length
      * of the incoming message.
+     * 
      * @return int The decoded length
      */
     public static function decodeLength(Transmitter $trans)
@@ -229,6 +251,7 @@ class Communicator
 
     /**
      * Closes the opened connection, even if it is a persistent one.
+     * 
      * @return bool TRUE on success, FALSE on failure.
      */
     public function close()

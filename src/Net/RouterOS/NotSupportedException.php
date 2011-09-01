@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -23,7 +23,12 @@ namespace Net\RouterOS;
 /**
  * Exception thrown when encountering something not supported by RouterOS or
  * this package.
- * @package Net_RouterOS
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
  */
 class NotSupportedException extends Exception
 {
@@ -36,14 +41,15 @@ class NotSupportedException extends Exception
 
     /**
      * Creates a new NotSupportedException.
-     * @param string $message The Exception message to throw.
-     * @param int $code The Exception code.
+     * 
+     * @param string    $message  The Exception message to throw.
+     * @param int       $code     The Exception code.
      * @param Exception $previous The previous exception used for the exception
      * chaining.
-     * @param mixed $value The unsupported value.
+     * @param mixed     $value    The unsupported value.
      */
-    public function __construct($message, $code = 0, $previous = null,
-                                $value = null
+    public function __construct(
+    $message, $code = 0, $previous = null, $value = null
     )
     {
         parent::__construct($message, $code, $previous);
@@ -52,6 +58,7 @@ class NotSupportedException extends Exception
 
     /**
      * Gets the unsupported value.
+     * 
      * @return mixed The unsupported value.
      */
     public function getValue()
@@ -64,6 +71,7 @@ class NotSupportedException extends Exception
 
     /**
      * Returns a string representation of the exception.
+     * 
      * @return string The exception as a string.
      */
     public function __toString()

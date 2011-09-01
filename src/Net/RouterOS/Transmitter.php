@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -26,8 +26,13 @@ namespace Net\RouterOS;
  * This is a convinience wrapper for stream functionality. Used to ensure data
  * integrity. Designed for sockets, but it has intentionally been made to accept
  * any stream.
- * @package Net_RouterOS
- * @see Client
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
+ * @see      Client
  */
 class Transmitter
 {
@@ -44,7 +49,9 @@ class Transmitter
 
     /**
      * Wraps around the specified stream.
+     * 
      * @param resource $stream The stream to wrap around.
+     * 
      * @see isFresh()
      */
     public function __construct($stream)
@@ -60,7 +67,9 @@ class Transmitter
 
     /**
      * Checks if a given variable is a stream resource.
+     * 
      * @param mixed $var The variable to check.
+     * 
      * @return bool TRUE on success, FALSE on failure.
      */
     public static function isStream($var)
@@ -75,6 +84,7 @@ class Transmitter
      * Checks whether the wrapped stream is fresh. A stream is considered fresh
      * if there hasn't been any activity on it. Particularly useful for
      * detecting reused persistent connections.
+     * 
      * @return bool TRUE if the socket is fresh, FALSE otherwise.
      */
     public function isFresh()
@@ -84,7 +94,9 @@ class Transmitter
 
     /**
      * Sends a string over the wrapped stream.
+     * 
      * @param string $string The string to send.
+     * 
      * @return int The number of bytes sent.
      */
     public function send($string)
@@ -110,7 +122,9 @@ class Transmitter
 
     /**
      * Sends a stream over the wrapped stream.
+     * 
      * @param resource $stream The stream to send.
+     * 
      * @return int The number of bytes sent.
      */
     public function sendStream($stream)
@@ -138,9 +152,11 @@ class Transmitter
      * Reads from the wrapped stream to receive.
      * 
      * Reads from the wrapped stream to receive content as a string.
-     * @param int $length The number of bytes to read.
-     * @param string $what Descriptive string about what is being received (used
-     * in exception messages).
+     * 
+     * @param int    $length The number of bytes to read.
+     * @param string $what   Descriptive string about what is being received
+     * (used in exception messages).
+     * 
      * @return string The received content.
      */
     public function receive($length, $what = 'data')
@@ -168,9 +184,11 @@ class Transmitter
      * Reads from the wrapped stream to receive.
      * 
      * Reads from the wrapped stream to receive content as a stream.
-     * @param int $length The number of bytes to read.
-     * @param string $what Descriptive string about what is being received (used
+     * 
+     * @param int    $length The number of bytes to read.
+     * @param string $what   Descriptive string about what is being received (used
      * in exception messages).
+     * 
      * @return resource The received content.
      */
     public function receiveStream($length, $what = 'stream data')
@@ -197,6 +215,7 @@ class Transmitter
 
     /**
      * Checks whether the stream is available for operations.
+     * 
      * @return bool TRUE if the stream is available, FALSE otherwise.
      */
     public function isAvailable()
@@ -206,6 +225,7 @@ class Transmitter
 
     /**
      * Checks whether there is data to be read from the wrapped stream.
+     * 
      * @return bool TRUE if there is data to be read, FALSE otherwise.
      */
     public function isDataAwaiting()
@@ -215,6 +235,7 @@ class Transmitter
 
     /**
      * Checks whether the wrapped stream can be written to without a block.
+     * 
      * @return bool TRUE if the wrapped stream would not block on a write, FALSE
      * otherwise.
      */
@@ -231,8 +252,10 @@ class Transmitter
      * 
      * Creates a new exception. Used by the rest of the functions in this class.
      * Override in derived classes for custom exception handling.
+     * 
      * @param string $message The exception message.
-     * @param int $code The exception code.
+     * @param int    $code    The exception code.
+     * 
      * @return Exception The exception to then be thrown.
      */
     protected function createException($message, $code = 0)
@@ -252,6 +275,7 @@ class Transmitter
 
     /**
      * Closes the opened stream, even if it is a persistent one.
+     * 
      * @return bool TRUE on success, FALSE on failure.
      */
     public function close()

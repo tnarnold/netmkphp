@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -22,7 +22,12 @@ namespace Net\RouterOS;
 
 /**
  * Represents a RouterOS request.
- * @package Net_RouterOS
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
  */
 class Request extends Message
 {
@@ -39,7 +44,9 @@ class Request extends Message
 
     /**
      * Creates a request to send to RouterOS.
+     * 
      * @param string $command The command to send.
+     * 
      * @see setCommand()
      * @see setArgument()
      * @see setTag()
@@ -55,7 +62,9 @@ class Request extends Message
      * Sets the command to send to RouterOS. The command can use the API or CLI
      * syntax of RouterOS, but either way, it must be absolute (begin  with a
      * "/") and without arguments.
+     * 
      * @param string $command The command to send.
+     * 
      * @return string The previously set command.
      * @see getCommand()
      * @see setArgument()
@@ -98,6 +107,7 @@ class Request extends Message
      * Gets the command that will be send to RouterOS.
      * 
      * Gets the command that will be send to RouterOS in its API syntax.
+     * 
      * @return string The command to send.
      * @see setCommand()
      */
@@ -108,8 +118,10 @@ class Request extends Message
 
     /**
      * Sets the query to send with the command.
+     * 
      * @param Query $query The query to be set. Setting NULL will remove the
      * currently associated query.
+     * 
      * @return Query The previously set query.
      * @see getQuery()
      */
@@ -122,6 +134,7 @@ class Request extends Message
 
     /**
      * Gets the currently associated query
+     * 
      * @return Query The currently associated query.
      * @see setQuery()
      */
@@ -135,7 +148,9 @@ class Request extends Message
      * 
      * Sets the tag to associate the request with. Setting NULL erases the
      * currently set tag.
+     * 
      * @param string $tag The tag to set.
+     * 
      * @return string The previously set tag.
      * @see getTag()
      */
@@ -146,9 +161,11 @@ class Request extends Message
 
     /**
      * Sets an argument for the request.
-     * @param string $name Name of the argument.
+     * 
+     * @param string $name  Name of the argument.
      * @param string $value Value of the argument. Setting the value to NULL
      * removes an argument of this name.
+     * 
      * @return string The old value of the specified argument.
      * @see getArgument()
      */
@@ -159,6 +176,8 @@ class Request extends Message
 
     /**
      * Removes all arguments from the request.
+     * 
+     * @return null
      */
     public function removeAllArguments()
     {
@@ -167,7 +186,9 @@ class Request extends Message
 
     /**
      * Sends a request over a communicator.
+     * 
      * @param Communicator $com The communicator to send the request over.
+     * 
      * @return int The number of bytes sent.
      * @see Client::sendSync()
      * @see Client::sendAsync()

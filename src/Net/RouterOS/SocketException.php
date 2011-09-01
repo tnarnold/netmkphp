@@ -7,13 +7,13 @@
  * 
  * PHP version 5
  * 
- * @link http://netrouteros.sourceforge.net/
- * @category Net
- * @package Net_RouterOS
- * @version ~~version~~
- * @author Vasil Rangelov <boen.robot@gmail.com>
- * @license http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @category  Net
+ * @package   Net_RouterOS
+ * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
+ * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @version   SVN: $Revision$
+ * @link      http://netrouteros.sourceforge.net/
  */
 /**
  * The namespace declaration.
@@ -22,7 +22,12 @@ namespace Net\RouterOS;
 
 /**
  * Exception thrown when something goes wrong with the connection.
- * @package Net_RouterOS
+ * 
+ * @category Net
+ * @package  Net_RouterOS
+ * @author   Vasil Rangelov <boen.robot@gmail.com>
+ * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
+ * @link     http://netrouteros.sourceforge.net/
  */
 class SocketException extends Exception
 {
@@ -39,16 +44,17 @@ class SocketException extends Exception
 
     /**
      * Creates a new socket exception.
-     * @param string $message The Exception message to throw.
-     * @param int $code The Exception code.
-     * @param Exception $previous The previous exception used for the exception
+     * 
+     * @param string    $message   The Exception message to throw.
+     * @param int       $code      The Exception code.
+     * @param Exception $previous  The previous exception used for the exception
      * chaining.
-     * @param int $error_no If provided, holds the system level error number
-     * that occurred in the system-level connect() call.
-     * @param string $error_str The error message as a string.
+     * @param int       $error_no  If provided, holds the system level error
+     * number that occurred in the system-level connect() call.
+     * @param string    $error_str The error message as a string.
      */
     public function __construct($message = '', $code = 0, $previous = null,
-                                $error_no = null, $error_str = null
+        $error_no = null, $error_str = null
     )
     {
         parent::__construct($message, $code, $previous);
@@ -58,6 +64,7 @@ class SocketException extends Exception
 
     /**
      * Gets the error code of the last error on the socket.
+     * 
      * @return int NULL if none was provided or the number itself.  
      */
     public function getSocketErrorNumber()
@@ -70,6 +77,7 @@ class SocketException extends Exception
 
     /**
      * Gets the error message of the last error on the socket.
+     * 
      * @return string The error message.
      */
     public function getSocketErrorMessage()
@@ -79,6 +87,7 @@ class SocketException extends Exception
 
     /**
      * Returns a string representation of the exception.
+     * 
      * @return string The exception as a string.
      */
     public function __toString()
