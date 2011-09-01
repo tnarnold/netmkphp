@@ -36,7 +36,7 @@ Uninstall the previous release with "pear uninstall pearhub/Net_RouterOS".
     <changelog>
 * Changed channel to pear.php.net.
 * Separated data integrity functions from Communicator into a new Transmitter class.
-* Separated socket creation and error handling into a new class NetworkTransmitter.
+* Separated socket creation and error handling into a new class SocketClientTransmitter.
 * Added the previously commented premature connection termination tests.
 * Added the removeAllArguments() method for Message and Request (+ a test for it).
 * Simplified login slightly.
