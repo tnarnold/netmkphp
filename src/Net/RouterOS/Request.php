@@ -159,7 +159,6 @@ class Request extends Message
 
     /**
      * Removes all arguments from the request.
-     * @since 1.0.1
      */
     public function removeAllArguments()
     {
