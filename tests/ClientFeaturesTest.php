@@ -32,7 +32,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         $list = $this->object->sendSync(new Request('/ip/arp/print'));
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertInternalType('string', $list[0]->getArgument('address'),
-                                                                  'The address is not a string'
+            'The address is not a string'
         );
     }
 
@@ -44,7 +44,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         $list = $this->object->sendSync(new Request('/ip/arp/print'));
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertInternalType('resource', $list[0]->getArgument('address'),
-                                                                    'The address is not a stream'
+            'The address is not a stream'
         );
     }
 
@@ -141,7 +141,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
     public function testInvalidCancel()
     {
         $this->assertEquals(0, $this->object->getPendingRequestsCount(),
-                            'There should be no active requests.'
+            'There should be no active requests.'
         );
         try {
             $this->object->cancelRequest('ping1');
@@ -149,7 +149,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(105, $e->getCode(), 'Improper exception code.');
         }
         $this->assertEquals(0, $this->object->getPendingRequestsCount(),
-                            'There should be no active requests.'
+            'There should be no active requests.'
         );
     }
 
@@ -164,7 +164,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         $this->object->sendAsync($ping);
         $this->object->sendAsync($ping2);
         $this->assertEquals(2, $this->object->getPendingRequestsCount(),
-                            'Improper active request count before cancel test.'
+            'Improper active request count before cancel test.'
         );
         $this->object->loop(2);
         try {
@@ -173,7 +173,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(105, $e->getCode(), 'Improper exception code.');
         }
         $this->assertEquals(2, $this->object->getPendingRequestsCount(),
-                            'Improper active request count after cancel test.'
+            'Improper active request count after cancel test.'
         );
     }
 
@@ -188,13 +188,13 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         $this->object->sendAsync($ping);
         $this->object->sendAsync($ping2);
         $this->assertEquals(2, $this->object->getPendingRequestsCount(),
-                            'Improper active request count before cancel test.'
+            'Improper active request count before cancel test.'
         );
         $this->object->loop(2);
         $responses = $this->object->extractNewResponses();
 
         $this->assertEquals(2, $this->object->getPendingRequestsCount(),
-                            'Improper active request count after cancel test.'
+            'Improper active request count after cancel test.'
         );
 
         $hasPing1 = false;
@@ -252,8 +252,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
             "No responses for '" . HOSTNAME . "' in 2 seconds."
         );
         $this->assertEquals($finalRepliesCount + 1/* The !trap */,
-                            $repliesCount,
-                            "Extra callbacks were executed during second loop."
+            $repliesCount, "Extra callbacks were executed during second loop."
         );
     }
 
@@ -287,7 +286,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
 
         $this->object->loop();
         $this->assertEquals($limit + 1/* The !trap */, $repliesCount,
-                            "Extra callbacks were executed during second loop."
+            "Extra callbacks were executed during second loop."
         );
     }
 
@@ -415,7 +414,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertInternalType(
             'resource', $replies[0]->getArgument('address'),
-                                                 'The address is not a stream'
+            'The address is not a stream'
         );
     }
 
@@ -472,7 +471,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         $request = new Request('/queue/simple/print');
 
         $request->setQuery(Query::where('target-addresses',
-                                        HOSTNAME_INVALID . '/32'));
+                HOSTNAME_INVALID . '/32'));
 
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $list);
@@ -485,11 +484,11 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
             $streamListArgs = $streamList[$index]->getAllArguments();
             foreach ($response->getAllArguments() as $argName => $value) {
                 $this->assertArrayHasKey($argName, $streamListArgs,
-                                         'Missing argument.'
+                    'Missing argument.'
                 );
                 $this->assertEquals($value,
-                                    stream_get_contents($streamListArgs[$argName]),
-                                                        'Argument values are not equivalent.'
+                    stream_get_contents($streamListArgs[$argName]),
+                    'Argument values are not equivalent.'
                 );
                 unset($streamListArgs[$argName]);
             }
@@ -502,20 +501,19 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         $request = new Request('/queue/simple/print');
 
         $request->setQuery(Query::where('target-addresses',
-                                        HOSTNAME_INVALID . '/32'));
+                HOSTNAME_INVALID . '/32'));
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(
             2, count($list),
-                     'The list should have only one item and a "done" reply.');
+            'The list should have only one item and a "done" reply.');
 
         $request->setQuery(Query::where('target-addresses',
-                                        HOSTNAME_INVALID . '/32',
-                                        Query::ACTION_EQUALS));
+                HOSTNAME_INVALID . '/32', Query::ACTION_EQUALS));
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(
             2, count($list),
-                     'The list should have only one item and a "done" reply.'
+            'The list should have only one item and a "done" reply.'
         );
 
         $invalidAddressStream = fopen('php://temp', 'r+b');
@@ -523,21 +521,20 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         rewind($invalidAddressStream);
 
         $request->setQuery(Query::where('target-addresses',
-                                        $invalidAddressStream));
+                $invalidAddressStream));
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(
             2, count($list),
-                     'The list should have only one item and a "done" reply.'
+            'The list should have only one item and a "done" reply.'
         );
 
         $request->setQuery(Query::where('target-addresses',
-                                        $invalidAddressStream,
-                                        Query::ACTION_EQUALS));
+                $invalidAddressStream, Query::ACTION_EQUALS));
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(
             2, count($list),
-                     'The list should have only one item and a "done" reply.'
+            'The list should have only one item and a "done" reply.'
         );
     }
 
@@ -547,21 +544,20 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         $fullList = $this->object->sendSync($request);
 
         $request->setQuery(Query::where('target-addresses',
-                                        HOSTNAME_INVALID . '/32')->not());
+                HOSTNAME_INVALID . '/32')->not());
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $fullList,
-                                  'The full list is not an array');
+            'The full list is not an array');
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(
             count($fullList) - 1, count($list), 'The list was never filtered.'
         );
 
         $request->setQuery(Query::where('target-addresses',
-                                        HOSTNAME_INVALID . '/32',
-                                        Query::ACTION_EQUALS)->not());
+                HOSTNAME_INVALID . '/32', Query::ACTION_EQUALS)->not());
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $fullList,
-                                  'The full list is not an array');
+            'The full list is not an array');
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(
             count($fullList) - 1, count($list), 'The list was never filtered.'
@@ -572,21 +568,20 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         rewind($invalidAddressStream);
 
         $request->setQuery(Query::where('target-addresses',
-                                        $invalidAddressStream)->not());
+                $invalidAddressStream)->not());
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $fullList,
-                                  'The full list is not an array');
+            'The full list is not an array');
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(
             count($fullList) - 1, count($list), 'The list was never filtered.'
         );
 
         $request->setQuery(Query::where('target-addresses',
-                                        $invalidAddressStream,
-                                        Query::ACTION_EQUALS)->not());
+                $invalidAddressStream, Query::ACTION_EQUALS)->not());
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $fullList,
-                                  'The full list is not an array');
+            'The full list is not an array');
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(
             count($fullList) - 1, count($list), 'The list was never filtered.'
@@ -604,7 +599,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         );
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $fullList,
-                                  'The full list is not an array');
+            'The full list is not an array');
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(3, count($list), 'The list was never filtered.');
 
@@ -622,7 +617,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         );
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $fullList,
-                                  'The full list is not an array');
+            'The full list is not an array');
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(3, count($list), 'The list was never filtered.');
     }
@@ -639,7 +634,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         );
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $fullList,
-                                  'The full list is not an array');
+            'The full list is not an array');
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(
             count($fullList) - 2, count($list), 'The list was never filtered.'
@@ -660,7 +655,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         );
         $list = $this->object->sendSync($request);
         $this->assertInternalType('array', $fullList,
-                                  'The full list is not an array');
+            'The full list is not an array');
         $this->assertInternalType('array', $list, 'The list is not an array');
         $this->assertEquals(
             count($fullList) - 2, count($list), 'The list was never filtered.'

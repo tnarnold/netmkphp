@@ -48,7 +48,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
             $userRequest->setArgument('name', TEST_QUEUE_NAME);
             $response = $routerOS2->sendSync($userRequest);
             $this->assertInstanceOf(__NAMESPACE__ . '\Response', $response,
-                                    'Response should be one.'
+                'Response should be one.'
             );
             if ($response instanceof Response
                 && $response->getType() === Response::TYPE_FINAL
@@ -57,7 +57,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
                 $removeRequest->setArgument('numbers', TEST_QUEUE_NAME);
                 $response = $routerOS2->sendSync($removeRequest);
                 $this->assertInstanceOf(__NAMESPACE__ . '\Response', $response,
-                                        'Response should be one.'
+                    'Response should be one.'
                 );
             }
 
@@ -74,7 +74,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
         $userRequest->setArgument('name', TEST_QUEUE_NAME);
         $response = $this->object->sendSync($userRequest);
         $this->assertInstanceOf(__NAMESPACE__ . '\Response', $response,
-                                'Response should be one.'
+            'Response should be one.'
         );
         if ($response instanceof Response
             && $response->getType() === Response::TYPE_FINAL
@@ -83,7 +83,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
             $removeRequest->setArgument('numbers', TEST_QUEUE_NAME);
             $response = $this->object->sendSync($removeRequest);
             $this->assertInstanceOf(__NAMESPACE__ . '\Response', $response,
-                                    'Response should be one.'
+                'Response should be one.'
             );
         }
     }
@@ -106,7 +106,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
         $addRequest->setArgument('comment', $comment);
         $response = $this->object->sendSync($addRequest);
         $this->assertInstanceOf(__NAMESPACE__ . '\Response', $response,
-                                'Response should be one.');
+            'Response should be one.');
         if ($response instanceof Response
             && $response->getType() === Response::TYPE_FINAL
         ) {
@@ -115,7 +115,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
             $removeRequest->setArgument('numbers', TEST_QUEUE_NAME);
             $response = $this->object->sendSync($removeRequest);
             $this->assertInstanceOf(__NAMESPACE__ . '\Response', $response,
-                                    'Response should be one.');
+                'Response should be one.');
         }
     }
 
@@ -151,7 +151,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
             $addRequest->setArgument('comment', $comment);
             $response = $this->object->sendSync($addRequest);
             $this->assertInstanceOf(__NAMESPACE__ . '\Response', $response,
-                                    'Response should be one.');
+                'Response should be one.');
             if ($response instanceof Response
                 && $response->getType() === Response::TYPE_FINAL
             ) {
@@ -160,7 +160,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
                 $removeRequest->setArgument('numbers', TEST_QUEUE_NAME);
                 $response = $this->object->sendSync($removeRequest);
                 $this->assertInstanceOf(__NAMESPACE__ . '\Response', $response,
-                                        'Response should be one.');
+                    'Response should be one.');
             }
         }
     }
@@ -188,7 +188,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
         } else {
             $comment = fopen('php://temp', 'r+b');
             fwrite($comment,
-                   str_pad('t', 0x200000 - strlen('=comment=') + 1, 't')
+                str_pad('t', 0x200000 - strlen('=comment=') + 1, 't')
             );
             rewind($comment);
 
@@ -197,7 +197,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
             $addRequest->setArgument('comment', $comment);
             $response = $this->object->sendSync($addRequest);
             $this->assertInstanceOf(__NAMESPACE__ . '\Response', $response,
-                                    'Response should be one.');
+                'Response should be one.');
             if ($response instanceof Response
                 && $response->getType() === Response::TYPE_FINAL
             ) {
@@ -206,7 +206,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
                 $removeRequest->setArgument('numbers', TEST_QUEUE_NAME);
                 $response = $this->object->sendSync($removeRequest);
                 $this->assertInstanceOf(__NAMESPACE__ . '\Response', $response,
-                                        'Response should be one.');
+                    'Response should be one.');
             }
         }
     }
@@ -223,7 +223,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
                 fwrite($comment, str_pad('t', 0xFFFFFF, 't'));
             }
             fwrite($comment,
-                   str_pad('t', 0xFFFFFF + 0xF/* - strlen('=comment=') */, 't')
+                str_pad('t', 0xFFFFFF + 0xF/* - strlen('=comment=') */, 't')
             );
             rewind($comment);
 
