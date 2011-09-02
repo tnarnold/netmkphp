@@ -1,5 +1,6 @@
 <?php
 namespace Net\RouterOS;
+
 require_once 'Net/RouterOS/Autoload.php';
 
 $client = new Client('192.168.0.1', 'admin');
@@ -19,10 +20,10 @@ $client->sendAsync($addRequest);
 $client->loop();
 
 $responses = $client->extractNewResponses();
-foreach($responses as $response) {
+foreach ($responses as $response) {
     if ($responses->getType() !== Response::TYPE_FINAL) {
         echo "Error with {$response->getTag()}!\n";
-    }else {
+    } else {
         echo "OK with {$response->getTag()}!\n";
     }
 }
@@ -30,5 +31,5 @@ foreach($responses as $response) {
 /*
 OK with arp1
 OK with arp2
-*/
+ */
 ?>
