@@ -48,10 +48,9 @@ class NotSupportedException extends Exception
      * chaining.
      * @param mixed     $value    The unsupported value.
      */
-    public function __construct(
-    $message, $code = 0, $previous = null, $value = null
-    )
-    {
+    public function __construct($message, $code = 0, $previous = null,
+        $value = null
+    ) {
         parent::__construct($message, $code, $previous);
         $this->_value = $value;
     }

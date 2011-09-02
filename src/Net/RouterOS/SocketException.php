@@ -55,8 +55,7 @@ class SocketException extends Exception
      */
     public function __construct($message = '', $code = 0, $previous = null,
         $error_no = null, $error_str = null
-    )
-    {
+    ) {
         parent::__construct($message, $code, $previous);
         $this->error_no = $error_no;
         $this->error_str = $error_str;

@@ -61,15 +61,14 @@ class SocketClientTransmitter extends Transmitter
      */
     public function __construct($host, $port = 8728, $persist = false,
         $timeout = null, $key = '', $context = null
-    )
-    {
+    ) {
         $flags = STREAM_CLIENT_CONNECT;
         if ($persist) {
             $flags |= STREAM_CLIENT_PERSISTENT;
         }
 
-        $timeout =
-            null == $timeout ? ini_get('default_socket_timeout') : $timeout;
+        $timeout
+            = null == $timeout ? ini_get('default_socket_timeout') : $timeout;
 
         $key = rawurlencode($key);
 
@@ -121,7 +120,7 @@ class SocketClientTransmitter extends Transmitter
     protected function createException($message, $code = 0)
     {
         return new SocketException(
-                $message, $code, null, $this->error_no, $this->error_str
+            $message, $code, null, $this->error_no, $this->error_str
         );
     }
 

@@ -65,14 +65,14 @@ class Query
     {
         $action = (string) $action;
         switch ($action) {
-            case Query::ACTION_EXIST:
-            case Query::ACTION_NOT_EXIST:
-            case Query::ACTION_EQUALS:
-            case Query::ACTION_LESS_THAN:
-            case Query::ACTION_GREATHER_THAN:
-                return $action;
-            default:
-                throw new ArgumentException('Unknown action specified', 208);
+        case Query::ACTION_EXIST:
+        case Query::ACTION_NOT_EXIST:
+        case Query::ACTION_EQUALS:
+        case Query::ACTION_LESS_THAN:
+        case Query::ACTION_GREATHER_THAN:
+            return $action;
+        default:
+            throw new ArgumentException('Unknown action specified', 208);
         }
     }
 
@@ -108,9 +108,8 @@ class Query
      * @return Query The query object.
      */
     public static function where(
-    $name, $value = null, $action = self::ACTION_EXIST
-    )
-    {
+        $name, $value = null, $action = self::ACTION_EXIST
+    ) {
         $query = new self;
         $query->addWhere($name, $value, $action);
         return $query;
