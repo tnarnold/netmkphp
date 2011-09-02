@@ -60,10 +60,9 @@ class Communicator
      */
     public function __construct($host, $port = 8728, $persist = false,
         $timeout = null, $key = '', $context = null
-    )
-    {
+    ) {
         $this->trans = new SocketClientTransmitter(
-                $host, $port, $persist, $timeout, $key, $context
+            $host, $port, $persist, $timeout, $key, $context
         );
     }
 
@@ -209,7 +208,7 @@ class Communicator
     public function getNextWordAsStream()
     {
         return $this->trans->receiveStream(
-                self::decodeLength($this->trans), 'stream word'
+            self::decodeLength($this->trans), 'stream word'
         );
     }
 

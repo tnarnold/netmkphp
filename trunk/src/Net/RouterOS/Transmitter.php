@@ -61,7 +61,7 @@ class Transmitter
         }
         $this->stream = $stream;
         $this->persist = (bool) preg_match(
-                '#persistent#sm', get_resource_type($stream)
+            '#persistent#sm', get_resource_type($stream)
         );
     }
 
@@ -106,7 +106,7 @@ class Transmitter
         while ($bytes < $bytesToSend) {
             if ($this->isAcceptingData()) {
                 $bytesNow = @fwrite(
-                        $this->stream, substr($string, $bytes, 0xFFFFF)
+                    $this->stream, substr($string, $bytes, 0xFFFFF)
                 );
                 if (0 != $bytesNow) {
                     $bytes += $bytesNow;
@@ -133,7 +133,7 @@ class Transmitter
         while (!feof($stream)) {
             if ($this->isAcceptingData()) {
                 $bytesNow = @stream_copy_to_stream(
-                        $stream, $this->stream, 0xFFFFF
+                    $stream, $this->stream, 0xFFFFF
                 );
                 if (0 != $bytesNow) {
                     $bytes += $bytesNow;

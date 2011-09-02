@@ -98,10 +98,9 @@ class Client
      */
     public function __construct($host, $username, $password = '', $port = 8728,
         $persist = false, $timeout = null, $context = null
-    )
-    {
+    ) {
         $this->com = new Communicator(
-                $host, $port, $persist, $timeout, $username, $context
+            $host, $port, $persist, $timeout, $username, $context
         );
         //Login the user if necessary
         if ($this->com->getTransmitter()->isFresh()) {
@@ -131,8 +130,8 @@ class Client
             $response = new Response($com);
             $request->setArgument('name', $username);
             $request->setArgument(
-                'response',
-                '00' . md5(chr(0) . $password
+                'response', '00' . md5(
+                    chr(0) . $password
                     . pack('H*', $response->getArgument('ret'))
                 )
             );
@@ -143,8 +142,8 @@ class Client
         } catch (Exception $e) {
             throw ($e instanceof NotSupportedException
             || !$com->getTransmitter()->isDataAwaiting()) ? new SocketException(
-                    'This is not a compatible RouterOS service', 101, $e
-                ) : $e;
+                'This is not a compatible RouterOS service', 101, $e
+            ) : $e;
         }
     }
 

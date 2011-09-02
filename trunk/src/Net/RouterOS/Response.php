@@ -69,8 +69,9 @@ class Response extends Message
             for (
             $word = $com->getNextWordAsStream(), fseek($word, 0, SEEK_END);
                     ftell($word) !== 0;
-                    $word = $com->getNextWordAsStream(), fseek($word, 0,
-                    SEEK_END)
+                    $word = $com->getNextWordAsStream(), fseek(
+                        $word, 0, SEEK_END
+                    )
             ) {
                 rewind($word);
                 $ind = fread($word, 1);
@@ -124,17 +125,17 @@ class Response extends Message
     protected function setType($type)
     {
         switch ($type) {
-            case self::TYPE_FINAL:
-            case self::TYPE_DATA:
-            case self::TYPE_ERROR:
-            case self::TYPE_FATAL:
-                $oldType = $this->getType();
-                $this->_type = $type;
-                return $oldType;
-            default:
-                throw new NotSupportedException(
-                    'Unrecognized response type.', 207, null, $type
-                );
+        case self::TYPE_FINAL:
+        case self::TYPE_DATA:
+        case self::TYPE_ERROR:
+        case self::TYPE_FATAL:
+            $oldType = $this->getType();
+            $this->_type = $type;
+            return $oldType;
+        default:
+            throw new NotSupportedException(
+                'Unrecognized response type.', 207, null, $type
+            );
         }
     }
 
