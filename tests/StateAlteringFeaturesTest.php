@@ -1,5 +1,5 @@
 <?php
-namespace Net\RouterOS;
+namespace PEAR2\Net\RouterOS;
 
 class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
 {

@@ -18,7 +18,7 @@
 /**
  * The namespace declaration.
  */
-namespace Net\RouterOS;
+namespace PEAR2\Net\RouterOS;
 
 /**
  * Exception thrown when encountering something not supported by RouterOS or

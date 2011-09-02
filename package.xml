@@ -31,8 +31,6 @@
     <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
     <notes>
     </notes>
-    <changelog>
-    </changelog>
     <contents>
         <dir name="/">
             <dir name="src" baseinstalldir="/">
@@ -59,7 +57,7 @@
                 <file name="Net/RouterOS/DataFlowException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$ to="version"/>
+                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Exception.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>

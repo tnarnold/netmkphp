@@ -1,5 +1,5 @@
 <?php
-namespace Net\RouterOS;
+namespace PEAR2\Net\RouterOS;
 
 class RequestHandlingTest extends \PHPUnit_Framework_TestCase
 {
