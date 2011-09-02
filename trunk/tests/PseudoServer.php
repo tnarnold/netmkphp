@@ -104,8 +104,7 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     $sent = $lengthBytesSent = 0;
                     while ($lengthBytesSent < $resLengthSize) {
                         $lengthBytesSent += fwrite($conn,
-                                                   substr($resLength,
-                                                          $lengthBytesSent));
+                            substr($resLength, $lengthBytesSent));
                         $sent += $lengthBytesSent;
                         echo "{$sent} bytes in total sent for this request.\n";
                     }
@@ -131,9 +130,8 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     var_dump($bytesReceived);
                     while ($bytesReceived < $incomingBytes) {
                         $bytesReceivedNow = fwrite($nextRequestBuffer,
-                                                   fread($conn,
-                                                         min($incomingBytes,
-                                                             0xFFFFF)));
+                            fread($conn,
+                                min($incomingBytes, 0xFFFFF)));
                         if (0 !== $bytesReceivedNow) {
                             $bytesReceived += $bytesReceivedNow;
                             echo "{$bytesReceived} bytes received in total for this request.\n";
@@ -155,7 +153,7 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     $sentBytes = 0;
                     while ($sentBytes < $responseBytes) {
                         $sentNow = fwrite($conn,
-                                          substr($rawResponse, $sentBytes));
+                            substr($rawResponse, $sentBytes));
                         if (0 !== $sentNow) {
                             $sentBytes += $sentNow;
                             echo "{$sentBytes} bytes sent in total for this request.\n";
@@ -174,8 +172,7 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     $sent = $lengthBytesSent = 0;
                     while ($lengthBytesSent < $resLengthSize) {
                         $lengthBytesSent += fwrite($conn,
-                                                   substr($resLength,
-                                                          $lengthBytesSent));
+                            substr($resLength, $lengthBytesSent));
                         $sent += $lengthBytesSent;
                         echo "{$sent} bytes in total sent for this request.\n";
                     }
@@ -184,7 +181,7 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                         $resLengthSentNow = fwrite(
                             $conn,
                             str_pad('t', min(0xFFFFF, $length - $resLengthSent),
-                                             't'
+                                't'
                             )
                         );
                         if (0 !== $resLengthSentNow) {
@@ -205,8 +202,7 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     $sent = $lengthBytesSent = 0;
                     while ($lengthBytesSent < $resLengthSize) {
                         $lengthBytesSent += fwrite($conn,
-                                                   substr($resLength,
-                                                          $lengthBytesSent));
+                            substr($resLength, $lengthBytesSent));
                         $sent += $lengthBytesSent;
                         echo "{$sent} bytes in total sent for this request.\n";
                     }
@@ -214,9 +210,9 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     $resLengthSent = 0;
                     while ($resLengthSent < $length - 1/* missing byte */) {
                         $resLengthSentNow = fwrite($conn,
-                                                   str_pad('t',
-                                                           min(0xFFFFF,
-                                                               $length
+                            str_pad('t',
+                                min(0xFFFFF,
+                                    $length
                                     - $resLengthSent
                                     - 1/* missing byte */
                                 ), 't'
@@ -252,9 +248,8 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     $incomingBytes /= 4; //Receive only 1/4 of the request.
                     while ($bytesReceived < $incomingBytes) {
                         $bytesReceivedNow = fwrite($nextRequestBuffer,
-                                                   fread($conn,
-                                                         min($incomingBytes,
-                                                             0xFFFFF)));
+                            fread($conn,
+                                min($incomingBytes, 0xFFFFF)));
                         if (0 !== $bytesReceivedNow) {
                             $bytesReceived += $bytesReceivedNow;
                             echo "{$bytesReceived} bytes received in total for this request.\n";

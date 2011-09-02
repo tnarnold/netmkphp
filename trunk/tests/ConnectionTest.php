@@ -93,9 +93,9 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         try {
             $context = stream_context_create();
             $this->assertInternalType('resource', $context,
-                                      'Failed to create context.');
+                'Failed to create context.');
             $this->assertEquals('stream-context', get_resource_type($context),
-                                                                    'Failed to create proper context.');
+                'Failed to create proper context.');
             $routerOS = new Client(HOSTNAME, USERNAME, PASSWORD, PORT, false,
                     null, $context
             );

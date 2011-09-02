@@ -258,10 +258,10 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             Communicator::encodeLength($smallLength);
         } catch (NotSupportedException $e) {
             $this->assertEquals(11, $e->getCode(),
-                                "Length '{$smallLength}' must not be encodable."
+                "Length '{$smallLength}' must not be encodable."
             );
             $this->assertEquals($smallLength, $e->getValue(),
-                                'Exception is misleading.'
+                'Exception is misleading.'
             );
         }
         $largeLength = 0x800000000;
@@ -269,10 +269,10 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             Communicator::encodeLength($largeLength);
         } catch (NotSupportedException $e) {
             $this->assertEquals(12, $e->getCode(),
-                                "Length '{$largeLength}' must not be encodable."
+                "Length '{$largeLength}' must not be encodable."
             );
             $this->assertEquals($largeLength, $e->getValue(),
-                                'Exception is misleading.'
+                'Exception is misleading.'
             );
         }
     }
@@ -297,22 +297,22 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             0xFE,
             0xFF
         );
-        
+
         foreach ($controlBytes as $controlByte) {
             fwrite($stream, chr($controlByte));
         }
         rewind($stream);
         $trans = new Transmitter($stream);
-        
+
         foreach ($controlBytes as $controlByte) {
             try {
                 Communicator::decodeLength($trans);
-            }catch(NotSupportedException $e) {
+            } catch (NotSupportedException $e) {
                 $this->assertEquals(
                     13, $e->getCode(), 'Improper exception code.'
                 );
                 $this->assertEquals($controlByte, $e->getValue(),
-                                    'Improper exception value.'
+                    'Improper exception value.'
                 );
             }
         }
@@ -338,8 +338,6 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
 //
 //        $com->sendWord('q000000000');
 //        $com->close();
-        
-        
     }
 
     public function testLengthDecoding()
@@ -391,12 +389,13 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
-    
-    public function testDefaultTransmitterException() {
+
+    public function testDefaultTransmitterException()
+    {
         try {
             $trans = new Transmitter('invalid arg');
-            $this->fail('Transmitter initialization had to fail.'); 
-        }catch(Exception $e) {
+            $this->fail('Transmitter initialization had to fail.');
+        } catch (Exception $e) {
             $this->assertEquals(1, $e->getCode(), 'Improper exception code.');
         }
     }
@@ -410,10 +409,10 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         $quitRequest->send($com);
         $quitResponse = new Response($com);
         $this->assertEquals(1, count($quitResponse->getUnrecognizedWords()),
-                                     'No message.'
+            'No message.'
         );
         $this->assertEquals(0, count($quitResponse->getAllArguments()),
-                                     'There should be no arguments.'
+            'There should be no arguments.'
         );
         $com->close();
     }
@@ -427,10 +426,10 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         $quitRequest->send($com);
         $quitResponse = new Response($com, true);
         $this->assertEquals(1, count($quitResponse->getUnrecognizedWords()),
-                                     'No message.'
+            'No message.'
         );
         $this->assertEquals(0, count($quitResponse->getAllArguments()),
-                                     'There should be no arguments.'
+            'There should be no arguments.'
         );
         $com->close();
     }
