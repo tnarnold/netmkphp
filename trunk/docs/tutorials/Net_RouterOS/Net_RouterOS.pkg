@@ -81,16 +81,16 @@ Using a fully qualified class name
                 <programlisting role="php">
 &lt;?php
 include_once 'Net/RouterOS/Autoload.php';
-$client = new \Net\RouterOS\Client('example.com', 'admin');
+$client = new PEAR2\Net\RouterOS\Client('example.com', 'admin');
 // Use the client here
 ?&gt;
                 </programlisting>
             </listitem>
             <listitem>
-Declaring the \Net\RouterOS as your default namespace
+Declaring the \PEAR2\Net\RouterOS as your default namespace
                 <programlisting role="php">
 &lt;?php
-namespace Net\RouterOS;
+namespace PEAR2\Net\RouterOS;
 include_once 'Net/RouterOS/Autoload.php';
 $client = new Client('example.com', 'admin');
 // Use the client here
@@ -98,10 +98,10 @@ $client = new Client('example.com', 'admin');
                 </programlisting>
             </listitem>
             <listitem>
-Declaring the \Net\RouterOS as an aliased namespace
+Declaring the PEAR2\Net\RouterOS as an aliased namespace
                 <programlisting role="php">
 &lt;?php
-use Net\RouterOS as Ros;
+use PEAR2\Net\RouterOS as Ros;
 include_once 'Net/RouterOS/Autoload.php';
 $client = new Ros\Client('example.com', 'admin');
 // Use the client here
@@ -122,7 +122,7 @@ $client = new Ros('example.com', 'admin');
         </itemizedlist>
         <para>
 Note that namespace declarations must appear before any includes.
-They must in fact be the first thing in a PHP file. The rest of the examples in this documentation will be setting \Net\RouterOS as the default namespace.
+They must in fact be the first thing in a PHP file. The rest of the examples in this documentation will be setting \PEAR2\Net\RouterOS as the default namespace.
         </para>
     </refsect1>
     <refsect1 id="{@id further-info}">

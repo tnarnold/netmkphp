@@ -1,5 +1,5 @@
 <?php
-namespace Net\RouterOS;
+namespace PEAR2\Net\RouterOS;
 require_once 'Net/RouterOS/Autoload.php';
 
 $client = new Client('192.168.0.1', 'admin');

@@ -18,7 +18,7 @@
 /**
  * The namespace declaration.
  */
-namespace Net\RouterOS;
+namespace PEAR2\Net\RouterOS;
 
 /**
  * Exception thrown when the request/response cycle goes an unexpected way.

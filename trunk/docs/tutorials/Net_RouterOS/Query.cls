@@ -28,7 +28,7 @@ To set a query for a request, you need to use the {@link Request::setQuery()} me
         </para>
         <programlisting role="php">
 &lt;?php
-namespace Net\RouterOS;
+namespace PEAR2\Net\RouterOS;
 include_once 'Net/RouterOS/Autoload.php';
 $client = new Client('192.168.0.1', 'admin');
 
