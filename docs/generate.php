@@ -3,9 +3,9 @@
 /**
  * Generates documentation with PhpDocumentor, if it is available.
  */
-
 $target = getcwd() . DIRECTORY_SEPARATOR . 'Documentation';
 
+//PhpDocumentor is not installable with Pyrus, so here goes PEAR detection
 if (!isset($_SERVER['PHP_PEAR_BIN_DIR'])) {
     die(
         "For this script to work, you need to have the PHP_PEAR_BIN_DIR
@@ -17,24 +17,75 @@ if (!is_file($_SERVER['PHP_PEAR_BIN_DIR'] . DIRECTORY_SEPARATOR . 'phpdoc')) {
     die('PhpDocumentor is not installed.');
 }
 
-if (!isset($_SERVER['PHP_PEAR_INSTALL_DIR'])
-    || !is_dir(
-        $sourceDir = $_SERVER['PHP_PEAR_INSTALL_DIR'] . DIRECTORY_SEPARATOR
-        . 'Net' . DIRECTORY_SEPARATOR . 'RouterOS')
-) {
-    $sourceDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src';
-}
+$pyrusConfigLocation
+    = (defined('PHP_WINDOWS_VERSION_MAJOR') ? getenv('userprofile') . DIRECTORY_SEPARATOR
+            : '~' . DIRECTORY_SEPARATOR . '.')
+    . 'pear' . DIRECTORY_SEPARATOR . 'pearconfig.xml';
 
-if (!isset($_SERVER['PHP_PEAR_DOC_DIR'])
-    || !is_dir($docsDir = $_SERVER['PHP_PEAR_DOC_DIR'] . DIRECTORY_SEPARATOR
-        . 'Net_RouterOS')
-) {
-    $docsDir = __DIR__;
-}
+if (is_file($pyrusConfigLocation)) {
+    $pyrusConfig = new DOMDocument();
+    $pyrusConfig->load($pyrusConfigLocation);
 
-if (!is_dir($examplesDir = $docsDir . DIRECTORY_SEPARATOR . 'examples')
-) {
-    $examplesDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'examples';
+    function searchFilename($filename, $include_path)
+    {
+        foreach(explode(PATH_SEPARATOR, $include_path) as $dir) {
+            $path = $dir . DIRECTORY_SEPARATOR . $filename;
+            if (file_exists($path)) {
+                return $path;
+            }
+        }
+        die("Unable to find {$filename} in any of the directories in '{$include_path}'");
+    }
+
+    $userConfigLocation = searchFilename(
+        '.configsnapshots', $pyrusConfig->getElementsByTagName('my_pear_path')
+        ->item(0)->nodeValue
+    );
+    $userConfigSnapshotsLocation = scandir(
+        $userConfigLocation, 1
+    );
+    $currentUserConfigLocation = $userConfigLocation . DIRECTORY_SEPARATOR .
+        $userConfigSnapshotsLocation[0];
+    $currentUserConfig = new DOMDocument();
+    $currentUserConfig->load($currentUserConfigLocation);
+
+    $sourceBaseDir = $currentUserConfig->getElementsByTagName('php_dir')
+            ->item(0)->nodeValue;
+    if (!is_dir($sourceDir = $sourceBaseDir . DIRECTORY_SEPARATOR . 'Net' . DIRECTORY_SEPARATOR . 'RouterOS')) {
+        $sourceDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src';
+    }
+
+    $docsBaseDir = $currentUserConfig->getElementsByTagName('doc_dir')
+            ->item(0)->nodeValue;
+    if (!is_dir($docsDir = $docsBaseDir . DIRECTORY_SEPARATOR . 'Net_RouterOS')) {
+        $docsDir = __DIR__;
+    }
+    
+    
+    if (!is_dir($examplesDir = $docsDir . DIRECTORY_SEPARATOR . 'examples')) {
+        $examplesDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'examples';
+    }
+} else {
+
+    if (!isset($_SERVER['PHP_PEAR_INSTALL_DIR'])
+        || !is_dir(
+            $sourceDir = $_SERVER['PHP_PEAR_INSTALL_DIR'] . DIRECTORY_SEPARATOR
+            . 'Net' . DIRECTORY_SEPARATOR . 'RouterOS')
+    ) {
+        $sourceDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src';
+    }
+
+    if (!isset($_SERVER['PHP_PEAR_DOC_DIR'])
+        || !is_dir($docsDir = $_SERVER['PHP_PEAR_DOC_DIR'] . DIRECTORY_SEPARATOR
+            . 'Net_RouterOS')
+    ) {
+        $docsDir = __DIR__;
+    }
+
+    if (!is_dir($examplesDir = $docsDir . DIRECTORY_SEPARATOR . 'examples')
+    ) {
+        $examplesDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'examples';
+    }
 }
 
 $phpDocBin = $_SERVER['PHP_PEAR_BIN_DIR'] . DIRECTORY_SEPARATOR . 'phpdoc';

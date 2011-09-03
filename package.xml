@@ -10,7 +10,7 @@
     "
 >
     <name>Net_RouterOS</name>
-    <channel>pear.php.net</channel>
+    <channel>pear2.php.net</channel>
     <summary>RouterOS API client implementation.</summary>
     <description>This package allows you to read and write information from a RouterOS host using MikroTik's RouterOS API.</description>
     <lead>
@@ -37,73 +37,73 @@
                 <file name="Net/RouterOS/ArgumentException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
-                </file>
-                <file name="Net/RouterOS/Autoload.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Client.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Communicator.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/DataFlowException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Exception.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Message.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/SocketClientTransmitter.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/NotSupportedException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Query.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
 
                 </file>
                 <file name="Net/RouterOS/Request.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Response.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/SocketException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Transmitter.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="$Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
+                </file>
+                <file name="Net/RouterOS/autoload.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
                 </file>
             </dir>
             <dir name="tests">
@@ -145,10 +145,6 @@
             <install
                 name="src/Net/RouterOS/ArgumentException.php"
                 as="Net/RouterOS/ArgumentException.php"
-            />
-            <install
-                name="src/Net/RouterOS/Autoload.php"
-                as="Net/RouterOS/Autoload.php"
             />
             <install
                 name="src/Net/RouterOS/Client.php"
@@ -197,6 +193,10 @@
             <install
                 name="src/Net/RouterOS/Transmitter.php"
                 as="Net/RouterOS/Transmitter.php"
+            />
+            <install
+                name="src/Net/RouterOS/autoload.php"
+                as="Net/RouterOS/autoload.php"
             />
             
             <install
