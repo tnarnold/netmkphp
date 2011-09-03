@@ -112,7 +112,7 @@ $client = new Ros\Client('example.com', 'admin');
 Declaring an alias of each class you intend to use directly.
                 <programlisting role="php">
 &lt;?php
-use Net\RouterOS\Client as Ros;
+use PEAR2\Net\RouterOS\Client as Ros;
 include_once 'Net/RouterOS/Autoload.php';
 $client = new Ros('example.com', 'admin');
 // Use the client here
