@@ -124,9 +124,9 @@
             </dir>
             <dir name="docs">
                 <file name="generate.php" role="doc" />
-                <file name="tutorials/Net_RouterOS/Client.cls" role="doc" />
-                <file name="tutorials/Net_RouterOS/Net_RouterOS.pkg" role="doc" />
-                <file name="tutorials/Net_RouterOS/Query.cls" role="doc" />
+                <file name="tutorials/PEAR2_Net_RouterOS/Client.cls" role="doc" />
+                <file name="tutorials/PEAR2_Net_RouterOS/PEAR2_Net_RouterOS.pkg" role="doc" />
+                <file name="tutorials/PEAR2_Net_RouterOS/Query.cls" role="doc" />
             </dir>
         </dir>
     </contents>
@@ -229,16 +229,16 @@
                 as="generate.php"
             />
             <install
-                name="docs/tutorials/Net_RouterOS/Client.cls"
-                as="tutorials/Net_RouterOS/Client.cls"
+                name="docs/tutorials/PEAR2_Net_RouterOS/Client.cls"
+                as="tutorials/PEAR2_Net_RouterOS/Client.cls"
             />
             <install
-                name="docs/tutorials/Net_RouterOS/Net_RouterOS.pkg"
-                as="tutorials/Net_RouterOS/Net_RouterOS.pkg"
+                name="docs/tutorials/PEAR2_Net_RouterOS/PEAR2_Net_RouterOS.pkg"
+                as="tutorials/PEAR2_Net_RouterOS/PEAR2_Net_RouterOS.pkg"
             />
             <install
-                name="docs/tutorials/Net_RouterOS/Query.cls"
-                as="tutorials/Net_RouterOS/Query.cls"
+                name="docs/tutorials/PEAR2_Net_RouterOS/Query.cls"
+                as="tutorials/PEAR2_Net_RouterOS/Query.cls"
             />
         </filelist>
     </phprelease>
