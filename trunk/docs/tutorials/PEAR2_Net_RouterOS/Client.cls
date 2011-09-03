@@ -15,7 +15,7 @@
     <refsect1 id="{@id sync-request}">
         <title>Synchonious requests</title>
         <para>
-The easiest approach in using Net_RouterOS is to connect, send a request, get the responses, and use them if you need to, all at one time. This is reffered to as "Synchonious request".
+The easiest approach in using PEAR2_Net_RouterOS is to connect, send a request, get the responses, and use them if you need to, all at one time. This is reffered to as "Synchonious request".
         </para>
         <refsect2 id="{@id sync-request-simple}">
             <title>Simple requests</title>
@@ -49,13 +49,13 @@ If you don't care about the responses, you can just do something like the follow
             </para>
             {@example send-and-forget.php}
             <para>
-Note that, as in the example above, different asynchronious requests need to have a different "tag", regardless of whether you care about the responses or not. A "tag" in this context is a RouterOS API specific construct that allows clients like Net_RouterOS to keep track of responses coming from multiple requests, since they don't appear in the order of their execution. You can only reuse a tag once you get its final response.
+Note that, as in the example above, different asynchronious requests need to have a different "tag", regardless of whether you care about the responses or not. A "tag" in this context is a RouterOS API specific construct that allows clients like PEAR2_Net_RouterOS to keep track of responses coming from multiple requests, since they don't appear in the order of their execution. You can only reuse a tag once you get its final response.
             </para>
         </refsect2>
         <refsect2 id="{@id loop-and-extract}">
             <title>Loop and extract</title>
             <para>
-One way to get responses is to let Net_RouterOS process any new ones, and then extract those that interest you. You can start processing with the {@link Client::loop()} method.
+One way to get responses is to let PEAR2_Net_RouterOS process any new ones, and then extract those that interest you. You can start processing with the {@link Client::loop()} method.
 If you've made requests that you know will eventually be finished, you can use {@link Client::loop()} without an argument to let processing stop only once all requests have returned their final response. Here's an example that continues from the previous one.
             </para>
             {@example loop-and-extract.php}

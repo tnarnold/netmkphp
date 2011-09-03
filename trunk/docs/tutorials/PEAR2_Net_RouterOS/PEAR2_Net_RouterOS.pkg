@@ -2,7 +2,7 @@
 <refentry id="{@id}">
     <refnamediv>
         <refname>Getting started</refname>
-        <refpurpose>First steps in using Net_RouterOS</refpurpose>
+        <refpurpose>First steps in using PEAR2_Net_RouterOS</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <author>Vasil Rangelov
@@ -80,7 +80,7 @@ Among other things, this means that instead of you having to write long class na
 Using a fully qualified class name
                 <programlisting role="php">
 &lt;?php
-include_once 'Net/RouterOS/Autoload.php';
+include_once 'Net/RouterOS/autoload.php';
 $client = new PEAR2\Net\RouterOS\Client('example.com', 'admin');
 // Use the client here
 ?&gt;
@@ -91,7 +91,7 @@ Declaring the \PEAR2\Net\RouterOS as your default namespace
                 <programlisting role="php">
 &lt;?php
 namespace PEAR2\Net\RouterOS;
-include_once 'Net/RouterOS/Autoload.php';
+include_once 'Net/RouterOS/autoload.php';
 $client = new Client('example.com', 'admin');
 // Use the client here
 ?&gt;
@@ -102,7 +102,7 @@ Declaring the PEAR2\Net\RouterOS as an aliased namespace
                 <programlisting role="php">
 &lt;?php
 use PEAR2\Net\RouterOS as Ros;
-include_once 'Net/RouterOS/Autoload.php';
+include_once 'Net/RouterOS/autoload.php';
 $client = new Ros\Client('example.com', 'admin');
 // Use the client here
 ?&gt;
@@ -129,7 +129,7 @@ They must in fact be the first thing in a PHP file. The rest of the examples in 
         <title>Further information.</title>
         <para>
 Net_RouterOS is flexible in the code patterns it allows you to use, but using the
-{@link Client} class with {@link Client::sendSync()} is the reccomended approach for simple scenarios. See {@tutorial Client.cls the tutorial for the Client class} for description of this and other ways to use Net_RouterOS.
+{@link Client} class with {@link Client::sendSync()} is the reccomended approach for simple scenarios. See {@tutorial Client.cls the tutorial for the Client class} for description of this and other ways to use PEAR2_Net_RouterOS.
         </para>
     </refsect1>
 </refentry>
