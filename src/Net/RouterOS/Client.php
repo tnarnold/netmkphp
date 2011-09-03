@@ -8,7 +8,7 @@
  * PHP version 5
  * 
  * @category  Net
- * @package   Net_RouterOS
+ * @package   PEAR2_Net_RouterOS
  * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
@@ -26,7 +26,7 @@ namespace PEAR2\Net\RouterOS;
  * Provides functionality for easily communicating with a RouterOS host.
  * 
  * @category Net
- * @package  Net_RouterOS
+ * @package  PEAR2_Net_RouterOS
  * @author   Vasil Rangelov <boen.robot@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://netrouteros.sourceforge.net/
