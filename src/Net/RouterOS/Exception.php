@@ -12,7 +12,7 @@
  * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
- * @version   SVN: $Revision$
+ * @version   SVN: $WCREV$
  * @link      http://netrouteros.sourceforge.net/
  */
 /**
