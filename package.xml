@@ -88,7 +88,7 @@
                 <file name="Net/RouterOS/Response.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $Revision$" to="version"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/SocketException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
