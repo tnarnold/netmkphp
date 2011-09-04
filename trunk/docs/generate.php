@@ -3,7 +3,7 @@
 /**
  * Generates documentation with PhpDocumentor, if it is available.
  */
-$target = getcwd() . DIRECTORY_SEPARATOR . 'Documentation';
+$target = getcwd() . DIRECTORY_SEPARATOR . 'PEAR2_Net_RouterOS__Documentation';
 
 //PhpDocumentor is not installable with Pyrus, so here goes PEAR detection
 if (!isset($_SERVER['PHP_PEAR_BIN_DIR'])) {
@@ -51,7 +51,8 @@ if (is_file($pyrusConfigLocation)) {
 
     $sourceBaseDir = $currentUserConfig->getElementsByTagName('php_dir')
             ->item(0)->nodeValue;
-    if (!is_dir($sourceDir = $sourceBaseDir . DIRECTORY_SEPARATOR . 'Net' . DIRECTORY_SEPARATOR . 'RouterOS')) {
+    if (!is_dir($sourceDir = $sourceBaseDir . DIRECTORY_SEPARATOR .
+        'PEAR2' . DIRECTORY_SEPARATOR . 'Net' . DIRECTORY_SEPARATOR . 'RouterOS')) {
         $sourceDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src';
     }
 
@@ -70,7 +71,7 @@ if (is_file($pyrusConfigLocation)) {
     if (!isset($_SERVER['PHP_PEAR_INSTALL_DIR'])
         || !is_dir(
             $sourceDir = $_SERVER['PHP_PEAR_INSTALL_DIR'] . DIRECTORY_SEPARATOR
-            . 'Net' . DIRECTORY_SEPARATOR . 'RouterOS')
+            . 'PEAR2' . DIRECTORY_SEPARATOR . 'Net' . DIRECTORY_SEPARATOR . 'RouterOS')
     ) {
         $sourceDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src';
     }
