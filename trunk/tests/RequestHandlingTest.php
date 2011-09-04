@@ -163,11 +163,12 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         foreach ($invalidActions as $action) {
             try {
                 $query = Query::where('address', null, $action);
-            } catch (InvalidArgumentException $e) {
+            } catch (UnexpectedValueException $e) {
                 $this->assertEquals(
                     208, $e->getCode(),
                     "Improper exception thrown for the action '{$action}'."
                 );
+                $this->assertEquals($action, $e->getValue());
             }
         }
     }
@@ -256,22 +257,22 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         $smallLength = -1;
         try {
             Communicator::encodeLength($smallLength);
-        } catch (NotSupportedException $e) {
+        } catch (LengthException $e) {
             $this->assertEquals(11, $e->getCode(),
                 "Length '{$smallLength}' must not be encodable."
             );
-            $this->assertEquals($smallLength, $e->getValue(),
+            $this->assertEquals($smallLength, $e->getLength(),
                 'Exception is misleading.'
             );
         }
         $largeLength = 0x800000000;
         try {
             Communicator::encodeLength($largeLength);
-        } catch (NotSupportedException $e) {
+        } catch (LengthException $e) {
             $this->assertEquals(12, $e->getCode(),
                 "Length '{$largeLength}' must not be encodable."
             );
-            $this->assertEquals($largeLength, $e->getValue(),
+            $this->assertEquals($largeLength, $e->getLength(),
                 'Exception is misleading.'
             );
         }
