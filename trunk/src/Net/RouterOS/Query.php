@@ -72,7 +72,7 @@ class Query
         case Query::ACTION_GREATHER_THAN:
             return $action;
         default:
-            throw new ArgumentException('Unknown action specified', 208);
+            throw new InvalidArgumentException('Unknown action specified', 208);
         }
     }
 

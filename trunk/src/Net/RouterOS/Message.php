@@ -56,7 +56,7 @@ abstract class Message
         if ((empty($name) && $name !== '0')
             || !preg_match('/[^=\s]/s', $name)
         ) {
-            throw new ArgumentException(
+            throw new InvalidArgumentException(
                 'Invalid name of argument supplied.', 200
             );
         }
@@ -77,7 +77,7 @@ abstract class Message
             if ($meta['seekable']) {
                 return $value;
             }
-            throw new ArgumentException(
+            throw new InvalidArgumentException(
                 'The stream must be seekable.', 201
             );
         } else {

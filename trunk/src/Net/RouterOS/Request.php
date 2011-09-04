@@ -73,7 +73,7 @@ class Request extends Message
     {
         $command = (string) $command;
         if (strpos($command, '/') !== 0) {
-            throw new ArgumentException('Commands must be absolute.', 202);
+            throw new InvalidArgumentException('Commands must be absolute.', 202);
         }
         if (substr_count($command, '/') === 1) {
             //Command line syntax convertion
@@ -83,7 +83,7 @@ class Request extends Message
                 if ('..' === $cmdParts[$i]) {
                     $delIndex = count($cmdRes) - 1;
                     if ($delIndex < 1) {
-                        throw new ArgumentException(
+                        throw new InvalidArgumentException(
                             'Unable to resolve command', 203
                         );
                     }
@@ -96,7 +96,7 @@ class Request extends Message
             $command = implode('/', $cmdRes);
         }
         if (!preg_match('#^/\S+$#sm', $command)) {
-            throw new ArgumentException('Invalid command supplied.', 204);
+            throw new InvalidArgumentException('Invalid command supplied.', 204);
         }
         $oldCommand = $this->getCommand();
         $this->_command = $command;
