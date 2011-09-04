@@ -130,7 +130,7 @@ class Communicator
      * Verifies that the length is supported.
      * 
      * Verifies if the specified length is supported by the API. Throws a
-     * {@link NotSupportedException} if that's not the case. Currently, RouterOS
+     * {@link LengthException} if that's not the case. Currently, RouterOS
      * supports words up to 0xFFFFFFF in length, so that's the only check
      * performed.
      * 
@@ -141,7 +141,7 @@ class Communicator
     protected static function verifyLengthSupport($length)
     {
         if ($length > 0xFFFFFFF) {
-            throw new NotSupportedException(
+            throw new LengthException(
                 'Words with length above 0xFFFFFFF are not supported.', 10,
                 null, $length
             );
@@ -158,7 +158,7 @@ class Communicator
     public static function encodeLength($length)
     {
         if ($length < 0) {
-            throw new NotSupportedException(
+            throw new LengthException(
                 'Length must not be negative.', 11, null, $length
             );
         } elseif ($length < 0x80) {
@@ -177,7 +177,7 @@ class Communicator
             return chr(hexdec(substr($length, 0, 2))) .
                 pack('N', hexdec(substr($length, 2)));
         }
-        throw new NotSupportedException(
+        throw new LengthException(
             'Length must not be above 0x7FFFFFFFF.', 12, null, $length
         );
     }

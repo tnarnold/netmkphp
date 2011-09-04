@@ -141,6 +141,7 @@ class Client
                 && null === $response->getArgument('ret');
         } catch (Exception $e) {
             throw ($e instanceof NotSupportedException
+            || $e instanceof UnexpectedValueException
             || !$com->getTransmitter()->isDataAwaiting()) ? new SocketException(
                 'This is not a compatible RouterOS service', 101, $e
             ) : $e;
@@ -252,7 +253,7 @@ class Client
         while ((!$isTagNull && $this->isRequestActive($tag))
         || ($isTagNull && 0 !== $this->getPendingRequestsCount())
         ) {
-            $newReply = $this->dispathNextResponse();
+            $newReply = $this->dispatchNextResponse();
             if ($newReply->getTag() === $tag) {
                 if ($isTagNull) {
                     $result[] = $newReply;
@@ -333,7 +334,7 @@ class Client
         if ($this->getPendingRequestsCount() !== 0) {
             $start = microtime(true);
             do {
-                $this->dispathNextResponse();
+                $this->dispatchNextResponse();
             } while (
             ((microtime(true) - $start) <= $timeout)
             || (0 === $timeout && $this->getPendingRequestsCount() !== 0)
@@ -478,7 +479,7 @@ class Client
      * 
      * @return Response The dispatched response.
      */
-    protected function dispathNextResponse()
+    protected function dispatchNextResponse()
     {
         $response = new Response($this->com, $this->_streamResponses);
         if ($response->getType() === Response::TYPE_FATAL) {

@@ -133,7 +133,7 @@ class Response extends Message
             $this->_type = $type;
             return $oldType;
         default:
-            throw new NotSupportedException(
+            throw new UnexpectedValueException(
                 'Unrecognized response type.', 207, null, $type
             );
         }
