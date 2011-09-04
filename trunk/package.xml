@@ -34,11 +34,6 @@
     <contents>
         <dir name="/">
             <dir name="src" baseinstalldir="/">
-                <file name="Net/RouterOS/ArgumentException.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
-                </file>
                 <file name="Net/RouterOS/Client.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
@@ -55,6 +50,16 @@
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Exception.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
+                <file name="Net/RouterOS/InvalidArgumentException.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
+                <file name="Net/RouterOS/LengthException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
@@ -96,6 +101,11 @@
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                 </file>
                 <file name="Net/RouterOS/Transmitter.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
+                <file name="Net/RouterOS/UnexpectedValueException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
@@ -143,10 +153,6 @@
     <phprelease>
         <filelist>
             <install
-                name="src/Net/RouterOS/ArgumentException.php"
-                as="Net/RouterOS/ArgumentException.php"
-            />
-            <install
                 name="src/Net/RouterOS/Client.php"
                 as="Net/RouterOS/Client.php"
             />
@@ -161,6 +167,14 @@
             <install
                 name="src/Net/RouterOS/Exception.php"
                 as="Net/RouterOS/Exception.php"
+            />
+            <install
+                name="src/Net/RouterOS/InvalidArgumentException.php"
+                as="Net/RouterOS/InvalidArgumentException.php"
+            />
+            <install
+                name="src/Net/RouterOS/LengthException.php"
+                as="Net/RouterOS/LengthtException.php"
             />
             <install
                 name="src/Net/RouterOS/Message.php"
@@ -193,6 +207,10 @@
             <install
                 name="src/Net/RouterOS/Transmitter.php"
                 as="Net/RouterOS/Transmitter.php"
+            />
+            <install
+                name="src/Net/RouterOS/UnexpectedValueException.php"
+                as="Net/RouterOS/UnexpectedValueException.php"
             />
             <install
                 name="src/Net/RouterOS/autoload.php"
