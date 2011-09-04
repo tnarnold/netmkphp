@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.0.2"
+<package
     version="2.0"
     xmlns="http://pear.php.net/dtd/package-2.0"
     xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
@@ -19,18 +19,17 @@
         <email>boen.robot@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2011-09-03</date>
+    <date>2011-09-04</date>
     <version>
-        <release>1.0.2</release>
-        <api>1.0.2</api>
+        <release>1.0.0RC1</release>
+        <api>1.0.0</api>
     </version>
     <stability>
-        <release>stable</release>
-        <api>stable</api>
+        <release>beta</release>
+        <api>beta</api>
     </stability>
     <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
-    <notes>
-    </notes>
+    <notes>First PEAR2 compatible release.</notes>
     <contents>
         <dir name="/">
             <dir name="src" baseinstalldir="/">
