@@ -15,7 +15,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         foreach ($nonAbsoluteCommands as $command) {
             try {
                 $invalidCommand = new Request($command);
-            } catch (ArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 $this->assertEquals(
                     202, $e->getCode(),
                     "Improper exception thrown for the command '{$command}'."
@@ -33,7 +33,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         foreach ($unresolvableCommands as $command) {
             try {
                 $invalidCommand = new Request($command);
-            } catch (ArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 $this->assertEquals(
                     203, $e->getCode(),
                     "Improper exception thrown for the command '{$command}'."
@@ -52,7 +52,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         foreach ($invalidCommands as $command) {
             try {
                 $invalidCommand = new Request($command);
-            } catch (ArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 $this->assertEquals(
                     204, $e->getCode(),
                     "Improper exception thrown for the command '{$command}'."
@@ -95,7 +95,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             try {
                 $request = new Request('/ping');
                 $request->setArgument($name);
-            } catch (ArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 $this->assertEquals(
                     200, $e->getCode(),
                     "Improper exception thrown for the name '{$name}'."
@@ -113,7 +113,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             try {
                 $request = new Request('/ping');
                 $request->setArgument('address', $value);
-            } catch (ArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 $this->assertEquals(
                     201, $e->getCode(),
                     "Improper exception thrown for the value '{$value}'."
@@ -137,7 +137,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         foreach ($invalidNames as $name) {
             try {
                 $query = Query::where($name);
-            } catch (ArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 $this->assertEquals(
                     200, $e->getCode(),
                     "Improper exception thrown for the name '{$name}'."
@@ -163,7 +163,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         foreach ($invalidActions as $action) {
             try {
                 $query = Query::where('address', null, $action);
-            } catch (ArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 $this->assertEquals(
                     208, $e->getCode(),
                     "Improper exception thrown for the action '{$action}'."
@@ -180,7 +180,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         foreach ($invalidValues as $value) {
             try {
                 $query = Query::where('address', $value);
-            } catch (ArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 $this->assertEquals(
                     201, $e->getCode(),
                     "Improper exception thrown for the value '{$value}'."
@@ -316,28 +316,6 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
                 );
             }
         }
-
-//        foreach ($controlBytes as $controlByte) {
-//            $com->sendWord(
-//                'c'
-//                . str_pad(
-//                    base_convert($controlByte, 10, 16), 9, '0', STR_PAD_RIGHT
-//                )
-//            );
-//            try {
-//                $response = $com->getNextWordAsStream();
-//            } catch (NotSupportedException $e) {
-//                $this->assertEquals(
-//                    9, $e->getCode(), 'Improper exception code.'
-//                );
-//                $this->assertEquals($controlByte, $e->getValue(),
-//                                    'Improper exception value.'
-//                );
-//            }
-//        }
-//
-//        $com->sendWord('q000000000');
-//        $com->close();
     }
 
     public function testLengthDecoding()
@@ -395,7 +373,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         try {
             $trans = new Transmitter('invalid arg');
             $this->fail('Transmitter initialization had to fail.');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->assertEquals(1, $e->getCode(), 'Improper exception code.');
         }
     }
