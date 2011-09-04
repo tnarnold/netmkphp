@@ -29,7 +29,7 @@ namespace PEAR2\Net\RouterOS;
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://netrouteros.sourceforge.net/
  */
-class DataFlowException extends Exception
+class DataFlowException extends \Exception implements Exception
 {
     
 }
