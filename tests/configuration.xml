@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    bootstrap="/../src/Net/RouterOS/Autoload.php"
+    bootstrap="../src/PEAR2/Net/RouterOS/autoload.php"
     colors="false"
     stopOnFailure="false"
     verbose="true"
     strict="true"
+    
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
@@ -93,9 +94,6 @@
         </testsuite>
     </testsuites>
     <filter>
-        <blacklist>
-            <directory>../</directory>
-        </blacklist>
         <whitelist>
             <directory suffix=".php">../src</directory>
         </whitelist>
