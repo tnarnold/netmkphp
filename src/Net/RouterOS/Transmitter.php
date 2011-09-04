@@ -256,11 +256,11 @@ class Transmitter
      * @param string $message The exception message.
      * @param int    $code    The exception code.
      * 
-     * @return Exception The exception to then be thrown.
+     * @return \Exception The exception to then be thrown.
      */
     protected function createException($message, $code = 0)
     {
-        return new Exception($message, $code);
+        return new \Exception($message, $code);
     }
 
     /**

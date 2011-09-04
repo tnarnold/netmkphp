@@ -143,7 +143,7 @@ class Communicator
         if ($length > 0xFFFFFFF) {
             throw new NotSupportedException(
                 'Words with length above 0xFFFFFFF are not supported.', 10,
-                $length
+                null, $length
             );
         }
     }
