@@ -90,7 +90,7 @@ class Communicator
     public function sendWord($word)
     {
         $length = strlen($word);
-        self::verifyLengthSupport($length);
+        static::verifyLengthSupport($length);
         return $this->trans->send(self::encodeLength($length) . $word);
     }
 
@@ -118,7 +118,7 @@ class Communicator
             - $streamPosition;
         fseek($stream, $streamPosition, SEEK_SET);
         $totalLength = strlen($prefix) + $streamLength;
-        self::verifyLengthSupport($totalLength);
+        static::verifyLengthSupport($totalLength);
 
         $bytes = $this->trans->send(self::encodeLength($totalLength) . $prefix);
         $bytes += $this->trans->sendStream($stream);

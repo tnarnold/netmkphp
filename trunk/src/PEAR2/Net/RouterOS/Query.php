@@ -32,18 +32,18 @@ namespace PEAR2\Net\RouterOS;
 class Query
 {
 
+    const ACTION_EXIST = '';
+    const ACTION_NOT_EXIST = '-';
+    const ACTION_EQUALS = '=';
+    const ACTION_LESS_THAN = '<';
+    const ACTION_GREATHER_THAN = '>';
+
     /**
      * @var array An array of the words forming the query. Each value is an
      * array with the first member being the predicate (action and name), and
      * the second member being the value for the predicate.
      */
     protected $words = array();
-
-    const ACTION_EXIST = '';
-    const ACTION_NOT_EXIST = '-';
-    const ACTION_EQUALS = '=';
-    const ACTION_LESS_THAN = '<';
-    const ACTION_GREATHER_THAN = '>';
 
     /**
      * This class is not to be instantiated normally, but by static methods
@@ -76,26 +76,6 @@ class Query
                 'Unknown action specified', 208, null, $action
             );
         }
-    }
-
-    /**
-     * Adds a condition.
-     * 
-     * @param string $name   The name of the property to test
-     * @param string $value  The value to test against. Not required for
-     * existence tests.
-     * @param string $action One of the ACTION_* constants. Describes the
-     * operation to perform.
-     * 
-     * @return Query The query object.
-     */
-    protected function addWhere($name, $value, $action)
-    {
-        $this->words[] = array(
-            self::sanitizeAction($action)
-            . Message::sanitizeArgumentName($name),
-            (null === $value ? null : Message::sanitizeArgumentValue($value))
-        );
     }
 
     /**
@@ -194,6 +174,26 @@ class Query
             }
         }
         return $bytes;
+    }
+
+    /**
+     * Adds a condition.
+     * 
+     * @param string $name   The name of the property to test
+     * @param string $value  The value to test against. Not required for
+     * existence tests.
+     * @param string $action One of the ACTION_* constants. Describes the
+     * operation to perform.
+     * 
+     * @return Query The query object.
+     */
+    protected function addWhere($name, $value, $action)
+    {
+        $this->words[] = array(
+            self::sanitizeAction($action)
+            . Message::sanitizeArgumentName($name),
+            (null === $value ? null : Message::sanitizeArgumentValue($value))
+        );
     }
 
 }

@@ -1,4 +1,5 @@
 <?php
+use PEAR2\Net\RouterOS as ROS;
 
 if (count(get_included_files()) > 1) {
     die("The pseudo server needs to run as a separate executable.");
@@ -45,8 +46,8 @@ try {
 }
 
 require_once realpath(__DIR__ . DIRECTORY_SEPARATOR .
-        '../src/Net/RouterOS/Communicator.php')
-    ? : 'Net/RouterOS/Communicator.php';
+        '../src/PEAR2/Net/RouterOS/Communicator.php')
+    ? : 'PEAR2/Net/RouterOS/Communicator.php';
 
 $socket = @stream_socket_server("tcp://127.0.0.1:{$port}", $errno, $errstr);
 if (!is_resource($socket)) {
@@ -120,7 +121,7 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     fseek($nextRequestBuffer, 0, SEEK_END);
 
                     $lengthBytePortionLength = strlen(
-                        \Net\RouterOS\Communicator::encodeLength(
+                        ROS\Communicator::encodeLength(
                             $incomingRequestLength
                         )
                     );
@@ -144,7 +145,7 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     );
                     var_dump($response);
                     $responseBytes = strlen($response);
-                    $responseLengthPortion = \Net\RouterOS\Communicator::
+                    $responseLengthPortion = ROS\Communicator::
                         encodeLength(
                             $responseBytes
                     );
@@ -164,7 +165,7 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     $length = (double) base_convert(substr($raw, 1), 16, 10);
                     var_dump($length);
 
-                    $resLength = \Net\RouterOS\Communicator::encodeLength(
+                    $resLength = ROS\Communicator::encodeLength(
                             $length
                     );
                     $resLengthSize = strlen($resLength);
@@ -195,7 +196,7 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     $length = (double) base_convert(substr($raw, 1), 16, 10);
                     var_dump($length);
 
-                    $resLength = \Net\RouterOS\Communicator::encodeLength(
+                    $resLength = ROS\Communicator::encodeLength(
                             $length
                     );
                     $resLengthSize = strlen($resLength);
@@ -237,7 +238,7 @@ while ($conn = @stream_socket_accept($socket, 4 * 60, $peername)) {
                     fseek($nextRequestBuffer, 0, SEEK_END);
 
                     $lengthBytePortionLength = strlen(
-                        \Net\RouterOS\Communicator::encodeLength(
+                        ROS\Communicator::encodeLength(
                             $incomingRequestLength
                         )
                     );

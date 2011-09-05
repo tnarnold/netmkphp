@@ -33,15 +33,15 @@ abstract class Message
 {
 
     /**
-     * @var string An optional tag to associate the message with.
-     */
-    private $_tag = null;
-
-    /**
      * @var array An array with message arguments. Keys are the names of the
      * arguments, array values are values for the corresponding argument.
      */
     protected $arguments = array();
+
+    /**
+     * @var string An optional tag to associate the message with.
+     */
+    private $_tag = null;
 
     /**
      * Sanitizes a name of an argument (message or query one).
@@ -86,24 +86,6 @@ abstract class Message
     }
 
     /**
-     * Sets the tag to associate the request with.
-     * 
-     * Sets the tag to associate the message with. Setting NULL erases the
-     * currently set tag.
-     * 
-     * @param string $tag The tag to set.
-     * 
-     * @return string The previously set tag.
-     * @see getTag()
-     */
-    protected function setTag($tag)
-    {
-        $oldTag = $this->getTag();
-        $this->_tag = (null === $tag) ? null : (string) $tag;
-        return $oldTag;
-    }
-
-    /**
      * Gets the tag that the message is associated with.
      * 
      * @return string The current tag or NULL if there isn't a tag.
@@ -115,25 +97,20 @@ abstract class Message
     }
 
     /**
-     * Sets an argument for the message.
+     * Sets the tag to associate the request with.
      * 
-     * @param string $name  Name of the argument.
-     * @param string $value Value of the argument. Setting the value to NULL
-     * removes an argument of this name.
+     * Sets the tag to associate the message with. Setting NULL erases the
+     * currently set tag.
      * 
-     * @return string The old value of the specified argument.
-     * @see getArgument()
+     * @param string $tag The tag to set.
+     * 
+     * @return Message The message object.
+     * @see getTag()
      */
-    protected function setArgument($name, $value = null)
+    protected function setTag($tag)
     {
-        $oldArg = $this->getArgument($name);
-        if (null === $value) {
-            unset($this->arguments[self::sanitizeArgumentName($name)]);
-        } else {
-            $this->arguments[self::sanitizeArgumentName($name)]
-                = self::sanitizeArgumentValue($value);
-        }
-        return $oldArg;
+        $this->_tag = (null === $tag) ? null : (string) $tag;
+        return $this;
     }
 
     /**
@@ -168,13 +145,35 @@ abstract class Message
     }
 
     /**
+     * Sets an argument for the message.
+     * 
+     * @param string $name  Name of the argument.
+     * @param string $value Value of the argument. Setting the value to NULL
+     * removes an argument of this name.
+     * 
+     * @return Message The message object.
+     * @see getArgument()
+     */
+    protected function setArgument($name, $value = null)
+    {
+        if (null === $value) {
+            unset($this->arguments[self::sanitizeArgumentName($name)]);
+        } else {
+            $this->arguments[self::sanitizeArgumentName($name)]
+                = self::sanitizeArgumentValue($value);
+        }
+        return $this;
+    }
+
+    /**
      * Removes all arguments from the message.
      * 
-     * @return null
+     * @return Message The message object.
      */
     protected function removeAllArguments()
     {
         $this->arguments = array();
+        return $this;
     }
 
 }

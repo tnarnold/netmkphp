@@ -121,7 +121,9 @@
                 <file name="RequestHandlingTest.php" role="test" />
                 <file name="StateAlteringFeaturesTest.php" role="test" />
                 <file name="PseudoServer.php" role="test" />
-                <file name="configuration.xml" role="test" />
+                <file name="configuration.xml" role="test">
+                    <tasks:replace from="../src" to="php_dir" type="pear-config" />
+                </file>
             </dir>
             <dir name="examples">
                 <file name="callback-and-loop.php" role="doc" />
@@ -132,6 +134,7 @@
                 <file name="sync-request-simple.php" role="doc" />
             </dir>
             <dir name="docs">
+                <file name="PEAR2_Net_RouterOS-1.0.0RC1.doxygen" role="doc" />
                 <file name="generate.php" role="doc" />
                 <file name="tutorials/PEAR2_Net_RouterOS/Client.cls" role="doc" />
                 <file name="tutorials/PEAR2_Net_RouterOS/PEAR2_Net_RouterOS.pkg" role="doc" />
@@ -244,6 +247,10 @@
                 as="configuration.xml"
             />
             
+            <install
+                name="docs/PEAR2_Net_RouterOS-1.0.0RC1.doxygen"
+                as="PEAR2_Net_RouterOS-1.0.0RC1.doxygen"
+            />
             <install
                 name="docs/generate.php"
                 as="generate.php"

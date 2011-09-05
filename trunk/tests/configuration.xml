@@ -95,7 +95,7 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">../src</directory>
+            <directory suffix=".php">../src/PEAR2/Net/RouterOS</directory>
         </whitelist>
     </filter>
 </phpunit>

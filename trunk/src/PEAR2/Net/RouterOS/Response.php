@@ -37,14 +37,14 @@ class Response extends Message
     const TYPE_FATAL = '!fatal';
 
     /**
-     * @var string The response type.
-     */
-    private $_type = null;
-
-    /**
      * @var array An array of unrecognized words in network order.
      */
     protected $unrecognizedWords = array();
+
+    /**
+     * @var string The response type.
+     */
+    private $_type = null;
 
     /**
      * Extracts a new response from a communicator.
@@ -119,7 +119,7 @@ class Response extends Message
      * 
      * @param string $type The new response type.
      * 
-     * @return string The previously set response type.
+     * @return Response The response object.
      * @see getType()
      */
     protected function setType($type)
@@ -129,9 +129,8 @@ class Response extends Message
         case self::TYPE_DATA:
         case self::TYPE_ERROR:
         case self::TYPE_FATAL:
-            $oldType = $this->getType();
             $this->_type = $type;
-            return $oldType;
+            return $this;
         default:
             throw new UnexpectedValueException(
                 'Unrecognized response type.', 207, null, $type

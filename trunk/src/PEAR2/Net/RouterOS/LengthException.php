@@ -21,8 +21,7 @@
 namespace PEAR2\Net\RouterOS;
 
 /**
- * Exception thrown when encountering something not supported by RouterOS or
- * this package.
+ * Exception thrown when there is a problem with a word's length.
  * 
  * @category Net
  * @package  PEAR2_Net_RouterOS
