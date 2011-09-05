@@ -186,8 +186,8 @@ class Transmitter
      * Reads from the wrapped stream to receive content as a stream.
      * 
      * @param int    $length The number of bytes to read.
-     * @param string $what   Descriptive string about what is being received (used
-     * in exception messages).
+     * @param string $what   Descriptive string about what is being received
+     * (used in exception messages).
      * 
      * @return resource The received content.
      */
@@ -248,22 +248,6 @@ class Transmitter
     }
 
     /**
-     * Creates a new exception.
-     * 
-     * Creates a new exception. Used by the rest of the functions in this class.
-     * Override in derived classes for custom exception handling.
-     * 
-     * @param string $message The exception message.
-     * @param int    $code    The exception code.
-     * 
-     * @return \Exception The exception to then be thrown.
-     */
-    protected function createException($message, $code = 0)
-    {
-        return new \Exception($message, $code);
-    }
-
-    /**
      * Closes the opened connection, unless it's a persistent one.
      */
     public function __destruct()
@@ -281,6 +265,22 @@ class Transmitter
     public function close()
     {
         return self::isStream($this->stream) && fclose($this->stream);
+    }
+
+    /**
+     * Creates a new exception.
+     * 
+     * Creates a new exception. Used by the rest of the functions in this class.
+     * Override in derived classes for custom exception handling.
+     * 
+     * @param string $message The exception message.
+     * @param int    $code    The exception code.
+     * 
+     * @return \Exception The exception to then be thrown.
+     */
+    protected function createException($message, $code = 0)
+    {
+        return new \Exception($message, $code);
     }
 
 }

@@ -65,7 +65,7 @@ class Request extends Message
      * 
      * @param string $command The command to send.
      * 
-     * @return string The previously set command.
+     * @return Request The request object.
      * @see getCommand()
      * @see setArgument()
      */
@@ -73,7 +73,9 @@ class Request extends Message
     {
         $command = (string) $command;
         if (strpos($command, '/') !== 0) {
-            throw new InvalidArgumentException('Commands must be absolute.', 202);
+            throw new InvalidArgumentException(
+                'Commands must be absolute.', 202
+            );
         }
         if (substr_count($command, '/') === 1) {
             //Command line syntax convertion
@@ -96,11 +98,12 @@ class Request extends Message
             $command = implode('/', $cmdRes);
         }
         if (!preg_match('#^/\S+$#sm', $command)) {
-            throw new InvalidArgumentException('Invalid command supplied.', 204);
+            throw new InvalidArgumentException(
+                'Invalid command supplied.', 204
+            );
         }
-        $oldCommand = $this->getCommand();
         $this->_command = $command;
-        return $oldCommand;
+        return $this;
     }
 
     /**
@@ -122,14 +125,13 @@ class Request extends Message
      * @param Query $query The query to be set. Setting NULL will remove the
      * currently associated query.
      * 
-     * @return Query The previously set query.
+     * @return Request The request object.
      * @see getQuery()
      */
     public function setQuery(Query $query = null)
     {
-        $oldQuery = $this->getQuery();
         $this->_query = $query;
-        return $oldQuery;
+        return $this;
     }
 
     /**
@@ -151,7 +153,7 @@ class Request extends Message
      * 
      * @param string $tag The tag to set.
      * 
-     * @return string The previously set tag.
+     * @return Request The request object.
      * @see getTag()
      */
     public function setTag($tag)
@@ -166,7 +168,7 @@ class Request extends Message
      * @param string $value Value of the argument. Setting the value to NULL
      * removes an argument of this name.
      * 
-     * @return string The old value of the specified argument.
+     * @return Request The request object.
      * @see getArgument()
      */
     public function setArgument($name, $value = null)
@@ -177,11 +179,11 @@ class Request extends Message
     /**
      * Removes all arguments from the request.
      * 
-     * @return null
+     * @return Request The request object.
      */
     public function removeAllArguments()
     {
-        parent::removeAllArguments();
+        return parent::removeAllArguments();
     }
 
     /**

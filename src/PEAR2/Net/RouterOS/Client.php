@@ -54,7 +54,7 @@ class Client
     protected $com;
 
     /**
-     * @var int The number of currently active requests.
+     * @var int The number of currently pending requests.
      */
     protected $pendingRequestsCount = 0;
 
@@ -159,7 +159,7 @@ class Client
      * the request is canceled. Note that the callback may be executed one last
      * time after that with a response that notifies about the canceling.
      * 
-     * @return null
+     * @return Client The client object.
      * @see completeRequest()
      * @see loop()
      * @see cancelRequest()
@@ -178,6 +178,7 @@ class Client
                 'There must not be multiple active requests sharing a tag.', 103
             );
         }
+        
         $this->send($request);
 
         if (null === $callback) {
@@ -187,6 +188,7 @@ class Client
             //Prepare the callback
             $this->callbacks[$tag] = $callback;
         }
+        return $this;
     }
 
     /**
@@ -228,8 +230,8 @@ class Client
     public function sendSync(Request $request)
     {
         $this->send($request);
-        $replies = $this->completeRequest($request->getTag());
-        return 1 === count($replies) ? $replies[0] : $replies;
+        $responses = $this->completeRequest($request->getTag());
+        return 1 === count($responses) ? $responses[0] : $responses;
     }
 
     /**
@@ -366,7 +368,7 @@ class Client
      * @param string $tag Tag of the request to cancel. Setting NULL will cancel
      * all requests.
      * 
-     * @return null
+     * @return Client The client object.
      * @see sendAsync()
      * @see close()
      */
@@ -397,45 +399,7 @@ class Client
             $this->callbacks = array();
             $this->pendingRequestsCount = 0;
         }
-    }
-
-    /**
-     * Closes the opened connection, even if it is a persistent one.
-     * 
-     * Closes the opened connection, even if it is a persistent one. Note that
-     * {@link extractNewResponses()} can still be used to extract responses
-     * collected prior to the closing.
-     * 
-     * @return bool TRUE on success, FALSE on failure.
-     */
-    public function close()
-    {
-        $result = false;
-        try {
-            $response = $this->sendSync(new Request('/quit'));
-            $result = $this->com->close()
-                && $response->getType() === Response::TYPE_FATAL;
-        } catch (SocketException $e) {
-            $result = $e->getCode() === 205;
-        }
-        $this->callbacks = array();
-        $this->pendingRequestsCount = 0;
-        return $result;
-    }
-
-    /**
-     * Sends a request to RouterOS.
-     * 
-     * @param Request $request The request to send.
-     * 
-     * @return null
-     * @see sendSync()
-     * @see sendAsync()
-     */
-    protected function send(Request $request)
-    {
-        $request->send($this->com);
-        $this->pendingRequestsCount++;
+        return $this;
     }
 
     /**
@@ -469,6 +433,46 @@ class Client
     public function getStreamResponses()
     {
         return $this->_streamResponses;
+    }
+
+    /**
+     * Closes the opened connection, even if it is a persistent one.
+     * 
+     * Closes the opened connection, even if it is a persistent one. Note that
+     * {@link extractNewResponses()} can still be used to extract responses
+     * collected prior to the closing.
+     * 
+     * @return bool TRUE on success, FALSE on failure.
+     */
+    public function close()
+    {
+        $result = false;
+        try {
+            $response = $this->sendSync(new Request('/quit'));
+            $result = $this->com->close()
+                && $response->getType() === Response::TYPE_FATAL;
+        } catch (SocketException $e) {
+            $result = $e->getCode() === 205;
+        }
+        $this->callbacks = array();
+        $this->pendingRequestsCount = 0;
+        return $result;
+    }
+
+    /**
+     * Sends a request to RouterOS.
+     * 
+     * @param Request $request The request to send.
+     * 
+     * @return Client The client object.
+     * @see sendSync()
+     * @see sendAsync()
+     */
+    protected function send(Request $request)
+    {
+        $request->send($this->com);
+        $this->pendingRequestsCount++;
+        return $this;
     }
 
     /**

@@ -115,7 +115,7 @@ class SocketClientTransmitter extends Transmitter
      * @param string $message The exception message.
      * @param int    $code    The exception code.
      * 
-     * @return Exception The exception to then be thrown.
+     * @return SocketException The exception to then be thrown.
      */
     protected function createException($message, $code = 0)
     {
