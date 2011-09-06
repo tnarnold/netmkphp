@@ -136,6 +136,9 @@
             <dir name="docs">
                 <file name="PEAR2_Net_RouterOS-1.0.0RC1.doxygen" role="doc" />
                 <file name="generate.php" role="doc" />
+                <file name="docblox.xml" role="doc">
+                    <tasks:replace from="../src" to="php_dir" type="pear-config" />
+                </file>
                 <file name="tutorials/PEAR2_Net_RouterOS/Client.cls" role="doc" />
                 <file name="tutorials/PEAR2_Net_RouterOS/PEAR2_Net_RouterOS.pkg" role="doc" />
                 <file name="tutorials/PEAR2_Net_RouterOS/Query.cls" role="doc" />
@@ -250,6 +253,10 @@
             <install
                 name="docs/PEAR2_Net_RouterOS-1.0.0RC1.doxygen"
                 as="PEAR2_Net_RouterOS-1.0.0RC1.doxygen"
+            />
+            <install
+                name="docs/docblox.xml"
+                as="docblox.xml"
             />
             <install
                 name="docs/generate.php"

@@ -32,10 +32,29 @@ namespace PEAR2\Net\RouterOS;
 class Query
 {
 
+    /**
+     * Checks if the property exists.
+     */
     const ACTION_EXIST = '';
+    
+    /**
+     * Checks if the property does not exist.
+     */
     const ACTION_NOT_EXIST = '-';
+    
+    /**
+     * Checks if the property equals a certain value.
+     */
     const ACTION_EQUALS = '=';
+    
+    /**
+     * Checks if the property is less than a certain value.
+     */
     const ACTION_LESS_THAN = '<';
+    
+    /**
+     * Checks if the property is greather than a certain value.
+     */
     const ACTION_GREATHER_THAN = '>';
 
     /**
@@ -81,7 +100,7 @@ class Query
     /**
      * Creates a new query with an initial condition.
      * 
-     * @param string $name   The name of the property to test
+     * @param string $name   The name of the property to test.
      * @param string $value  The value to test against. Not required for
      * existence tests.
      * @param string $action One of the ACTION_* constants. Describes the
@@ -111,7 +130,7 @@ class Query
     /**
      * Adds a condition as an alternative to the query.
      * 
-     * @param string $name   The name of the property to test
+     * @param string $name   The name of the property to test.
      * @param string $value  The value to test against. Not required for
      * existence tests.
      * @param string $action One of the ACTION_* constants. Describes the
@@ -129,7 +148,7 @@ class Query
     /**
      * Adds a condition in addition to the query.
      * 
-     * @param string $name   The name of the property to test
+     * @param string $name   The name of the property to test.
      * @param string $value  The value to test against. Not required for
      * existence tests.
      * @param string $action One of the ACTION_* constants. Describes the
@@ -179,7 +198,7 @@ class Query
     /**
      * Adds a condition.
      * 
-     * @param string $name   The name of the property to test
+     * @param string $name   The name of the property to test.
      * @param string $value  The value to test against. Not required for
      * existence tests.
      * @param string $action One of the ACTION_* constants. Describes the

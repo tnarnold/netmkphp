@@ -228,16 +228,16 @@ class Communicator
         $byte = ord($trans->receive(1, 'initial length byte'));
         if ($byte & 0x80) {
             if (($byte & 0xC0) === 0x80) {
-                return (($byte & 63) << 8 ) + ord($trans->receive(1));
+                return (($byte & 077) << 8 ) + ord($trans->receive(1));
             } elseif (($byte & 0xE0) === 0xC0) {
                 $u = unpack('n~', $trans->receive(2));
-                return (($byte & 31) << 16 ) + $u['~'];
+                return (($byte & 037) << 16 ) + $u['~'];
             } elseif (($byte & 0xF0) === 0xE0) {
                 $u = unpack('n~/C~~', $trans->receive(3));
-                return (($byte & 15) << 24 ) + ($u['~'] << 8) + $u['~~'];
+                return (($byte & 017) << 24 ) + ($u['~'] << 8) + $u['~~'];
             } elseif (($byte & 0xF8) === 0xF0) {
                 $u = unpack('N~', $trans->receive(4));
-                return (($byte & 7) * 0x100000000/* '<< 32' or '2^32' */)
+                return (($byte & 007) * 0x100000000/* '<< 32' or '2^32' */)
                     + (double) sprintf('%u', $u['~']);
             }
             throw new NotSupportedException(
