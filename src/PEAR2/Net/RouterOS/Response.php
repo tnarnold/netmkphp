@@ -31,9 +31,26 @@ namespace PEAR2\Net\RouterOS;
  */
 class Response extends Message
 {
+    
+    /**
+     * The last response for a request.
+     */
     const TYPE_FINAL = '!done';
+    
+    /**
+     * A response with data.
+     */
     const TYPE_DATA = '!re';
+    
+    /**
+     * A response signifying error.
+     */
     const TYPE_ERROR = '!trap';
+    
+    /**
+     * A response signifying a fatal error, due to which the connection would be
+     * terminated.
+     */
     const TYPE_FATAL = '!fatal';
 
     /**

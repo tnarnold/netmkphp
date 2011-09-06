@@ -12,9 +12,13 @@ if (!isset($_SERVER['PHP_PEAR_BIN_DIR'])) {
         environment variable registered"
     );
 }
-
-if (!is_file($_SERVER['PHP_PEAR_BIN_DIR'] . DIRECTORY_SEPARATOR . 'phpdoc')) {
-    die('PhpDocumentor is not installed.');
+$generatorBase = $_SERVER['PHP_PEAR_BIN_DIR'] . DIRECTORY_SEPARATOR;
+if (!is_file($generatorBase . ($generator = 'docblox'))) {
+    if (!is_file($generatorBase . ($generator = 'docblox.bat'))) {
+        if (!is_file($generatorBase . ($generator = 'phpdoc'))) {
+            die('Neither docblox or PhpDocumentor is installed.');
+        }
+    }
 }
 
 $pyrusConfigLocation
@@ -88,20 +92,26 @@ if (is_file($pyrusConfigLocation)) {
         $examplesDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'examples';
     }
 }
-
-$phpDocBin = $_SERVER['PHP_PEAR_BIN_DIR'] . DIRECTORY_SEPARATOR . 'phpdoc';
-$args = ' --examplesdir "' . $examplesDir
-    . '" --directory "' . $sourceDir . ',' . $docsDir
+$args = '';
+if ($generator !== 'phpdoc') {
+    $args .= ' run';
+}
+$args .= ' --directory "' . $sourceDir . ',' . $docsDir
     . '" --ignore "'
     . $target . DIRECTORY_SEPARATOR . '*,'
     . $examplesDir . DIRECTORY_SEPARATOR . '*,'
     . __FILE__
     . '" --target "' . $target
     . '" --title "PEAR2_Net_RouterOS Documentaion"'
-    . ' --defaultcategoryname "Net" --defaultpackagename "Net_RouterOS"'
-    . ' --undocumentedelements --sourcecode "off"'
+    . ' --defaultpackagename "Net_RouterOS"';
+if ($generator === 'phpdoc') {
+    $args .= ' --defaultcategoryname "Net"'
+    . ' --examplesdir "' . $examplesDir
+    . '" --undocumentedelements --sourcecode "off"'
     . ' --output "HTML:frames:default,HTML:frames:l0l33t,HTML:frames:phpdoc.de,HTML:frames:phphtmllib,HTML:frames:DOM/default,HTML:frames:DOM/l0l33t,HTML:frames:DOM/phpdoc.de,HTML:frames:phpedit,HTML:Smarty:default,HTML:Smarty:HandS,HTML:Smarty:PHP,PDF:default:default,XML:DocBook/peardoc2:default,CHM:default:default"';
-
-system($phpDocBin . $args, $exitcode);
+}
+$command = $generatorBase . $generator . $args;
+var_dump($command);
+system($command, $exitcode);
 exit($exitcode);
 ?>
