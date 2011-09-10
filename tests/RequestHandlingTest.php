@@ -258,33 +258,30 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         try {
             Communicator::encodeLength($smallLength);
         } catch (LengthException $e) {
-            $this->assertEquals(11, $e->getCode(),
+            $this->assertEquals(
+                11, $e->getCode(),
                 "Length '{$smallLength}' must not be encodable."
             );
-            $this->assertEquals($smallLength, $e->getLength(),
-                'Exception is misleading.'
+            $this->assertEquals(
+                $smallLength, $e->getLength(), 'Exception is misleading.'
             );
         }
         $largeLength = 0x800000000;
         try {
             Communicator::encodeLength($largeLength);
         } catch (LengthException $e) {
-            $this->assertEquals(12, $e->getCode(),
+            $this->assertEquals(
+                12, $e->getCode(),
                 "Length '{$largeLength}' must not be encodable."
             );
-            $this->assertEquals($largeLength, $e->getLength(),
-                'Exception is misleading.'
+            $this->assertEquals(
+                $largeLength, $e->getLength(), 'Exception is misleading.'
             );
         }
     }
 
     public function testControlByteException()
     {
-//        try {
-//            $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
-//        } catch (\Exception $e) {
-//            $this->markTestSkipped('The testing server is not running.');
-//        }
         $stream = fopen('php://temp', 'r+b');
 
 
@@ -312,8 +309,8 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
                 $this->assertEquals(
                     13, $e->getCode(), 'Improper exception code.'
                 );
-                $this->assertEquals($controlByte, $e->getValue(),
-                    'Improper exception value.'
+                $this->assertEquals(
+                    $controlByte, $e->getValue(), 'Improper exception value.'
                 );
             }
         }
@@ -363,7 +360,8 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         $trans = new Transmitter($stream);
 
         foreach ($lengths as $length => $expected) {
-            $this->assertEquals($expected, Communicator::decodeLength($trans),
+            $this->assertEquals(
+                $expected, Communicator::decodeLength($trans),
                 "{$length} is not properly decoded."
             );
         }
@@ -387,10 +385,11 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         $quitRequest = new Request('/quit');
         $quitRequest->send($com);
         $quitResponse = new Response($com);
-        $this->assertEquals(1, count($quitResponse->getUnrecognizedWords()),
-            'No message.'
+        $this->assertEquals(
+            1, count($quitResponse->getUnrecognizedWords()), 'No message.'
         );
-        $this->assertEquals(0, count($quitResponse->getAllArguments()),
+        $this->assertEquals(
+            0, count($quitResponse->getAllArguments()),
             'There should be no arguments.'
         );
         $com->close();
@@ -404,10 +403,11 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         $quitRequest = new Request('/quit');
         $quitRequest->send($com);
         $quitResponse = new Response($com, true);
-        $this->assertEquals(1, count($quitResponse->getUnrecognizedWords()),
-            'No message.'
+        $this->assertEquals(
+            1, count($quitResponse->getUnrecognizedWords()), 'No message.'
         );
-        $this->assertEquals(0, count($quitResponse->getAllArguments()),
+        $this->assertEquals(
+            0, count($quitResponse->getAllArguments()),
             'There should be no arguments.'
         );
         $com->close();
@@ -505,18 +505,19 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             0xFFFFFFE,
             0xFFFFFFF,
             0x10000000,
-//            0x10000001,
-//            0xFFFFFFFE,
-//            0xFFFFFFFF,
-//            0x100000000,
-//            0x100000001,
-//            0x7FFFFFFFE,
-//            0x7FFFFFFFF
+            //0x10000001,
+            //0xFFFFFFFE,
+            //0xFFFFFFFF,
+            //0x100000000,
+            //0x100000001,
+            //0x7FFFFFFFE,
+            //0x7FFFFFFFF
         );
 
         foreach ($lengths as $length) {
 
-            $com->sendWord('r' .
+            $com->sendWord(
+                'r' .
                 str_pad(base_convert($length, 10, 16), 9, '0', STR_PAD_LEFT)
             );
             $response = $com->getNextWordAsStream();
@@ -558,19 +559,20 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             0x200001,
             0xFFFFFFE,
             0xFFFFFFF,
-//            0x10000000,
-//            0x10000001,
-//            0xFFFFFFFE,
-//            0xFFFFFFFF,
-//            0x100000000,
-//            0x100000001,
-//            0x7FFFFFFFE,
-//            0x7FFFFFFFF
+            //0x10000000,
+            //0x10000001,
+            //0xFFFFFFFE,
+            //0xFFFFFFFF,
+            //0x100000000,
+            //0x100000001,
+            //0x7FFFFFFFE,
+            //0x7FFFFFFFF
         );
 
         foreach ($lengths as $length) {
 
-            $com->sendWord('s' .
+            $com->sendWord(
+                's' .
                 str_pad(base_convert($length, 10, 16), 9, '0', STR_PAD_LEFT)
             );
 
@@ -586,9 +588,9 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
 
             $com->sendWordFromStream('', $stream);
 
-            $receivedLength = (double) base_convert($com->getNextWord(), 16, 10);
+            $recvLength = (double) base_convert($com->getNextWord(), 16, 10);
             $this->assertEquals(
-                (double) $length, $receivedLength, 'Content mismatch!'
+                (double) $length, $recvLength, 'Content mismatch!'
             );
         }
 
@@ -598,9 +600,6 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
 
     public function testPrematureDisconnect()
     {
-//        $this->markTestIncomplete(
-//            'For some reason, termination is not detected in this scenario.'
-//        );
         try {
             $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
         } catch (\Exception $e) {
@@ -618,9 +617,6 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
 
     public function testPrematureDisconnectWithStream()
     {
-//        $this->markTestIncomplete(
-//            'For some reason, termination is not detected in this scenario.'
-//        );
         try {
             $com = new Communicator('127.0.0.1', PSEUDO_SERVER_PORT);
         } catch (\Exception $e) {
@@ -631,13 +627,6 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         try {
             $stream = fopen('php://temp', 'r+b');
             fwrite($stream, str_pad('t', 0xFFFFF, 't'));
-//            for ($written = 0, $length = 0xFFFFFF; 0 < $length;
-//                    $length -= $written
-//            ) {
-//                $written = fwrite(
-//                    $stream, str_pad('t', min(0xFFFFF, $length), 't')
-//                );
-//            }
             rewind($stream);
             $com->sendWordFromStream('', $stream);
             $this->fail('Sending had to fail.');

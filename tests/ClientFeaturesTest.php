@@ -8,20 +8,12 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
      * @var Client
      */
     protected $object;
-
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
+    
     protected function setUp()
     {
         $this->object = new Client(HOSTNAME, USERNAME, PASSWORD, PORT);
     }
-
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
+    
     protected function tearDown()
     {
         unset($this->object);
@@ -34,7 +26,8 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
             __NAMESPACE__ . '\ResponseCollection', $list,
             'The list is not a collection'
         );
-        $this->assertInternalType('string', $list[0]->getArgument('address'),
+        $this->assertInternalType(
+            'string', $list[0]->getArgument('address'),
             'The address is not a string'
         );
     }
@@ -49,7 +42,8 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
             __NAMESPACE__ . '\ResponseCollection', $list,
             'The list is not a collection'
         );
-        $this->assertInternalType('resource', $list[0]->getArgument('address'),
+        $this->assertInternalType(
+            'resource', $list[0]->getArgument('address'),
             'The address is not a stream'
         );
     }
@@ -146,7 +140,8 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidCancel()
     {
-        $this->assertEquals(0, $this->object->getPendingRequestsCount(),
+        $this->assertEquals(
+            0, $this->object->getPendingRequestsCount(),
             'There should be no active requests.'
         );
         try {
@@ -154,7 +149,8 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         } catch (DataFlowException $e) {
             $this->assertEquals(105, $e->getCode(), 'Improper exception code.');
         }
-        $this->assertEquals(0, $this->object->getPendingRequestsCount(),
+        $this->assertEquals(
+            0, $this->object->getPendingRequestsCount(),
             'There should be no active requests.'
         );
     }
@@ -169,7 +165,8 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         $ping2->setTag('ping2');
         $this->object->sendAsync($ping);
         $this->object->sendAsync($ping2);
-        $this->assertEquals(2, $this->object->getPendingRequestsCount(),
+        $this->assertEquals(
+            2, $this->object->getPendingRequestsCount(),
             'Improper active request count before cancel test.'
         );
         $this->object->loop(2);
@@ -178,7 +175,8 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         } catch (DataFlowException $e) {
             $this->assertEquals(105, $e->getCode(), 'Improper exception code.');
         }
-        $this->assertEquals(2, $this->object->getPendingRequestsCount(),
+        $this->assertEquals(
+            2, $this->object->getPendingRequestsCount(),
             'Improper active request count after cancel test.'
         );
     }
@@ -193,13 +191,15 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         $ping2->setTag('ping2');
         $this->object->sendAsync($ping);
         $this->object->sendAsync($ping2);
-        $this->assertEquals(2, $this->object->getPendingRequestsCount(),
+        $this->assertEquals(
+            2, $this->object->getPendingRequestsCount(),
             'Improper pending request count before extraction test.'
         );
         $this->object->loop(2);
         $responses = $this->object->extractNewResponses();
 
-        $this->assertEquals(2, $this->object->getPendingRequestsCount(),
+        $this->assertEquals(
+            2, $this->object->getPendingRequestsCount(),
             'Improper pending request count after extraction test.'
         );
         
@@ -253,7 +253,8 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
             0, $responseCount,
             "No responses for '" . HOSTNAME . "' in 2 seconds."
         );
-        $this->assertEquals($finalRepliesCount + 1/* The !trap */,
+        $this->assertEquals(
+            $finalRepliesCount + 1/* The !trap */,
             $responseCount, "Extra callbacks were executed during second loop."
         );
     }
@@ -287,7 +288,8 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->object->loop();
-        $this->assertEquals($limit + 1/* The !trap */, $repliesCount,
+        $this->assertEquals(
+            $limit + 1/* The !trap */, $repliesCount,
             "Extra callbacks were executed during second loop."
         );
     }
@@ -312,7 +314,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
                     'The callback must only receive responses meant for it.'
                 );
                 $repliesCount++;
-            };
+        };
         $this->object->sendAsync($arpPrint, $arpCallback);
 
         $this->object->loop();
@@ -490,8 +492,9 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
     {
         $request = new Request('/queue/simple/print');
 
-        $request->setQuery(Query::where('target-addresses',
-                HOSTNAME_INVALID . '/32'));
+        $request->setQuery(
+            Query::where('target-addresses', HOSTNAME_INVALID . '/32')
+        );
 
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
@@ -509,11 +512,11 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         foreach ($list as $index => $response) {
             $streamListArgs = $streamList[$index]->getAllArguments();
             foreach ($response->getAllArguments() as $argName => $value) {
-                $this->assertArrayHasKey($argName, $streamListArgs,
-                    'Missing argument.'
+                $this->assertArrayHasKey(
+                    $argName, $streamListArgs, 'Missing argument.'
                 );
-                $this->assertEquals($value,
-                    stream_get_contents($streamListArgs[$argName]),
+                $this->assertEquals(
+                    $value, stream_get_contents($streamListArgs[$argName]),
                     'Argument values are not equivalent.'
                 );
                 unset($streamListArgs[$argName]);
@@ -526,8 +529,9 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
     {
         $request = new Request('/queue/simple/print');
 
-        $request->setQuery(Query::where('target-addresses',
-                HOSTNAME_INVALID . '/32'));
+        $request->setQuery(
+            Query::where('target-addresses', HOSTNAME_INVALID . '/32')
+        );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
             __NAMESPACE__ . '\ResponseCollection', $list,
@@ -535,10 +539,15 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             2, count($list),
-            'The list should have only one item and a "done" reply.');
+            'The list should have only one item and a "done" reply.'
+        );
 
-        $request->setQuery(Query::where('target-addresses',
-                HOSTNAME_INVALID . '/32', Query::ACTION_EQUALS));
+        $request->setQuery(
+            Query::where(
+                'target-addresses', HOSTNAME_INVALID . '/32',
+                Query::ACTION_EQUALS
+            )
+        );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
             __NAMESPACE__ . '\ResponseCollection', $list,
@@ -553,8 +562,9 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         fwrite($invalidAddressStream, HOSTNAME_INVALID . '/32');
         rewind($invalidAddressStream);
 
-        $request->setQuery(Query::where('target-addresses',
-                $invalidAddressStream));
+        $request->setQuery(
+            Query::where('target-addresses', $invalidAddressStream)
+        );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
             __NAMESPACE__ . '\ResponseCollection', $list,
@@ -565,8 +575,11 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
             'The list should have only one item and a "done" reply.'
         );
 
-        $request->setQuery(Query::where('target-addresses',
-                $invalidAddressStream, Query::ACTION_EQUALS));
+        $request->setQuery(
+            Query::where(
+                'target-addresses', $invalidAddressStream, Query::ACTION_EQUALS
+            )
+        );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
             __NAMESPACE__ . '\ResponseCollection', $list,
@@ -583,8 +596,9 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         $request = new Request('/queue/simple/print');
         $fullList = $this->object->sendSync($request);
 
-        $request->setQuery(Query::where('target-addresses',
-                HOSTNAME_INVALID . '/32')->not());
+        $request->setQuery(
+            Query::where('target-addresses', HOSTNAME_INVALID . '/32')->not()
+        );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
             __NAMESPACE__ . '\ResponseCollection', $fullList,
@@ -598,8 +612,12 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
             count($fullList) - 1, count($list), 'The list was never filtered.'
         );
 
-        $request->setQuery(Query::where('target-addresses',
-                HOSTNAME_INVALID . '/32', Query::ACTION_EQUALS)->not());
+        $request->setQuery(
+            Query::where(
+                'target-addresses', HOSTNAME_INVALID . '/32',
+                Query::ACTION_EQUALS
+            )->not()
+        );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
             __NAMESPACE__ . '\ResponseCollection', $fullList,
@@ -617,8 +635,9 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
         fwrite($invalidAddressStream, HOSTNAME_INVALID . '/32');
         rewind($invalidAddressStream);
 
-        $request->setQuery(Query::where('target-addresses',
-                $invalidAddressStream)->not());
+        $request->setQuery(
+            Query::where('target-addresses', $invalidAddressStream)->not()
+        );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
             __NAMESPACE__ . '\ResponseCollection', $fullList,
@@ -632,8 +651,12 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
             count($fullList) - 1, count($list), 'The list was never filtered.'
         );
 
-        $request->setQuery(Query::where('target-addresses',
-                $invalidAddressStream, Query::ACTION_EQUALS)->not());
+        $request->setQuery(
+            Query::where(
+                'target-addresses', $invalidAddressStream,
+                Query::ACTION_EQUALS
+            )->not()
+        );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
             __NAMESPACE__ . '\ResponseCollection', $fullList,
@@ -655,7 +678,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
 
         $request->setQuery(
             Query::where('target-addresses', HOSTNAME_SILENT . '/32')
-                ->orWhere('target-addresses', HOSTNAME_INVALID . '/32')
+            ->orWhere('target-addresses', HOSTNAME_INVALID . '/32')
         );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
@@ -678,7 +701,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
 
         $request->setQuery(
             Query::where('target-addresses', $silentAddressStream)
-                ->orWhere('target-addresses', $invalidAddressStream)
+            ->orWhere('target-addresses', $invalidAddressStream)
         );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
@@ -699,8 +722,8 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
 
         $request->setQuery(
             Query::where('target-addresses', HOSTNAME_SILENT . '/32')
-                ->orWhere('target-addresses', HOSTNAME_INVALID . '/32')
-                ->not()
+            ->orWhere('target-addresses', HOSTNAME_INVALID . '/32')
+            ->not()
         );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
@@ -725,8 +748,8 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
 
         $request->setQuery(
             Query::where('target-addresses', $silentAddressStream)
-                ->orWhere('target-addresses', $invalidAddressStream)
-                ->not()
+            ->orWhere('target-addresses', $invalidAddressStream)
+            ->not()
         );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
@@ -749,7 +772,7 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
 
         $request->setQuery(
             Query::where('address', HOSTNAME, Query::ACTION_GREATHER_THAN)
-                ->andWhere('address', HOSTNAME_INVALID, Query::ACTION_LESS_THAN)
+            ->andWhere('address', HOSTNAME_INVALID, Query::ACTION_LESS_THAN)
         );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(
@@ -774,9 +797,9 @@ class ClientFeaturesTest extends \PHPUnit_Framework_TestCase
 
         $request->setQuery(
             Query::where('address', $addressStream, Query::ACTION_GREATHER_THAN)
-                ->andWhere(
-                    'address', $invalidAddressStream, Query::ACTION_LESS_THAN
-                )
+            ->andWhere(
+                'address', $invalidAddressStream, Query::ACTION_LESS_THAN
+            )
         );
         $list = $this->object->sendSync($request);
         $this->assertInstanceOf(

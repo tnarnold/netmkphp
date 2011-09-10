@@ -139,10 +139,12 @@
                 <file name="sync-request-simple.php" role="doc" />
             </dir>
             <dir name="docs">
-                <file name="PEAR2_Net_RouterOS-1.0.0RC1.doxygen" role="doc" />
-                <file name="generate.php" role="doc" />
+                <file name="doxygen.ini" role="doc">
+                    <tasks:replace type="pear-config" from="../src" to="php_dir" />
+                </file>
                 <file name="docblox.xml" role="doc">
-                    <tasks:replace from="../src" to="php_dir" type="pear-config" />
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                    <tasks:replace type="pear-config" from="../src" to="php_dir" />
                 </file>
                 <file name="tutorials/PEAR2_Net_RouterOS/Client.cls" role="doc" />
                 <file name="tutorials/PEAR2_Net_RouterOS/PEAR2_Net_RouterOS.pkg" role="doc" />
