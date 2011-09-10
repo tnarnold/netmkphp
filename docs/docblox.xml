@@ -6,7 +6,7 @@
     <title>PEAR2_Net_RouterOS documentation</title>
     <parser>
         <default-package-name>PEAR2_Net_RouterOS</default-package-name>
-        <target>PEAR2_Net_RouterOS__Documentation</target>
+        <target>PEAR2_Net_RouterOS__DocBlox_Documentation</target>
         <extensions>
             <extension>php</extension>
         </extensions>
@@ -15,6 +15,6 @@
         <directory>../src/PEAR2/Net/RouterOS</directory>
     </files>
     <transformer>
-        <target>PEAR2_Net_RouterOS__Documentation</target>
+        <target>PEAR2_Net_RouterOS__DocBlox_Documentation</target>
     </transformer>
 </docblox>

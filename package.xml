@@ -94,6 +94,11 @@
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                 </file>
+                <file name="PEAR2/Net/RouterOS/ResponseCollection.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
                 <file name="PEAR2/Net/RouterOS/SocketException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
@@ -157,6 +162,11 @@
                 <name>PCRE</name>
             </extension>
         </required>
+        <optional>
+            <extension>
+                <name>iconv</name>
+            </extension>
+        </optional>
     </dependencies>
     <phprelease>
         <filelist>
@@ -207,6 +217,10 @@
             <install
                 name="src/PEAR2/Net/RouterOS/Response.php"
                 as="PEAR2/Net/RouterOS/Response.php"
+            />
+            <install
+                name="src/PEAR2/Net/RouterOS/ResponseCollection.php"
+                as="PEAR2/Net/RouterOS/ResponseCollection.php"
             />
             <install
                 name="src/PEAR2/Net/RouterOS/SocketException.php"

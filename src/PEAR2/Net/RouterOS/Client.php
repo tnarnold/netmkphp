@@ -147,6 +147,53 @@ class Client
             ) : $e;
         }
     }
+    
+    /**
+     * Sets the charset(s) for this {@link Client}.
+     * 
+     * Sets the charset(s) for this {@link Client}. The specified
+     * charset(s) will be used for all future requests and responses. When
+     * sending, {@link Communicator::CHARSET_LOCAL} is converted to
+     * {@link Communicator::HARSET_REMOTE}, and when receiving,
+     * {@link Communicator::CHARSET_REMOTE} is converted to
+     * {@link Communicator::CHARSET_LOCAL}. Setting NULL to either charset will
+     * disable charset convertion, and data will be both sent and received "as
+     * is".
+     * 
+     * @param mixed $charset     The charset to set. If $charsetType is
+     * {@link Communicator::CHARSET_ALL}, you can supply either a string to use
+     * for all charsets, or an array with the charset types as keys, and the
+     * charsets as values.
+     * @param int   $charsetType Which charset to set. Valid values are the
+     * Communicator::CHARSET_* constants. Any other value is treated as
+     * {@link Communicator::CHARSET_ALL}.
+     * 
+     * @return string|array The old charset. If $charsetType is
+     * {@link Communicator::CHARSET_ALL}, the old values will be returned as an
+     * array with the types as keys, and charsets as values.
+     */
+    public function setCharset(
+        $charset, $charsetType = Communicator::CHARSET_ALL
+    ) {
+        return $this->com->setCharset($charset, $charsetType);
+    }
+    
+    /**
+     * Gets the charset(s) for this {@link Client}.
+     * 
+     * @param int $charsetType Which charset to get. Valid values are the
+     * Communicator::CHARSET_* constants. Any other value is treated as
+     * {@link Communicator::CHARSET_ALL}.
+     * 
+     * @return string|array The current charset. If $charsetType is
+     * {@link Communicator::CHARSET_ALL}, the current values will be returned as
+     * an array with the types as keys, and charsets as values.
+     * @see setCharset()
+     */
+    public function getCharset($charsetType)
+    {
+        return $this->com->getCharset($charsetType);
+    }
 
     /**
      * Sends a request and waits for responses.
@@ -222,16 +269,14 @@ class Client
      * 
      * @param Request $request The request to send.
      * 
-     * @return Response|array The received response or an array of all received
-     * responses.
+     * @return ResponseCollection The received responses as a collection.
      * @see sendAsync()
      * @see close()
      */
     public function sendSync(Request $request)
     {
         $this->send($request);
-        $responses = $this->completeRequest($request->getTag());
-        return 1 === count($responses) ? $responses[0] : $responses;
+        return $this->completeRequest($request->getTag());
     }
 
     /**
@@ -243,15 +288,16 @@ class Client
      * @param string $tag The tag of the request to complete. Setting NULL
      * completes all requests.
      * 
-     * @return array An array with any responses that haven't been passed to
-     * a callback function or previously extracted with
-     * {@link extractNewResponses()}. Returns an empty array when $tag is set to
-     * NULL.
+     * @return ResponseCollection A collection of {@link Response} objects that
+     * haven't been passed to a callback function or previously extracted with
+     * {@link extractNewResponses()}. Returns an empty collection when $tag is
+     * set to NULL (responses can still be extracted).
      */
     public function completeRequest($tag = null)
     {
         $isTagNull = null === $tag;
-        $result = $isTagNull ? array() : $this->extractNewResponses($tag);
+        $result = $isTagNull ? array()
+            : $this->extractNewResponses($tag)->toArray();
         while ((!$isTagNull && $this->isRequestActive($tag))
         || ($isTagNull && 0 !== $this->getPendingRequestsCount())
         ) {
@@ -263,14 +309,15 @@ class Client
                 if ($newReply->getType() === Response::TYPE_FINAL) {
                     if (!$isTagNull) {
                         $result = array_merge(
-                            $result, $this->extractNewResponses($tag)
+                            $result,
+                            $this->extractNewResponses($tag)->toArray()
                         );
                     }
                     break;
                 }
             }
         }
-        return $result;
+        return new ResponseCollection($result);
     }
 
     /**
@@ -282,22 +329,22 @@ class Client
      * @param string $tag The tag of the request to extract new responses for.
      * Specifying NULL with extract new responses for all requests.
      * 
-     * @return array An array of {@link Response} objects for the specified
-     * request.
+     * @return ResponseCollection A collection of {@link Response} objects for
+     * the specified request.
      * @see loop()
      */
     public function extractNewResponses($tag = null)
     {
         if (null === $tag) {
             $result = array();
-            foreach ($this->responseBuffer as $tag => $responses) {
+            foreach (array_keys($this->responseBuffer) as $tag) {
                 $result = array_merge(
-                    $result, $this->extractNewResponses($tag)
+                    $result, $this->extractNewResponses($tag)->toArray()
                 );
             }
-            return $result;
+            return new ResponseCollection($result);
         } elseif ($this->isRequestActive($tag, self::FILTER_CALLBACK)) {
-            return array();
+            return new ResponseCollection(array());
         } elseif ($this->isRequestActive($tag, self::FILTER_BUFFER)) {
             $result = $this->responseBuffer[$tag];
             if (!empty($result)) {
@@ -309,7 +356,7 @@ class Client
                     $this->responseBuffer[$tag] = array();
                 }
             }
-            return $result;
+            return new ResponseCollection($result);
         } else {
             throw new DataFlowException(
                 'No such request, or the request has already finished.', 104
