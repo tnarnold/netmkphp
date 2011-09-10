@@ -43,7 +43,7 @@ class StateAlteringFeaturesTest extends \PHPUnit_Framework_TestCase
                 1, count($responses), 'There should be only one response.'
             );
             if (count($responses) === 1
-                && $responses->getLast()->getType() === Response::TYPE_FINAL
+                && $responses->getType() === Response::TYPE_FINAL
             ) {
                 $removeRequest = new Request('/queue/simple/remove');
                 $removeRequest->setArgument('numbers', TEST_QUEUE_NAME);
