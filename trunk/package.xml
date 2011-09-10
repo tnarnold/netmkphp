@@ -19,7 +19,7 @@
         <email>boen.robot@gmail.com</email>
         <active>yes</active>
     </lead>
-    <date>2011-09-04</date>
+    <date>2011-09-10</date>
     <version>
         <release>1.0.0RC1</release>
         <api>1.0.0</api>
@@ -127,7 +127,7 @@
                 <file name="StateAlteringFeaturesTest.php" role="test" />
                 <file name="PseudoServer.php" role="test" />
                 <file name="configuration.xml" role="test">
-                    <tasks:replace from="../src" to="php_dir" type="pear-config" />
+                    <tasks:replace type="pear-config" from="../src" to="php_dir" />
                 </file>
             </dir>
             <dir name="examples">
@@ -140,10 +140,10 @@
             </dir>
             <dir name="docs">
                 <file name="doxygen.ini" role="doc">
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version" />
                     <tasks:replace type="pear-config" from="../src" to="php_dir" />
                 </file>
                 <file name="docblox.xml" role="doc">
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                     <tasks:replace type="pear-config" from="../src" to="php_dir" />
                 </file>
                 <file name="tutorials/PEAR2_Net_RouterOS/Client.cls" role="doc" />
