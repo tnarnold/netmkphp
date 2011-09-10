@@ -217,7 +217,7 @@ class ResponseCollection implements \ArrayAccess, \Iterator, \Countable
         if (null === $this->argumentMap) {
             $arguments = array();
             foreach ($this->responses as $index => $response) {
-                foreach(array_keys($response->getAllArguments()) as $name) {
+                foreach (array_keys($response->getAllArguments()) as $name) {
                     if (!isset($arguments[$name])) {
                         $arguments[$name] = array();
                     }
@@ -272,6 +272,25 @@ class ResponseCollection implements \ArrayAccess, \Iterator, \Countable
     public function getLast()
     {
         return $this->responses[count($this->responses) - 1];
+    }
+    
+    /**
+     * Calls a method of the response pointed by the pointer.
+     * 
+     * Calls a method of the response pointed by the pointer. This is a magic
+     * PHP method, thanks to which any function you call on the collection that
+     * is not defined will be redirected to the response.
+     * 
+     * @param string $method The name of the method to call.
+     * @param array  $args   The arguments to pass to the method.
+     * 
+     * @return mixed Whatever the called function returns.
+     */
+    public function __call($method, array $args)
+    {
+        return call_user_func_array(
+            array($this->current(), $method), $args
+        );
     }
 
 }
