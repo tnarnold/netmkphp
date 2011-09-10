@@ -267,16 +267,12 @@
             />
             
             <install
-                name="docs/PEAR2_Net_RouterOS-1.0.0RC1.doxygen"
-                as="PEAR2_Net_RouterOS-1.0.0RC1.doxygen"
+                name="docs/doxygen.ini"
+                as="doxygen.ini"
             />
             <install
                 name="docs/docblox.xml"
                 as="docblox.xml"
-            />
-            <install
-                name="docs/generate.php"
-                as="generate.php"
             />
             <install
                 name="docs/tutorials/PEAR2_Net_RouterOS/Client.cls"
