@@ -69,7 +69,8 @@
         
         <!--
         A name for a test queue. It must be a name not currently in the list of
-        simple queues.
+        simple queues. It's also a good idea to keep it ASCII compatible,
+        because it's used in a charset test.
         -->
         <const name="TEST_QUEUE_NAME" value="TEST_QUEUE" />
         

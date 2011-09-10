@@ -412,6 +412,72 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
         );
         $com->close();
     }
+    
+    public function testSetDefaultCharset()
+    {
+        $com = new Communicator(HOSTNAME, PORT);
+        $this->assertNull($com->getCharset(Communicator::CHARSET_REMOTE));
+        $this->assertNull($com->getCharset(Communicator::CHARSET_LOCAL));
+        Communicator::setDefaultCharset('windows-1251');
+        $this->assertNull($com->getCharset(Communicator::CHARSET_REMOTE));
+        $this->assertNull($com->getCharset(Communicator::CHARSET_LOCAL));
+        
+        $com = new Communicator(HOSTNAME, PORT);
+        $this->assertEquals(
+            'windows-1251', $com->getCharset(Communicator::CHARSET_REMOTE)
+        );
+        $this->assertEquals(
+            'windows-1251', $com->getCharset(Communicator::CHARSET_LOCAL)
+        );
+        Communicator::setDefaultCharset(
+            array(
+                Communicator::CHARSET_REMOTE => 'ISO-8859-1',
+                Communicator::CHARSET_LOCAL  => 'ISO-8859-1'
+            )
+        );
+        $this->assertEquals(
+            'windows-1251', $com->getCharset(Communicator::CHARSET_REMOTE)
+        );
+        $this->assertEquals(
+            'windows-1251', $com->getCharset(Communicator::CHARSET_LOCAL)
+        );
+        
+        $com = new Communicator(HOSTNAME, PORT);
+        $this->assertEquals(
+            'ISO-8859-1', $com->getCharset(Communicator::CHARSET_REMOTE)
+        );
+        $this->assertEquals(
+            'ISO-8859-1', $com->getCharset(Communicator::CHARSET_LOCAL)
+        );
+        Communicator::setDefaultCharset(null);
+        $this->assertEquals(
+            'ISO-8859-1', $com->getCharset(Communicator::CHARSET_REMOTE)
+        );
+        $this->assertEquals(
+            'ISO-8859-1', $com->getCharset(Communicator::CHARSET_LOCAL)
+        );
+        
+        $com = new Communicator(HOSTNAME, PORT);
+        $this->assertNull($com->getCharset(Communicator::CHARSET_REMOTE));
+        $this->assertNull($com->getCharset(Communicator::CHARSET_LOCAL));
+        Communicator::setDefaultCharset(
+            'windows-1251', Communicator::CHARSET_REMOTE
+        );
+        Communicator::setDefaultCharset(
+            'ISO-8859-1', Communicator::CHARSET_LOCAL
+        );
+        $this->assertNull($com->getCharset(Communicator::CHARSET_REMOTE));
+        $this->assertNull($com->getCharset(Communicator::CHARSET_LOCAL));
+        
+        $com = new Communicator(HOSTNAME, PORT);
+        $this->assertEquals(
+            'windows-1251', $com->getCharset(Communicator::CHARSET_REMOTE)
+        );
+        $this->assertEquals(
+            'ISO-8859-1', $com->getCharset(Communicator::CHARSET_LOCAL)
+        );
+        Communicator::setDefaultCharset(null);
+    }
 
     public function testReceivingLargeWords()
     {

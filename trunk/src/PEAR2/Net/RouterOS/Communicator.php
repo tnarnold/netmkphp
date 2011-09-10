@@ -25,8 +25,9 @@ namespace PEAR2\Net\RouterOS;
  * 
  * Implementation of the RouterOS API protocol. Unlike the other classes in this
  * package, this class doesn't provide any conviniences beyond the low level
- * implementation details (automatic word length encoding/decoding and data
- * integrity), and because of that, its direct usage is strongly discouraged.
+ * implementation details (automatic word length encoding/decoding, charset
+ * translation and data integrity), and because of that, its direct usage is
+ * strongly discouraged.
  * 
  * @category Net
  * @package  PEAR2_Net_RouterOS
@@ -37,6 +38,43 @@ namespace PEAR2\Net\RouterOS;
  */
 class Communicator
 {
+    /**
+     * Used when getting/setting all (default) charsets.
+     */
+    const CHARSET_ALL = -1;
+    
+    /**
+     * Used when getting/setting the (default) remote charset.
+     * 
+     * The remote charset is the charset in which RouterOS stores its data.
+     * If you want to keep compatibility with your Winbox, this charset should
+     * match the default charset from your Windows' regional settings.
+     */
+    const CHARSET_REMOTE = 0;
+    
+    /**
+     * Used when getting/setting the (default) local charset.
+     * 
+     * The local charset is the charset in which the data from RouterOS will be
+     * returned as. This charset should match the charset of the place the data
+     * will eventually be written to.
+     */
+    const CHARSET_LOCAL = 1;
+    
+    /**
+     * @var array An array with the default charset types as keys, and the
+     * default charsets as values.
+     */
+    protected static $defaultCharsets = array(
+        self::CHARSET_REMOTE => null,
+        self::CHARSET_LOCAL  => null
+    );
+    
+    /**
+     * @var array An array with the current charset types as keys, and the
+     * current charsets as values.
+     */
+    protected $charsets = array();
 
     /**
      * @var SocketClientTransmitter The transmitter for the connection.
@@ -64,6 +102,149 @@ class Communicator
         $this->trans = new SocketClientTransmitter(
             $host, $port, $persist, $timeout, $key, $context
         );
+        $this->setCharset(
+            self::getDefaultCharset(self::CHARSET_ALL), self::CHARSET_ALL
+        );
+    }
+    
+    /**
+     * Uses iconv to convert a stream from one charset to another.
+     * 
+     * @param string   $in_charset  The charset of the stream.
+     * @param string   $out_charset The desired resulting charset.
+     * @param resource $stream      The stream to convert.
+     * 
+     * @return stream A new stream that uses the $out_charset. The stream is a
+     * subset from the original stream, from its current position to its end.
+     */
+    public static function iconvStream($in_charset, $out_charset, $stream)
+    {
+        $bytes = 0;
+        $result = fopen('php://temp', 'r+b');
+        
+        flock($stream, LOCK_SH);
+        while (!feof($stream)) {
+            $fragment = fread($stream, 0xFFFFF);
+            fwrite(
+                $result, iconv(
+                    $in_charset, $out_charset, $fragment
+                )
+            );
+            $bytes += strlen($fragment);
+        }
+        fseek($stream, -$bytes, SEEK_CUR);
+        flock($stream, LOCK_UN);
+        
+        rewind($result);
+        return $result;
+    }
+    
+    /**
+     * Sets the default {@link Communicator} charset(s).
+     * 
+     * Sets the default {@link Communicator} charset(s). The specified
+     * charset(s) will be used for all new {@link Communicator} instances.
+     * 
+     * @param mixed $charset     The charset to set. If $charsetType is
+     * {@link CHARSET_ALL}, you can supply either a string to use for all
+     * charsets, or an array with the charset types as keys, and the charsets as
+     * values.
+     * @param int   $charsetType Which charset to set. Valid values are the
+     * CHARSET_* constants. Any other value is treated as
+     * {@link CHARSET_ALL}.
+     * 
+     * @return string|array The old charset. If $charsetType is
+     * {@link CHARSET_ALL}, the old values will be returned as an array with the
+     * types as keys, and charsets as values.
+     * @see setCharset()
+     */
+    public static function setDefaultCharset(
+        $charset, $charsetType = self::CHARSET_ALL
+    ) {
+        if (array_key_exists($charsetType, self::$defaultCharsets)) {
+             $oldCharset = self::$defaultCharsets[$charsetType];
+             self::$defaultCharsets[$charsetType] = $charset;
+             return $oldCharset;
+        } else {
+            $oldCharsets = self::$defaultCharsets;
+            self::$defaultCharsets = is_array($charset) ? $charset : array_fill(
+                0, count(self::$defaultCharsets), $charset
+            );
+            return $oldCharsets;
+        }
+    }
+    
+    /**
+     * Gets the default {@link Communicator} charset(s).
+     * 
+     * @param int $charsetType Which charset to get. Valid values are the
+     * CHARSET_* constants. Any other value is treated as {@link CHARSET_ALL}.
+     * 
+     * @return string|array The current charset. If $charsetType is
+     * {@link CHARSET_ALL}, the current values will be returned as an array with
+     * the types as keys, and charsets as values.
+     * @see setDefaultCharset()
+     */
+    public static function getDefaultCharset($charsetType)
+    {
+        return array_key_exists($charsetType, self::$defaultCharsets)
+            ? self::$defaultCharsets[$charsetType] : self::$defaultCharsets;
+    }
+    
+    /**
+     * Sets the charset(s) for this {@link Communicator}.
+     * 
+     * Sets the charset(s) for this {@link Communicator}. The specified
+     * charset(s) will be used for all future words. When sending,
+     * {@link CHARSET_LOCAL} is converted to {@link CHARSET_REMOTE}, and when
+     * receiving, {@link CHARSET_REMOTE} is converted to {@link CHARSET_LOCAL}.
+     * Setting NULL to either charset will disable charset convertion, and data
+     * will be both sent and received "as is".
+     * 
+     * @param mixed $charset     The charset to set. If $charsetType is
+     * {@link CHARSET_ALL}, you can supply either a string to use for all
+     * charsets, or an array with the charset types as keys, and the charsets as
+     * values.
+     * @param int   $charsetType Which charset to set. Valid values are the
+     * Communicator::CHARSET_* constants. Any other value is treated as
+     * {@link CHARSET_ALL}.
+     * 
+     * @return string|array The old charset. If $charsetType is
+     * {@link CHARSET_ALL}, the old values will be returned as an array with the
+     * types as keys, and charsets as values.
+     * @see setDefaultCharset()
+     */
+    public function setCharset($charset, $charsetType = self::CHARSET_ALL)
+    {
+        if (array_key_exists($charsetType, $this->charsets)) {
+             $oldCharset = $this->charsets[$charsetType];
+             $this->charsets[$charsetType] = $charset;
+             return $oldCharset;
+        } else {
+            $oldCharsets = $this->charsets;
+            $this->charsets = is_array($charset) ? $charset : array_fill(
+                0, count($this->charsets), $charset
+            );
+            return $oldCharsets;
+        }
+    }
+    
+    /**
+     * Gets the charset(s) for this {@link Communicator}.
+     * 
+     * @param int $charsetType Which charset to get. Valid values are the
+     * CHARSET_* constants. Any other value is treated as {@link CHARSET_ALL}.
+     * 
+     * @return string|array The current charset. If $charsetType is
+     * {@link CHARSET_ALL}, the current values will be returned as an array with
+     * the types as keys, and charsets as values.
+     * @see getDefaultCharset()
+     * @see setCharset()
+     */
+    public function getCharset($charsetType)
+    {
+        return array_key_exists($charsetType, $this->charsets)
+            ? $this->charsets[$charsetType] : $this->charsets;
     }
 
     /**
@@ -89,6 +270,15 @@ class Communicator
      */
     public function sendWord($word)
     {
+        if (null !== ($remoteCharset = $this->getCharset(self::CHARSET_REMOTE))
+            && null !== ($localCharset = $this->getCharset(self::CHARSET_LOCAL))
+        ) {
+            $word = iconv(
+                $localCharset,
+                $remoteCharset . '//IGNORE//TRANSLIT',
+                $word
+            );
+        }
         $length = strlen($word);
         static::verifyLengthSupport($length);
         return $this->trans->send(self::encodeLength($length) . $word);
@@ -110,8 +300,23 @@ class Communicator
      */
     public function sendWordFromStream($prefix, $stream)
     {
+        if (null !== ($remoteCharset = $this->getCharset(self::CHARSET_REMOTE))
+            && null !== ($localCharset = $this->getCharset(self::CHARSET_LOCAL))
+        ) {
+            $prefix = iconv(
+                $localCharset,
+                $remoteCharset . '//IGNORE//TRANSLIT',
+                $prefix
+            );
+            $stream = self::iconvStream(
+                $localCharset,
+                $remoteCharset . '//IGNORE//TRANSLIT',
+                $stream
+            );
+        }
+        
         flock($stream, LOCK_SH);
-
+        
         $streamPosition = (double) sprintf('%u', ftell($stream));
         fseek($stream, 0, SEEK_END);
         $streamLength = ((double) sprintf('%u', ftell($stream)))
@@ -122,6 +327,7 @@ class Communicator
 
         $bytes = $this->trans->send(self::encodeLength($totalLength) . $prefix);
         $bytes += $this->trans->sendStream($stream);
+        
         flock($stream, LOCK_UN);
         return $bytes;
     }
@@ -193,7 +399,17 @@ class Communicator
      */
     public function getNextWord()
     {
-        return $this->trans->receive(self::decodeLength($this->trans), 'word');
+        $word = $this->trans->receive(self::decodeLength($this->trans), 'word');
+        if (null !== ($remoteCharset = $this->getCharset(self::CHARSET_REMOTE))
+            && null !== ($localCharset = $this->getCharset(self::CHARSET_LOCAL))
+        ) {
+            $word = iconv(
+                $remoteCharset,
+                $localCharset . '//IGNORE//TRANSLIT',
+                $word
+            );
+        }
+        return $word;
     }
 
     /**
@@ -207,9 +423,19 @@ class Communicator
      */
     public function getNextWordAsStream()
     {
-        return $this->trans->receiveStream(
+        $stream = $this->trans->receiveStream(
             self::decodeLength($this->trans), 'stream word'
         );
+        if (null !== ($remoteCharset = $this->getCharset(self::CHARSET_REMOTE))
+            && null !== ($localCharset = $this->getCharset(self::CHARSET_LOCAL))
+        ) {
+            $stream = self::iconvStream(
+                $remoteCharset,
+                $localCharset . '//IGNORE//TRANSLIT',
+                $stream
+            );
+        }
+        return $stream;
     }
 
     /**
