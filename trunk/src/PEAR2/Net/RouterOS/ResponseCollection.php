@@ -153,13 +153,15 @@ class ResponseCollection implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * Resets the pointer to 0.
+     * Resets the pointer to 0, and returns the first response.
      * 
-     * @return null
+     * @return Response The first response in the collection, or FALSE if the
+     * collection is empty.
      */
     public function rewind()
     {
-        $this->position = 0;
+        $this->position = -1;
+        return $this->next();
     }
 
     /**
@@ -197,7 +199,7 @@ class ResponseCollection implements \ArrayAccess, \Iterator, \Countable
     /**
      * Checks if the pointer is still pointing to an existing offset.
      * 
-     * @return boll TRUE if the pointer is valid, FALSE otherwise.
+     * @return bool TRUE if the pointer is valid, FALSE otherwise.
      */
     public function valid()
     {
