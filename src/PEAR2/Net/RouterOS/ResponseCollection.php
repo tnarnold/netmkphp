@@ -50,7 +50,7 @@ class ResponseCollection implements \ArrayAccess, \Iterator, \Countable
     /**
      * @var array An array with all distinct arguments across all
      * {@link Response} objects. Created at the first call of
-     * {@link getArguments()}.
+     * {@link getArgumentMap()}.
      */
     protected $argumentMap = null;
     
