@@ -112,8 +112,7 @@ class Query
         $name, $value = null, $action = self::ACTION_EXIST
     ) {
         $query = new self;
-        $query->addWhere($name, $value, $action);
-        return $query;
+        return $query->addWhere($name, $value, $action);
     }
 
     /**
@@ -140,8 +139,7 @@ class Query
      */
     public function orWhere($name, $value = null, $action = self::ACTION_EXIST)
     {
-        $this->addWhere($name, $value, $action);
-        $this->words[] = array('#|', null);
+        $this->addWhere($name, $value, $action)->words[] = array('#|', null);
         return $this;
     }
 
@@ -158,8 +156,7 @@ class Query
      */
     public function andWhere($name, $value = null, $action = self::ACTION_EXIST)
     {
-        $this->addWhere($name, $value, $action);
-        $this->words[] = array('#&', null);
+        $this->addWhere($name, $value, $action)->words[] = array('#&', null);
         return $this;
     }
 
@@ -213,6 +210,7 @@ class Query
             . Message::sanitizeArgumentName($name),
             (null === $value ? null : Message::sanitizeArgumentValue($value))
         );
+        return $this;
     }
 
 }

@@ -342,7 +342,7 @@ class Communicator
      * 
      * @param int $length The length to verify.
      * 
-     * @return null
+     * @return void
      */
     protected static function verifyLengthSupport($length)
     {
