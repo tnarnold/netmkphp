@@ -29,7 +29,7 @@ namespace PEAR2\Net\RouterOS;
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://netrouteros.sourceforge.net/
  */
-class ResponseCollection implements \ArrayAccess, \Iterator, \Countable
+class ResponseCollection implements \ArrayAccess, \SeekableIterator, \Countable
 {
     
     /**
@@ -55,7 +55,7 @@ class ResponseCollection implements \ArrayAccess, \Iterator, \Countable
     protected $argumentMap = null;
     
     /**
-     * @var int A pointer, as required by Iterator.
+     * @var int A pointer, as required by SeekableIterator.
      */
     protected $position = 0;
     
@@ -129,7 +129,7 @@ class ResponseCollection implements \ArrayAccess, \Iterator, \Countable
      * @param int      $offset N/A
      * @param Response $value  N/A
      * 
-     * @return null
+     * @return void
      */
     public function offsetSet($offset, $value)
     {
@@ -145,7 +145,7 @@ class ResponseCollection implements \ArrayAccess, \Iterator, \Countable
      * 
      * @param int $offset N/A
      * 
-     * @return null
+     * @return void
      */
     public function offsetUnset($offset)
     {
@@ -160,40 +160,55 @@ class ResponseCollection implements \ArrayAccess, \Iterator, \Countable
      */
     public function rewind()
     {
-        $this->position = -1;
-        return $this->next();
+        return $this->seek(0);
     }
 
     /**
-     * Gets the response at the current pointer position.
+     * Moves the position pointer to a specified position.
      * 
-     * @return Response The response at the current pointer position.
-     */
-    public function current()
-    {
-        return $this->responses[$this->position];
-    }
-
-    /**
-     * Gets the key at the current pointer position.
+     * @param int $position The position to move to.
      * 
-     * @return int The key at the current pointer position.
+     * @return Response The {@link Response} at the specified position, or FALSE
+     * if the specified position is not valid.
      */
-    public function key()
+    public function seek($position)
     {
-        return $this->position;
+        $this->position = $position;
+        return $this->current();
     }
 
     /**
      * Moves the pointer forward by 1, and gets the next response.
      * 
-     * @return Response The next {@link Response} object, or FALSE if there's no
-     * next object.
+     * @return Response The next {@link Response} object, or FALSE if the
+     * position is not valid.
      */
     public function next()
     {
-        return $this->offsetExists(++$this->position)
-            ? $this->responses[$this->position] : false;
+        ++$this->position;
+        return $this->current();
+    }
+
+    /**
+     * Gets the response at the current pointer position.
+     * 
+     * @return Response The response at the current pointer position, or FALSE
+     * if the position is not valid.
+     */
+    public function current()
+    {
+        return $this->valid() ? $this->responses[$this->position] : false;
+    }
+
+    /**
+     * Gets the key at the current pointer position.
+     * 
+     * @return int The key at the current pointer position, i.e. the pointer
+     * position itself, or FALSE if the position is not valid.
+     */
+    public function key()
+    {
+        return $this->valid() ? $this->position : false;
     }
 
     /**
