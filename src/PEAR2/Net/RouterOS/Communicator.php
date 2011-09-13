@@ -114,7 +114,7 @@ class Communicator
      * @param string   $out_charset The desired resulting charset.
      * @param resource $stream      The stream to convert.
      * 
-     * @return stream A new stream that uses the $out_charset. The stream is a
+     * @return resource A new stream that uses the $out_charset. The stream is a
      * subset from the original stream, from its current position to its end.
      */
     public static function iconvStream($in_charset, $out_charset, $stream)
@@ -140,10 +140,7 @@ class Communicator
     }
     
     /**
-     * Sets the default {@link Communicator} charset(s).
-     * 
-     * Sets the default {@link Communicator} charset(s). The specified
-     * charset(s) will be used for all new {@link Communicator} instances.
+     * Sets the default charset(s) for new connections.
      * 
      * @param mixed $charset     The charset to set. If $charsetType is
      * {@link CHARSET_ALL}, you can supply either a string to use for all
@@ -175,7 +172,7 @@ class Communicator
     }
     
     /**
-     * Gets the default {@link Communicator} charset(s).
+     * Gets the default charset(s).
      * 
      * @param int $charsetType Which charset to get. Valid values are the
      * CHARSET_* constants. Any other value is treated as {@link CHARSET_ALL}.
@@ -192,14 +189,14 @@ class Communicator
     }
     
     /**
-     * Sets the charset(s) for this {@link Communicator}.
+     * Sets the charset(s) for this connection.
      * 
-     * Sets the charset(s) for this {@link Communicator}. The specified
-     * charset(s) will be used for all future words. When sending,
-     * {@link CHARSET_LOCAL} is converted to {@link CHARSET_REMOTE}, and when
-     * receiving, {@link CHARSET_REMOTE} is converted to {@link CHARSET_LOCAL}.
-     * Setting NULL to either charset will disable charset convertion, and data
-     * will be both sent and received "as is".
+     * Sets the charset(s) for this connection. The specified charset(s) will be
+     * used for all future words. When sending, {@link CHARSET_LOCAL} is
+     * converted to {@link CHARSET_REMOTE}, and when receiving,
+     * {@link CHARSET_REMOTE} is converted to {@link CHARSET_LOCAL}. Setting
+     * NULL to either charset will disable charset convertion, and data will be
+     * both sent and received "as is".
      * 
      * @param mixed $charset     The charset to set. If $charsetType is
      * {@link CHARSET_ALL}, you can supply either a string to use for all
@@ -230,7 +227,7 @@ class Communicator
     }
     
     /**
-     * Gets the charset(s) for this {@link Communicator}.
+     * Gets the charset(s) for this connection.
      * 
      * @param int $charsetType Which charset to get. Valid values are the
      * CHARSET_* constants. Any other value is treated as {@link CHARSET_ALL}.

@@ -149,11 +149,11 @@ class Client
     }
     
     /**
-     * Sets the charset(s) for this {@link Client}.
+     * Sets the charset(s) for this connection.
      * 
-     * Sets the charset(s) for this {@link Client}. The specified
-     * charset(s) will be used for all future requests and responses. When
-     * sending, {@link Communicator::CHARSET_LOCAL} is converted to
+     * Sets the charset(s) for this connection. The specified charset(s) will be
+     * used for all future requests and responses. When sending,
+     * {@link Communicator::CHARSET_LOCAL} is converted to
      * {@link Communicator::HARSET_REMOTE}, and when receiving,
      * {@link Communicator::CHARSET_REMOTE} is converted to
      * {@link Communicator::CHARSET_LOCAL}. Setting NULL to either charset will
@@ -171,6 +171,7 @@ class Client
      * @return string|array The old charset. If $charsetType is
      * {@link Communicator::CHARSET_ALL}, the old values will be returned as an
      * array with the types as keys, and charsets as values.
+     * @see Communicator::setDefaultCharset()
      */
     public function setCharset(
         $charset, $charsetType = Communicator::CHARSET_ALL
@@ -179,7 +180,7 @@ class Client
     }
     
     /**
-     * Gets the charset(s) for this {@link Client}.
+     * Gets the charset(s) for this connection.
      * 
      * @param int $charsetType Which charset to get. Valid values are the
      * Communicator::CHARSET_* constants. Any other value is treated as
