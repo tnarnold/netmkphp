@@ -33,6 +33,11 @@
     <contents>
         <dir name="/">
             <dir name="src" baseinstalldir="/">
+                <file name="PEAR2/Net/RouterOS/Autoload.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
                 <file name="PEAR2/Net/RouterOS/Client.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
@@ -114,11 +119,6 @@
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                 </file>
-                <file name="PEAR2/Net/RouterOS/autoload.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
-                </file>
             </dir>
             <dir name="tests">
                 <file name="ClientFeaturesTest.php" role="test" />
@@ -172,6 +172,10 @@
     </dependencies>
     <phprelease>
         <filelist>
+            <install
+                name="src/PEAR2/Net/RouterOS/Autoload.php"
+                as="PEAR2/Net/RouterOS/Autoload.php"
+            />
             <install
                 name="src/PEAR2/Net/RouterOS/Client.php"
                 as="PEAR2/Net/RouterOS/Client.php"
@@ -235,10 +239,6 @@
             <install
                 name="src/PEAR2/Net/RouterOS/UnexpectedValueException.php"
                 as="PEAR2/Net/RouterOS/UnexpectedValueException.php"
-            />
-            <install
-                name="src/PEAR2/Net/RouterOS/autoload.php"
-                as="PEAR2/Net/RouterOS/autoload.php"
             />
             
             <install
