@@ -29,7 +29,7 @@ To set a query for a request, you need to use the {@link Request::setQuery()} me
         <programlisting role="php">
 &lt;?php
 namespace PEAR2\Net\RouterOS;
-include_once 'Net/RouterOS/autoload.php';
+include_once 'PEAR2/Net/RouterOS/autoload.php';
 $client = new Client('192.168.0.1', 'admin');
 
 $request = new Request('/ip/arp/print');

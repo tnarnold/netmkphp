@@ -68,7 +68,7 @@ To use this in a PHP file, you could manally include every required class, but t
         </para>
         <programlisting role="php">
 &lt;?php
-include_once 'Net/RouterOS/Autoload.php';
+include_once 'PEAR2/Net/RouterOS/Autoload.php';
 //Use any Net_RouterOS class
 ?&gt;
         </programlisting>
@@ -80,7 +80,7 @@ Among other things, this means that instead of you having to write long class na
 Using a fully qualified class name
                 <programlisting role="php">
 &lt;?php
-include_once 'Net/RouterOS/autoload.php';
+include_once 'PEAR2/Net/RouterOS/Autoload.php';
 $client = new PEAR2\Net\RouterOS\Client('example.com', 'admin');
 // Use the client here
 ?&gt;
@@ -91,7 +91,7 @@ Declaring the \PEAR2\Net\RouterOS as your default namespace
                 <programlisting role="php">
 &lt;?php
 namespace PEAR2\Net\RouterOS;
-include_once 'Net/RouterOS/autoload.php';
+include_once 'PEAR2/Net/RouterOS/Autoload.php';
 $client = new Client('example.com', 'admin');
 // Use the client here
 ?&gt;
@@ -102,7 +102,7 @@ Declaring the PEAR2\Net\RouterOS as an aliased namespace
                 <programlisting role="php">
 &lt;?php
 use PEAR2\Net\RouterOS as Ros;
-include_once 'Net/RouterOS/autoload.php';
+include_once 'PEAR2/Net/RouterOS/Autoload.php';
 $client = new Ros\Client('example.com', 'admin');
 // Use the client here
 ?&gt;
@@ -113,7 +113,7 @@ Declaring an alias of each class you intend to use directly.
                 <programlisting role="php">
 &lt;?php
 use PEAR2\Net\RouterOS\Client as Ros;
-include_once 'Net/RouterOS/Autoload.php';
+include_once 'PEAR2/Net/RouterOS/Autoload.php';
 $client = new Ros('example.com', 'admin');
 // Use the client here
 ?&gt;
