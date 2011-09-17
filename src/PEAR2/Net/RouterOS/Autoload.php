@@ -27,7 +27,7 @@ namespace PEAR2\Net\RouterOS;
  * 
  * @param string $class The classname (with namespace) to load.
  * 
- * @return null
+ * @return void
  */
 function autoload($class)
 {

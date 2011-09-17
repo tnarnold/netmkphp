@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    bootstrap="../src/PEAR2/Net/RouterOS/autoload.php"
+    bootstrap="../src/PEAR2/Net/RouterOS/Autoload.php"
     colors="false"
     stopOnFailure="false"
     verbose="true"
