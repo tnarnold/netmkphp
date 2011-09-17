@@ -185,15 +185,26 @@ class Transmitter
      * 
      * Reads from the wrapped stream to receive content as a stream.
      * 
-     * @param int    $length The number of bytes to read.
-     * @param string $what   Descriptive string about what is being received
+     * @param int    $length  The number of bytes to read.
+     * @param array  $filters An array of filters to apply to the stream while
+     * receiving. Key is the filter name, value is an array of parameters for
+     * the filter.
+     * @param string $what    Descriptive string about what is being received
      * (used in exception messages).
      * 
      * @return resource The received content.
      */
-    public function receiveStream($length, $what = 'stream data')
-    {
+    public function receiveStream(
+        $length, array $filters = array(), $what = 'stream data'
+    ) {
         $result = fopen('php://temp', 'r+b');
+        $appliedFilters = array();
+        foreach ($filters as $filtername => $params) {
+            $appliedFilters[] = stream_filter_append(
+                $result, $filtername, STREAM_FILTER_WRITE, $params
+            );
+        }
+        
         while ($length > 0) {
             if ($this->isAvailable()) {
                 while ($this->isDataAwaiting()) {
@@ -208,6 +219,10 @@ class Transmitter
             throw $this->createException(
                 "Failed while receiving {$what}", 5
             );
+        }
+        
+        foreach ($appliedFilters as $filter) {
+            stream_filter_remove($filter);
         }
         rewind($result);
         return $result;
