@@ -121,20 +121,19 @@ class Communicator
     {
         $bytes = 0;
         $result = fopen('php://temp', 'r+b');
+        $iconvFilter = stream_filter_append(
+            $result, 'convert.iconv.' . $in_charset . '.' . $out_charset,
+            STREAM_FILTER_WRITE
+        );
         
         flock($stream, LOCK_SH);
         while (!feof($stream)) {
-            $fragment = fread($stream, 0xFFFFF);
-            fwrite(
-                $result, iconv(
-                    $in_charset, $out_charset, $fragment
-                )
-            );
-            $bytes += strlen($fragment);
+            $bytes += stream_copy_to_stream($stream, $result, 0xFFFFF);
         }
         fseek($stream, -$bytes, SEEK_CUR);
         flock($stream, LOCK_UN);
         
+        stream_filter_remove($iconvFilter);
         rewind($result);
         return $result;
     }
@@ -420,18 +419,18 @@ class Communicator
      */
     public function getNextWordAsStream()
     {
-        $stream = $this->trans->receiveStream(
-            self::decodeLength($this->trans), 'stream word'
-        );
+        $filters = array();
         if (null !== ($remoteCharset = $this->getCharset(self::CHARSET_REMOTE))
             && null !== ($localCharset = $this->getCharset(self::CHARSET_LOCAL))
         ) {
-            $stream = self::iconvStream(
-                $remoteCharset,
-                $localCharset . '//IGNORE//TRANSLIT',
-                $stream
-            );
+            $filters[
+                'convert.iconv.' .
+                $remoteCharset . '.' . $localCharset . '//IGNORE//TRANSLIT'
+            ] = array();
         }
+        $stream = $this->trans->receiveStream(
+            self::decodeLength($this->trans), $filters, 'stream word'
+        );
         return $stream;
     }
 
