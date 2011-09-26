@@ -139,7 +139,7 @@ class Client
             $response = new Response($com);
             return $response->getType() === Response::TYPE_FINAL
                 && null === $response->getArgument('ret');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw ($e instanceof NotSupportedException
             || $e instanceof UnexpectedValueException
             || !$com->getTransmitter()->isDataAwaiting()) ? new SocketException(

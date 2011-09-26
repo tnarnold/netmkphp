@@ -1,6 +1,8 @@
 <?php
 namespace PEAR2\Net\RouterOS;
 
+use PEAR2\Net\Transmitter as T;
+
 class RequestHandlingTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -300,7 +302,7 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             fwrite($stream, chr($controlByte));
         }
         rewind($stream);
-        $trans = new Transmitter($stream);
+        $trans = new T\StreamTransmitter($stream);
 
         foreach ($controlBytes as $controlByte) {
             try {
@@ -357,23 +359,13 @@ class RequestHandlingTest extends \PHPUnit_Framework_TestCase
             fwrite($stream, Communicator::encodeLength($length));
         }
         rewind($stream);
-        $trans = new Transmitter($stream);
+        $trans = new T\StreamTransmitter($stream);
 
         foreach ($lengths as $length => $expected) {
             $this->assertEquals(
                 $expected, Communicator::decodeLength($trans),
                 "{$length} is not properly decoded."
             );
-        }
-    }
-
-    public function testDefaultTransmitterException()
-    {
-        try {
-            $trans = new Transmitter('invalid arg');
-            $this->fail('Transmitter initialization had to fail.');
-        } catch (\Exception $e) {
-            $this->assertEquals(1, $e->getCode(), 'Improper exception code.');
         }
     }
 
