@@ -64,7 +64,7 @@ $package->files['docs/doxygen.ini'] = array_merge_recursive(
 );
 
 $compatible->files[
-    "tests/{$package->channel}/{$package->name}/bootstrap.php"
+    "test/{$package->channel}/{$package->name}/bootstrap.php"
     ] = array_merge_recursive(
         $compatible->files[
         "test/{$package->channel}/{$package->name}/bootstrap.php"
