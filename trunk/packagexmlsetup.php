@@ -40,8 +40,8 @@ $srcFileTasks = array(
 
 $compatible->license = $package->license;
 
-$package->files['tests/configuration.xml'] = array_merge_recursive(
-    $package->files['tests/configuration.xml']->getArrayCopy(), $srcDirTask
+$package->files['tests/bootstrap.php'] = array_merge_recursive(
+    $package->files['tests/bootstrap.php']->getArrayCopy(), $srcDirTask
 );
 
 $package->files['docs/docblox.xml'] = array_merge_recursive(
@@ -64,10 +64,10 @@ $package->files['docs/doxygen.ini'] = array_merge_recursive(
 );
 
 $compatible->files[
-    "tests/{$package->channel}/{$package->name}/configuration.xml"
+    "tests/{$package->channel}/{$package->name}/bootstrap.php"
     ] = array_merge_recursive(
         $compatible->files[
-        "test/{$package->channel}/{$package->name}/configuration.xml"
+        "test/{$package->channel}/{$package->name}/bootstrap.php"
         ]->getArrayCopy(), $srcDirTask
 );
 
