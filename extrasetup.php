@@ -2,7 +2,7 @@
 $dependencyLocations = array();
 
 $dependencyLocations[]
-    = __DIR__ . '../PEAR2_Net_Transmitter@sourceforge.net/trunk';
+    = __DIR__ . '../../PEAR2_Net_Transmitter@sourceforge.net/trunk';
 
 $extrafiles = array();
 
