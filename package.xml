@@ -206,10 +206,6 @@
                 as="PEAR2/Net/RouterOS/Message.php"
             />
             <install
-                name="src/PEAR2/Net/RouterOS/SocketClientTransmitter.php"
-                as="PEAR2/Net/RouterOS/SocketClientTransmitter.php"
-            />
-            <install
                 name="src/PEAR2/Net/RouterOS/NotSupportedException.php"
                 as="PEAR2/Net/RouterOS/NotSupportedException.php"
             />
@@ -232,10 +228,6 @@
             <install
                 name="src/PEAR2/Net/RouterOS/SocketException.php"
                 as="PEAR2/Net/RouterOS/SocketException.php"
-            />
-            <install
-                name="src/PEAR2/Net/RouterOS/Transmitter.php"
-                as="PEAR2/Net/RouterOS/Transmitter.php"
             />
             <install
                 name="src/PEAR2/Net/RouterOS/UnexpectedValueException.php"
