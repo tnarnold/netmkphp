@@ -1,8 +1,8 @@
 <?php
 $dependencyLocations = array();
 
-$dependencyLocations[]
-    = __DIR__ . '../../PEAR2_Net_Transmitter@sourceforge.net/trunk';
+$dependencyLocations[] = __DIR__ . DIRECTORY_SEPARATOR
+    . '../../PEAR2_Net_Transmitter@sourceforge.net/trunk';
 
 $extrafiles = array();
 
