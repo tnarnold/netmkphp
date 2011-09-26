@@ -217,7 +217,7 @@ class Request extends Message
         }
         $query = $this->getQuery();
         if ($query instanceof Query) {
-            $bytes += $query->send($com, false);
+            $bytes += $query->send($com);
         }
         $bytes += $com->sendWord('');
         return $bytes;
