@@ -19,7 +19,11 @@
  * The namespace declaration.
  */
 namespace PEAR2\Net\RouterOS;
-use PEAR2\Net\Transmitter;
+
+/**
+ * Using transmitters.
+ */
+use PEAR2\Net\Transmitter as T;
 
 /**
  * Represents a RouterOS message.
@@ -73,7 +77,7 @@ abstract class Message
      */
     public static function sanitizeArgumentValue($value)
     {
-        if (StreamTransmitter::isStream($value)) {
+        if (T\StreamTransmitter::isStream($value)) {
             $meta = stream_get_meta_data($value);
             if ($meta['seekable']) {
                 return $value;

@@ -1,6 +1,8 @@
 <?php
 namespace PEAR2\Net\RouterOS;
 
+use PEAR2\Net\Transmitter as T;
+
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -177,7 +179,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
                 . HOSTNAME_SILENT
                 . '" should be available.'
             );
-        } catch (SocketException $e) {
+        } catch (T\SocketException $e) {
             $this->assertEquals(7, $e->getCode());
             $this->assertEquals(10060, $e->getSocketErrorNumber());
         }
@@ -208,7 +210,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
                 . PORT_SILENT
                 . '" should be available.'
             );
-        } catch (SocketException $e) {
+        } catch (T\SocketException $e) {
             $this->assertEquals(7, $e->getCode());
             $this->assertEquals(10061, $e->getSocketErrorNumber());
         }
@@ -222,7 +224,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             );
 
             $this->fail('No proper connection should be available.');
-        } catch (SocketException $e) {
+        } catch (T\SocketException $e) {
             $this->assertEquals(7, $e->getCode());
         }
     }
@@ -236,7 +238,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             );
 
             $this->fail('No proper connection should be available.');
-        } catch (SocketException $e) {
+        } catch (T\SocketException $e) {
             $this->assertEquals(6, $e->getCode());
         }
     }
@@ -250,7 +252,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             );
 
             $this->fail('No proper connection should be available.');
-        } catch (SocketException $e) {
+        } catch (T\SocketException $e) {
             $this->assertEquals(6, $e->getCode());
         }
     }
@@ -277,7 +279,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
 
             new Response($com);
             $this->fail('Receiving had to fail.');
-        } catch (SocketException $e) {
+        } catch (T\SocketException $e) {
             $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
         }
     }
@@ -290,7 +292,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
 
             new Response($com, true);
             $this->fail('Receiving had to fail.');
-        } catch (SocketException $e) {
+        } catch (T\SocketException $e) {
             $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
         }
     }

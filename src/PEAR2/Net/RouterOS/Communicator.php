@@ -19,7 +19,11 @@
  * The namespace declaration.
  */
 namespace PEAR2\Net\RouterOS;
-use PEAR2\Net\Transmitter;
+
+/**
+ * Using transmitters.
+ */
+use PEAR2\Net\Transmitter as T;
 
 /**
  * A RouterOS communicator.
@@ -100,7 +104,7 @@ class Communicator
     public function __construct($host, $port = 8728, $persist = false,
         $timeout = null, $key = '', $context = null
     ) {
-        $this->trans = new SocketClientTransmitter(
+        $this->trans = new T\SocketClientTransmitter(
             $host, $port, $persist, $timeout, $key, $context
         );
         $this->setCharset(
@@ -247,7 +251,8 @@ class Communicator
     /**
      * Gets the transmitter for this connection.
      * 
-     * @return SocketClientTransmitter The transmitter for this connection.
+     * @return PEAR2\Net\Transmitter\SocketClientTransmitter The transmitter for
+     * this connection.
      */
     public function getTransmitter()
     {
@@ -441,12 +446,12 @@ class Communicator
      * Decodes the lenght of the incoming message, as specified by the RouterOS
      * API.
      * 
-     * @param StreamTransmitter $trans The transmitter from which to decode the
-     * length of the incoming message.
+     * @param PEAR2\Net\Transmitter\StreamTransmitter $trans The transmitter
+     * from which to decode the length of the incoming message.
      * 
      * @return int The decoded length
      */
-    public static function decodeLength(StreamTransmitter $trans)
+    public static function decodeLength(T\StreamTransmitter $trans)
     {
         $byte = ord($trans->receive(1, 'initial length byte'));
         if ($byte & 0x80) {
