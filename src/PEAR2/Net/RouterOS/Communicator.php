@@ -19,6 +19,7 @@
  * The namespace declaration.
  */
 namespace PEAR2\Net\RouterOS;
+use PEAR2\Net\Transmitter;
 
 /**
  * A RouterOS communicator.
@@ -440,12 +441,12 @@ class Communicator
      * Decodes the lenght of the incoming message, as specified by the RouterOS
      * API.
      * 
-     * @param Transmitter $trans The transmitter from which to decode the length
-     * of the incoming message.
+     * @param StreamTransmitter $trans The transmitter from which to decode the
+     * length of the incoming message.
      * 
      * @return int The decoded length
      */
-    public static function decodeLength(Transmitter $trans)
+    public static function decodeLength(StreamTransmitter $trans)
     {
         $byte = ord($trans->receive(1, 'initial length byte'));
         if ($byte & 0x80) {
